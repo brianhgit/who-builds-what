@@ -101,7 +101,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .gnum { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin: 2px 0 4px; }
 .guess a { color: var(--fg); font-weight: 600; }
 .verdict-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.verdict-row > div { border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.verdict-row > div { border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; display: flex; flex-direction: column; justify-content: space-between; gap: 2px; min-width: 0; }
 .verdict-row b { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
 .tlabel { font-size: 14px; color: var(--muted); font-weight: 600; }
 .median { background: var(--soft); border-radius: 18px; scroll-margin-top: 72px; }
@@ -129,7 +129,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .qrow .q { font-size: 12px; color: var(--muted); white-space: nowrap; }
 .qrow .dir { font-size: 11px; color: var(--muted); white-space: nowrap; line-height: 1; }
 .qrow .dir em { font-style: normal; }
-.medline { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--fg); pointer-events: none; }
+.medline { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--fg); pointer-events: none; transform: translateY(1px); }
 .medline span { position: absolute; left: 0; top: -26px; background: var(--fg); color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
 @media (max-width: 640px) {
   .verdict-row { gap: 6px; }
@@ -151,7 +151,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .node { flex: 1; display: flex; flex-direction: column; gap: 2px; text-align: left; background: var(--bg); border: 0; border-radius: 16px; padding: 14px 16px; color: var(--fg); min-height: 44px; transition: box-shadow .2s ease; }
 .node:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
 .node b { font-size: 18px; font-weight: 700; color: var(--p); }
-.node span { font-size: 15px; color: var(--muted); line-height: 1.4; }
+.node span { font-size: 15px; color: var(--muted); line-height: 1.4; text-wrap: pretty; }
 .node .go { color: var(--fg); font-size: 14px; font-weight: 600; margin-top: 6px; }
 .arrow { display: flex; align-items: center; justify-content: center; color: var(--muted); flex: 0 0 16px; }
 .arrow svg { width: 16px; height: 16px; }
@@ -205,6 +205,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .tile .label { margin-bottom: 4px; }
 .sample { font-family: var(--mono); font-size: 15px; background: var(--bg); border-radius: 14px; padding: 14px 16px; overflow-x: auto; white-space: nowrap; }
 .sample div + div { margin-top: 4px; }
+.sample .nw { white-space: nowrap; }
 .files { font-family: var(--mono); font-size: 14px; color: var(--muted); }
 .next { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
 .next button { border: 0; background: none; color: var(--fg); font-size: 16px; font-weight: 600; padding: 8px 0; min-height: 44px; }
@@ -241,6 +242,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .gcard { background: var(--app-white); border: 1.5px solid var(--app-line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .gcard .t { font-size: 14px; color: var(--app-muted); }
 .gcard .n { font-family: var(--app-mono); font-size: clamp(40px, 9vw, 58px); font-weight: 700; line-height: 1.05; }
+.band b { text-wrap: balance; }
 .band { display: flex; flex-wrap: wrap; gap: 6px 14px; background: var(--app-dark); color: var(--app-light); border-radius: 12px; padding: 16px 20px; }
 .band span { color: var(--app-dark-text); font-size: 15px; }
 .app.dark { background: var(--app-dark); color: var(--app-light); border-color: var(--app-dark-line); }
@@ -269,12 +271,59 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
   .two { grid-template-columns: minmax(0, 1fr); }
   .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .app-body { padding: 18px 16px; }
+  .app-bar { padding: 12px 14px; }
+  .app-tabs { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
+  .app-tab { padding: 8px 6px; font-size: 12.5px; }
+  .pick .dd-btn { font-size: 16px; padding: 12px; }
 }
 
 .tag { text-align: left; }
+.mood, .known { border-radius: 12px; padding: 12px 16px; display: flex; flex-direction: column; gap: 6px; font-family: var(--sans); }
+.mood { background: var(--app-white); border: 1.5px solid var(--app-line); }
+.known { background: var(--app-dark-2); }
+.mood-title { font-size: 13px; font-weight: 700; color: var(--app-muted); }
+.known .mood-title { color: var(--app-dark-muted); }
+.mood-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 10px; font-size: 15px; max-width: 420px; }
+.mood-row span { white-space: nowrap; }
+.mood-row b { font-weight: 700; text-align: right; }
+.known .mood-row span { color: var(--app-dark-text); }
+.mini { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; height: 56px; align-items: end; margin-top: 8px; }
+.mini-vals { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 5px; text-align: center; font-size: 11px; color: var(--app-dark-text); font-variant-numeric: tabular-nums; }
+.mb { display: flex; align-items: flex-end; height: 100%; }
+.mb i { display: block; width: 100%; background: #8a5a3c; border-radius: 3px 3px 1px 1px; }
+.lvl { white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 1px 10px 1px 8px; border-radius: 999px; font-size: 14px; }
+.lvl::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.lvl[data-lvl="calm"] { background: #e2f3e5; color: #1d6b34; }
+.lvl[data-lvl="uneasy"] { background: #fbefc4; color: #6e5100; }
+.lvl[data-lvl="nervous"] { background: #fbe1de; color: #a3241a; }
+.mini { position: relative; }
+.mline { position: absolute; left: -2px; right: -2px; border-top: 2px dashed #f2f3f1; pointer-events: none; transform: translateY(1px); }
+.mcap-line { display: inline-block; width: 18px; border-top: 2px dashed #f2f3f1; vertical-align: middle; margin: 0 2px 0 4px; }
+.mini-cap b { color: var(--app-light); }
+.mini-cap { font-size: 12px; color: var(--app-dark-muted); }
+.dd { position: relative; max-width: 460px; }
+.pick .dd-btn { white-space: nowrap; overflow: hidden; }
+.dd-btn #co-val { overflow: hidden; text-overflow: ellipsis; }
+.dd-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; text-align: left; cursor: pointer; font-family: var(--app-sans); color: var(--app-ink); }
+.dd-btn .selchev { width: 18px; height: 18px; flex: none; transition: transform .2s ease; }
+.dd-btn[aria-expanded="true"] .selchev { transform: rotate(180deg); }
+.dd-pop { position: absolute; top: calc(100% + 6px); left: 0; right: 0; z-index: 4; background: var(--app-white); border: 1.5px solid var(--app-line); border-radius: 12px; box-shadow: 0 12px 28px rgba(0,0,0,0.12); padding: 8px; display: flex; flex-direction: column; gap: 6px; }
+.dd-search { font-family: var(--sans); font-size: 16px; padding: 10px 12px; border: 1.5px solid var(--app-line); border-radius: 8px; background: var(--app-light); color: var(--app-ink); min-height: 44px; box-sizing: border-box; width: 100%; }
+.dd-search:focus-visible { outline: 2px solid var(--app-ink); outline-offset: 1px; }
+.dd-list { display: flex; flex-direction: column; max-height: 240px; overflow-y: auto; }
+.dd-opt span, .tk { font-weight: 600; color: var(--app-muted); font-size: 0.85em; margin-left: 4px; }
+.dd-none, .dd-foot { font-family: var(--sans); font-size: 13px; color: var(--app-muted); margin: 0; padding: 4px 6px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dd-opt { font-family: var(--app-sans); font-size: 16px; font-weight: 600; color: var(--app-ink); text-align: left; background: none; border: 0; border-radius: 8px; padding: 12px; min-height: 44px; cursor: pointer; }
+.dd-opt:hover { background: var(--app-light); }
+.dd-opt[aria-selected="true"] { background: #e6e8e4; font-weight: 800; }
+.intro { display: flex; flex-direction: column; gap: 8px; }
+.intro p { font-family: var(--sans); font-size: 15px; line-height: 1.5; color: var(--app-ink); margin: 0; max-width: none; }
+.lw-title { display: flex; flex-direction: column; gap: 2px; }
+.lw-title small { font-size: 13px; font-weight: 600; color: var(--app-muted); }
+.lw-intro { font-size: 14px; line-height: 1.5; color: var(--app-ink); margin: 0; }
 .when-chip { align-self: flex-start; font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #e6e8e4; color: var(--app-ink); }
 .when-chip.dark { background: var(--app-dark-2); color: var(--app-dark-text); }
-select.field { font-family: var(--app-sans); color: var(--app-ink); width: 100%; appearance: none; -webkit-appearance: none; background: var(--app-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2316191d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 14px center / 16px; padding-right: 42px; cursor: pointer; }
 .lastweek { border: 1.5px solid var(--app-line); border-radius: 12px; background: var(--app-white); }
 .lastweek summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; min-height: 44px; box-sizing: border-box; font-weight: 700; font-size: 15px; }
 .lastweek summary::-webkit-details-marker { display: none; }
@@ -286,7 +335,7 @@ select.field { font-family: var(--app-sans); color: var(--app-ink); width: 100%;
 .lw-head { border-top: 0; font-size: 12px; font-weight: 700; color: var(--app-muted); }
 .lw-row span:nth-child(2) { color: var(--app-simple); } .lw-row span:nth-child(3) { color: var(--app-model); }
 .lw-head span:nth-child(2), .lw-head span:nth-child(3) { color: var(--app-muted); }
-.lw-sum { font-size: 14px; color: var(--app-muted); }
+.lw-sum { font-size: 14px; line-height: 1.5; color: var(--app-muted); margin: 0; }
 .again { font-family: var(--app-sans); margin-top: 12px; height: 44px; padding: 0 18px; border-radius: 10px; border: 1.5px solid var(--app-dark-line); background: transparent; color: var(--app-light); font-weight: 700; font-size: 15px; cursor: pointer; }
 
 /* 5 road */
@@ -349,7 +398,7 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     <div class="verdict-row">
       <div><span class="tlabel">Real move</span><b>8%</b></div>
       <div><span class="tlabel">Model missed by</span><b class="model">0.4</b></div>
-      <div><span class="tlabel">Simple guess missed by</span><b class="simple">1.2</b></div>
+      <div><span class="tlabel">Simple missed by</span><b class="simple">1.2</b></div>
     </div>
     <p class="win">The model was closer, so it wins this one. We do this for thousands of past reports. If the model is closer more often, we <u>beat the baseline</u>. That's the project.</p>
 
@@ -421,7 +470,7 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">You hand off</div>Filings to Charvee, the simple guess to Philip</div>
           <div class="tile"><div class="label">In the app</div>The <span class="simple">orange</span> number</div>
         </div>
-        <div><div class="label">When it works</div><div class="sample"><div>AAPL · filed Thu 4:31 pm ET · after the close</div><div>usually moves 3.8% (middle of last 8)</div></div></div>
+        <div><div class="label">When it works</div><div class="sample"><div><span class="nw">AAPL</span> · <span class="nw">filed Thu 4:31 pm ET</span> · <span class="nw">after the close</span></div><div><span class="nw">usually moves 3.8% (middle of last 8)</span></div></div></div>
         <div class="next"><span class="files">edgar.py · history.py</span><button type="button" data-pick="isani">Next: Isani ›</button></div>
       </div>
     </article>
@@ -441,7 +490,7 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">You hand off</div>Prices to Charvee, weekly picks to the app</div>
           <div class="tile"><div class="label">In the app</div>This week's companies and the real moves</div>
         </div>
-        <div><div class="label">When it works</div><div class="sample"><div>NVDA · on the cutoff day</div><div>jumpiness last month 48 · last 3 months 41 · VIX 17</div></div></div>
+        <div><div class="label">When it works</div><div class="sample"><div><span class="nw">NVDA</span> · <span class="nw">on the cutoff day</span></div><div><span class="nw">jumpiness last month 48</span> · <span class="nw">last 3 months 41</span> · <span class="nw">VIX 17</span></div></div></div>
         <div class="next"><button type="button" data-pick="daniel">‹ Daniel</button><button type="button" data-pick="charvee">Next: Charvee ›</button></div>
       </div>
     </article>
@@ -460,7 +509,7 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">You hand off</div>The table, to Philip and Joyce</div>
           <div class="tile"><div class="label">In the app</div>Every number traces back to your table</div>
         </div>
-        <div><div class="label">When it works</div><div class="sample"><div>AAPL · Aug 2023 · after the close</div><div>moved 4.7% more than the market · 9 clues attached</div></div></div>
+        <div><div class="label">When it works</div><div class="sample"><div><span class="nw">AAPL</span> · <span class="nw">Aug 2023</span> · <span class="nw">after the close</span></div><div><span class="nw">moved 4.7% more than the market</span> · <span class="nw">9 clues attached</span></div></div></div>
         <div class="next"><button type="button" data-pick="isani">‹ Isani</button><button type="button" data-pick="philip">Next: Philip ›</button></div>
       </div>
     </article>
@@ -480,7 +529,7 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">You hand off</div>Predictions to Joyce, the model to Isani</div>
           <div class="tile"><div class="label">In the app</div>The <span class="model">blue</span> number</div>
         </div>
-        <div><div class="label">When it works</div><div class="sample"><div>Test quarter 2023 Q2 · trained only on earlier reports</div><div>NFLX · <span class="simple">simple 6.8%</span> · <span class="model">model 7.9%</span></div></div></div>
+        <div><div class="label">When it works</div><div class="sample"><div><span class="nw">Test quarter 2023 Q2</span> · <span class="nw">trained only on earlier reports</span></div><div><span class="nw">NFLX</span> · <span class="nw"><span class="simple">simple 6.8%</span></span> · <span class="nw"><span class="model">model 7.9%</span></span></div></div></div>
         <div class="next"><button type="button" data-pick="charvee">‹ Charvee</button><button type="button" data-pick="joyce">Next: Joyce ›</button></div>
       </div>
     </article>
@@ -499,7 +548,7 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">You hand off</div>The results, to the team and the showcase</div>
           <div class="tile"><div class="label">In the app</div>You build both tabs</div>
         </div>
-        <div><div class="label">When it works</div><div class="sample"><div>average miss: <span class="model">model 3.1</span> · <span class="simple">simple 3.3</span></div><div>6% better · luck range 2% to 10%</div></div></div>
+        <div><div class="label">When it works</div><div class="sample"><div><span class="nw">average miss: <span class="model">model 3.1</span></span> · <span class="nw"><span class="simple">simple 3.3</span></span></div><div><span class="nw">6% better</span> · <span class="nw">luck range 2% to 10%</span></div></div></div>
         <div class="next"><button type="button" data-pick="philip">‹ Philip</button><button type="button" data-goto="app">See the app ›</button></div>
       </div>
     </article>
@@ -508,40 +557,53 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   <!-- 4 -->
   <section class="panel" id="app" aria-labelledby="h-app">
     <h2 id="h-app"><span class="num">4 of 5</span>What it all turns into</h2>
-    <p class="sub">The app we demo at the showcase. It has two screens: <strong>upcoming reports</strong> and a game on <strong>past reports</strong>. Tap the tabs inside the app to switch. Colored tags show whose work feeds each piece.</p>
+    <p class="sub">The app we demo at the showcase has two screens. <strong>This week's calls</strong> is the live test: we post our guesses before the reports come out, so nobody can say we changed them after. <strong>Try a past report</strong> lets you guess a report that already happened, using the same clues the model had. Tap the tabs inside the app to switch.</p>
 
     <div class="app light" id="m1" role="tabpanel" aria-label="This week's calls">
-      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab on" data-tab="1" aria-selected="true">This week's calls</button><button type="button" role="tab" class="app-tab" data-tab="2" aria-selected="false">Beat the model</button></div></div>
+      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab on" data-tab="1" aria-selected="true">This week's calls</button><button type="button" role="tab" class="app-tab" data-tab="2" aria-selected="false">Try a past report</button></div></div>
       <div class="app-body">
-        <span class="when-chip">Upcoming · guesses locked in last weekend</span>
+        <div class="intro">
+          <span class="when-chip">Live test</span>
+          <p>We lock in a guess for <b>every company on our list</b> last weekend, before any reports come out. The ones that report this week get graded, so we can't pick easy ones or change a guess after seeing the answer.</p>
+        </div>
         <div class="pick">
-          <label class="lab" for="co">Pick a company reporting this week</label>
-          <select id="co" class="field">
-            <option value="0">NVIDIA · Wed after close</option>
-            <option value="1">Salesforce · Wed after close</option>
-            <option value="2">Walmart · Thu before open</option>
-            <option value="3">Deere · Fri before open</option>
-          </select>
-          <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>This week's list</button></div>
+          <div class="lab" id="co-lab">Pick a company</div>
+          <div class="dd">
+            <button type="button" class="field dd-btn" id="co" aria-haspopup="listbox" aria-expanded="false" aria-labelledby="co-lab co-val"><span id="co-val">NVIDIA <span class="tk">NVDA</span></span><svg class="selchev" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></button>
+            <div class="dd-pop" id="co-pop" hidden>
+              <label class="sr" for="co-search">Search companies</label>
+              <input id="co-search" class="dd-search" type="search" placeholder="Search companies" autocomplete="off">
+              <div class="dd-list" id="co-list" role="listbox" aria-labelledby="co-lab"><button type="button" role="option" class="dd-opt" data-v="0" data-q="apple aapl" aria-selected="false">Apple <span>AAPL</span></button><button type="button" role="option" class="dd-opt" data-v="1" data-q="coca-cola ko" aria-selected="false">Coca-Cola <span>KO</span></button><button type="button" role="option" class="dd-opt" data-v="2" data-q="deere de" aria-selected="false">Deere <span>DE</span></button><button type="button" role="option" class="dd-opt" data-v="3" data-q="netflix nflx" aria-selected="false">Netflix <span>NFLX</span></button><button type="button" role="option" class="dd-opt" data-v="4" data-q="nvidia nvda" aria-selected="true">NVIDIA <span>NVDA</span></button><button type="button" role="option" class="dd-opt" data-v="5" data-q="salesforce crm" aria-selected="false">Salesforce <span>CRM</span></button><button type="button" role="option" class="dd-opt" data-v="6" data-q="tesla tsla" aria-selected="false">Tesla <span>TSLA</span></button><button type="button" role="option" class="dd-opt" data-v="7" data-q="walmart wmt" aria-selected="false">Walmart <span>WMT</span></button></div>
+              <p class="dd-none" id="co-none" hidden>No company matches that.</p>
+              <p class="dd-foot">Example list. The real app has all ~500 companies.</p>
+            </div>
+          </div>
         </div>
         <div class="two">
           <div class="gcard">
             <div class="t">The simple guess</div>
             <div class="n" id="c-simple" style="color:var(--app-simple)">6.1%</div>
-            <div class="t">How much it usually moves</div>
+            <div class="t">Its usual move</div>
             <div class="tags"><button class="tag" type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button></div>
           </div>
           <div class="gcard">
             <div class="t">Our model</div>
             <div class="n" id="c-model" style="color:var(--app-model)">7.4%</div>
-            <div class="t" id="c-note">Expects a bigger move than usual</div>
-            <div class="tags"><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Philip</button><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Isani's clues</button></div>
+            <div class="t" id="c-note">Bigger than usual</div>
+            <div class="tags"><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Philip</button></div>
           </div>
         </div>
-        <div class="band"><b>Real move</b><span id="c-when">Known at Thursday's close, the day after NVIDIA reports. Come back and see who was closer.</span></div>
+        <div class="mood">
+          <div class="mood-title">Why the model thinks that</div>
+          <div class="mood-row"><span id="c-who">NVIDIA lately</span><b id="c-jump">Jumpier</b></div>
+          <div class="mood-row"><span>Market mood (VIX)</span><b id="c-mkt" class="lvl" data-lvl="calm">Calm</b></div>
+          <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Isani's clues</button></div>
+        </div>
+        <div class="band"><b>Real move: not known yet</b><span id="c-when">If NVIDIA reports this week, we grade this guess right after its report. If it doesn't, nothing gets graded for it this week.</span></div>
         <details class="lastweek">
-          <summary>Last week's results <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+          <summary><span class="lw-title">How last week's calls did<small>Model was closer on 3 of 4</small></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
           <div class="lw-body">
+            <p class="lw-intro">Last week we locked in these guesses the same way. Now the real moves are in.</p>
             <div class="lw-table">
               <div class="lw-row lw-head"><span>Company</span><span>Simple</span><span>Model</span><span>Real</span><span>Closer</span></div>
               <div class="lw-row"><span>NFLX</span><span>6.8%</span><span>7.6%</span><span>8.0%</span><span><b>Model</b></span></div>
@@ -549,19 +611,27 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
               <div class="lw-row"><span>PG</span><span>2.2%</span><span>2.6%</span><span>1.9%</span><span>Simple</span></div>
               <div class="lw-row"><span>KO</span><span>2.0%</span><span>1.8%</span><span>1.5%</span><span><b>Model</b></span></div>
             </div>
-            <p class="lw-sum">Model closer on 3 of 4.</p>
-            <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Graded by Isani's score.py</button></div>
+            <p class="lw-sum">This shows we called it in advance. One week can still be luck, so the real proof is our test on years of past reports.</p>
+            <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Graded by Isani</button></div>
           </div>
         </details>
         <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Real move: Charvee's math</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Screen built by Joyce</button></div>
       </div>
     </div>
 
-    <div class="app dark" id="m2" role="tabpanel" aria-label="Beat the model" hidden>
-      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab" data-tab="1" aria-selected="false">This week's calls</button><button type="button" role="tab" class="app-tab on" data-tab="2" aria-selected="true">Beat the model</button></div></div>
+    <div class="app dark" id="m2" role="tabpanel" aria-label="Try a past report" hidden>
+      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab" data-tab="1" aria-selected="false">This week's calls</button><button type="button" role="tab" class="app-tab on" data-tab="2" aria-selected="true">Try a past report</button></div></div>
       <div class="app-body">
         <span class="when-chip dark">Past report · answer already known</span>
         <div class="q"><h4>Can you beat our model?</h4><p id="g-q">NVIDIA reported earnings in Aug 2024. How big was the move the next day? Up or down doesn't matter, just the size.</p></div>
+        <div class="known">
+          <div class="mood-title">What was known before the report</div>
+          <div class="mini" id="g-bars" role="img" aria-label="Its last 8 earnings moves"><div class="mb"><i style="height:11px"></i></div><div class="mb"><i style="height:29px"></i></div><div class="mb"><i style="height:18px"></i></div><div class="mb"><i style="height:56px"></i></div><div class="mb"><i style="height:23px"></i></div><div class="mb"><i style="height:8px"></i></div><div class="mb"><i style="height:33px"></i></div><div class="mb"><i style="height:17px"></i></div><div class="mline" style="bottom:20px" aria-hidden="true"></div></div>
+          <div class="mini-vals" id="g-vals" aria-hidden="true"><span>3.1</span><span>8.4</span><span>5.2</span><span>16.4</span><span>6.8</span><span>2.4</span><span>9.7</span><span>4.9</span></div>
+          <div class="mini-cap">Its last 8 earnings moves, oldest to newest. <span class="mcap-line"></span> Median: <b id="g-med">6.0%</b></div>
+          <div class="mood-row"><span id="g-who">NVIDIA vs. usual</span><b id="g-jump">Jumpier</b></div>
+          <div class="mood-row"><span>Market mood (VIX)</span><b id="g-mkt" class="lvl" data-lvl="calm">Calm</b></div>
+        </div>
         <div class="dial">
           <button class="step" type="button" id="down" aria-label="Guess lower">−</button>
           <div class="val" id="guess" aria-live="polite">4.0%</div>
@@ -579,10 +649,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <button class="again" type="button" id="again">Try another report</button>
         </div>
         <p class="hint" id="hint">Set a guess, then press Reveal.</p>
-        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Past reports</button><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Model's guess (tested)</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Game built by Joyce</button></div>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Past reports</button><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Model's guess (tested)</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Screen built by Joyce</button></div>
       </div>
     </div>
-    <p class="small">Example numbers. The game only uses reports the model was tested on, never ones it learned from, so its guess is fair.</p>
+    <p class="small">Example numbers. "Try a past report" only uses reports the model was tested on, never ones it learned from, so its guess is fair.</p>
   </section>
 
   <!-- 5 -->
@@ -672,28 +742,49 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     });
   });
 
+  // market mood (the VIX) shown as a traffic light, always with the word
+  function setMood(el, text) {
+    el.textContent = text;
+    el.dataset.lvl = text === 'Calm' ? 'calm' : (text === 'Nervous' ? 'nervous' : 'uneasy');
+  }
+
   // "This week's calls": switching company updates both guesses
-  var week = [
-    { s: 6.1, m: 7.4, note: 'Expects a bigger move than usual', when: "Known at Thursday's close, the day after NVIDIA reports." },
-    { s: 5.2, m: 4.6, note: 'Expects a smaller move than usual', when: "Known at Thursday's close, the day after Salesforce reports." },
-    { s: 3.0, m: 3.4, note: 'Expects a slightly bigger move than usual', when: "Known at Thursday's close, the same day Walmart reports." },
-    { s: 3.8, m: 3.7, note: 'Expects about the usual move', when: "Known at Friday's close, the same day Deere reports." }
-  ];
-  document.getElementById('co').addEventListener('change', function (e) {
-    var w = week[+e.target.value];
+  var week = [{"who": "Apple", "s": 3.6, "m": 3.9, "jump": "A bit jumpier", "note": "A bit bigger than usual"}, {"who": "Coca-Cola", "s": 1.9, "m": 1.7, "jump": "Calmer", "note": "Smaller than usual"}, {"who": "Deere", "s": 3.8, "m": 3.7, "jump": "Normal", "note": "About the usual"}, {"who": "Netflix", "s": 7.2, "m": 8.5, "jump": "Jumpier", "note": "Bigger than usual"}, {"who": "NVIDIA", "s": 6.1, "m": 7.4, "jump": "Jumpier", "note": "Bigger than usual"}, {"who": "Salesforce", "s": 5.2, "m": 4.6, "jump": "Calmer", "note": "Smaller than usual"}, {"who": "Tesla", "s": 6.4, "m": 8.9, "jump": "Much jumpier", "note": "Much bigger than usual"}, {"who": "Walmart", "s": 3.0, "m": 3.4, "jump": "A bit jumpier", "note": "A bit bigger than usual"}];
+  var ddBtn = document.getElementById('co'), ddPop = document.getElementById('co-pop'), ddList = document.getElementById('co-list');
+  var ddSearch = document.getElementById('co-search'), ddNone = document.getElementById('co-none');
+  function ddOpen(open) {
+    ddPop.hidden = !open; ddBtn.setAttribute('aria-expanded', String(open));
+    if (open) { ddSearch.value = ''; filter(''); }
+  }
+  function filter(q) {
+    q = q.trim().toLowerCase(); var shown = 0;
+    ddList.querySelectorAll('.dd-opt').forEach(function (o) { var hit = !q || o.dataset.q.indexOf(q) >= 0; o.hidden = !hit; if (hit) shown++; });
+    ddNone.hidden = shown > 0;
+  }
+  ddBtn.addEventListener('click', function () { ddOpen(ddPop.hidden); });
+  ddSearch.addEventListener('input', function () { filter(ddSearch.value); });
+  document.addEventListener('click', function (e) { if (!e.target.closest('.dd')) ddOpen(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !ddPop.hidden) { ddOpen(false); ddBtn.focus(); } });
+  ddList.querySelectorAll('.dd-opt').forEach(function (o) {
+    o.addEventListener('click', function () {
+      ddList.querySelectorAll('.dd-opt').forEach(function (x) { x.setAttribute('aria-selected', String(x === o)); });
+      document.getElementById('co-val').innerHTML = o.innerHTML.replace('<span>', '<span class="tk">');
+      ddOpen(false); ddBtn.focus();
+      showCompany(+o.dataset.v);
+    });
+  });
+  function showCompany(i) {
+    var w = week[i];
     document.getElementById('c-simple').textContent = w.s.toFixed(1) + '%';
     document.getElementById('c-model').textContent = w.m.toFixed(1) + '%';
     document.getElementById('c-note').textContent = w.note;
-    document.getElementById('c-when').textContent = w.when + ' Come back and see who was closer.';
-  });
+    document.getElementById('c-who').textContent = w.who + ' lately';
+    document.getElementById('c-jump').textContent = w.jump;
+    document.getElementById('c-when').textContent = 'If ' + w.who + " reports this week, we grade this guess right after its report. If it doesn't, nothing gets graded for it this week.";
+  }
 
-  // game: one past report at a time, "Try another report" moves to the next
-  var rounds = [
-    { q: 'NVIDIA reported earnings in Aug 2024.', s: 6.0, m: 7.1, a: 6.4 },
-    { q: 'Tesla reported earnings in Apr 2024.', s: 6.4, m: 9.8, a: 12.1 },
-    { q: 'Netflix reported earnings in Oct 2023.', s: 7.2, m: 9.1, a: 14.5 },
-    { q: 'Coca-Cola reported earnings in Jul 2024.', s: 1.9, m: 1.7, a: 1.2 }
-  ];
+  // try a past report: one at a time, "Try another report" moves to the next
+  var rounds = [{"q": "NVIDIA reported earnings in Aug 2024.", "who": "NVIDIA", "s": 6.0, "m": 7.1, "a": 6.4, "last": [3.1, 8.4, 5.2, 16.4, 6.8, 2.4, 9.7, 4.9], "jump": "Jumpier", "mkt": "Calm"}, {"q": "Tesla reported earnings in Apr 2024.", "who": "Tesla", "s": 6.4, "m": 9.8, "a": 12.1, "last": [3.9, 9.3, 5.8, 7.0, 10.5, 2.7, 6.1, 6.7], "jump": "Much jumpier", "mkt": "A little nervous"}, {"q": "Netflix reported earnings in Oct 2023.", "who": "Netflix", "s": 7.2, "m": 9.1, "a": 14.5, "last": [4.5, 11.2, 8.1, 6.3, 3.0, 13.9, 5.6, 9.0], "jump": "Jumpier", "mkt": "Nervous"}, {"q": "Coca-Cola reported earnings in Jul 2024.", "who": "Coca-Cola", "s": 1.9, "m": 1.7, "a": 1.2, "last": [1.2, 2.6, 0.8, 1.7, 2.1, 3.4, 1.5, 2.4], "jump": "Calmer", "mkt": "Calm"}];
   var ri = 0, g = 4.0;
   var guessEl = document.getElementById('guess'), out = document.getElementById('out'), hint = document.getElementById('hint');
   function show() { guessEl.textContent = g.toFixed(1) + '%'; out.hidden = true; hint.hidden = false; }
@@ -703,6 +794,15 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     document.getElementById('g-simple').textContent = r.s.toFixed(1) + '%';
     document.getElementById('g-model').textContent = r.m.toFixed(1) + '%';
     document.getElementById('g-actual').textContent = r.a.toFixed(1) + '%';
+    document.getElementById('g-who').textContent = r.who + ' vs. usual';
+    document.getElementById('g-jump').textContent = r.jump;
+    setMood(document.getElementById('g-mkt'), r.mkt);
+    var mx = Math.max.apply(null, r.last);
+    document.getElementById('g-vals').innerHTML = r.last.map(function (v) { return '<span>' + v.toFixed(1) + '</span>'; }).join('');
+    document.getElementById('g-bars').innerHTML = r.last.map(function (v) {
+      return '<div class="mb"><i style="height:' + Math.round(v / mx * 56) + 'px"></i></div>';
+    }).join('') + '<div class="mline" style="bottom:' + Math.round(r.s / mx * 56) + 'px" aria-hidden="true"></div>';
+    document.getElementById('g-med').textContent = r.s.toFixed(1) + '%';
     g = 4.0; show();
   }
   document.getElementById('up').addEventListener('click', function () { g = Math.min(30, g + 0.5); show(); });
