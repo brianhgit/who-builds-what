@@ -271,6 +271,24 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
   .app-body { padding: 18px 16px; }
 }
 
+.tag { text-align: left; }
+.when-chip { align-self: flex-start; font-family: var(--sans); font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: #e6e8e4; color: var(--app-ink); }
+.when-chip.dark { background: var(--app-dark-2); color: var(--app-dark-text); }
+select.field { font-family: var(--app-sans); color: var(--app-ink); width: 100%; appearance: none; -webkit-appearance: none; background: var(--app-white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%2316191d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 14px center / 16px; padding-right: 42px; cursor: pointer; }
+.lastweek { border: 1.5px solid var(--app-line); border-radius: 12px; background: var(--app-white); }
+.lastweek summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; min-height: 44px; box-sizing: border-box; font-weight: 700; font-size: 15px; }
+.lastweek summary::-webkit-details-marker { display: none; }
+.lastweek summary svg { width: 16px; height: 16px; transition: transform .2s ease; }
+.lastweek[open] summary svg { transform: rotate(180deg); }
+.lw-body { padding: 0 16px 14px; display: flex; flex-direction: column; gap: 10px; }
+.lw-table { display: flex; flex-direction: column; font-size: 14px; }
+.lw-row { display: grid; grid-template-columns: 1.1fr 1fr 1fr 1fr 1.1fr; gap: 6px; padding: 7px 0; border-top: 1px solid var(--app-line); font-variant-numeric: tabular-nums; }
+.lw-head { border-top: 0; font-size: 12px; font-weight: 700; color: var(--app-muted); }
+.lw-row span:nth-child(2) { color: var(--app-simple); } .lw-row span:nth-child(3) { color: var(--app-model); }
+.lw-head span:nth-child(2), .lw-head span:nth-child(3) { color: var(--app-muted); }
+.lw-sum { font-size: 14px; color: var(--app-muted); }
+.again { font-family: var(--app-sans); margin-top: 12px; height: 44px; padding: 0 18px; border-radius: 10px; border: 1.5px solid var(--app-dark-line); background: transparent; color: var(--app-light); font-weight: 700; font-size: 15px; cursor: pointer; }
+
 /* 5 road */
 .road { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 .road li { display: grid; grid-template-columns: 28px 120px minmax(0, 1fr); gap: 14px; align-items: center; padding: 12px 16px; border-radius: 14px; background: var(--soft); }
@@ -490,39 +508,60 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   <!-- 4 -->
   <section class="panel" id="app" aria-labelledby="h-app">
     <h2 id="h-app"><span class="num">4 of 5</span>What it all turns into</h2>
-    <p class="sub">The app we demo at the showcase. <strong>Tap the tabs inside the app</strong> to switch between its two screens. Colored tags show whose work feeds each piece; tap one to see that person's part.</p>
+    <p class="sub">The app we demo at the showcase. It has two screens: <strong>upcoming reports</strong> and a game on <strong>past reports</strong>. Tap the tabs inside the app to switch. Colored tags show whose work feeds each piece.</p>
 
     <div class="app light" id="m1" role="tabpanel" aria-label="This week's calls">
       <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab on" data-tab="1" aria-selected="true">This week's calls</button><button type="button" role="tab" class="app-tab" data-tab="2" aria-selected="false">Beat the model</button></div></div>
       <div class="app-body">
+        <span class="when-chip">Upcoming · guesses locked in last weekend</span>
         <div class="pick">
-          <div class="lab">Pick a company reporting this week</div>
-          <div class="field">NVDA · reports Wed after close</div>
+          <label class="lab" for="co">Pick a company reporting this week</label>
+          <select id="co" class="field">
+            <option value="0">NVIDIA · Wed after close</option>
+            <option value="1">Salesforce · Wed after close</option>
+            <option value="2">Walmart · Thu before open</option>
+            <option value="3">Deere · Fri before open</option>
+          </select>
           <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>This week's list</button></div>
         </div>
         <div class="two">
           <div class="gcard">
             <div class="t">The simple guess</div>
-            <div class="n" style="color:var(--app-simple)">±6.1%</div>
+            <div class="n" id="c-simple" style="color:var(--app-simple)">6.1%</div>
             <div class="t">How much it usually moves</div>
             <div class="tags"><button class="tag" type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button></div>
           </div>
           <div class="gcard">
             <div class="t">Our model</div>
-            <div class="n" style="color:var(--app-model)">±7.4%</div>
-            <div class="t">Expects a bigger move than usual</div>
+            <div class="n" id="c-model" style="color:var(--app-model)">7.4%</div>
+            <div class="t" id="c-note">Expects a bigger move than usual</div>
             <div class="tags"><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Philip</button><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Isani's clues</button></div>
           </div>
         </div>
-        <div class="band"><b>Actual move</b><span>Shows up Thursday after Nvidia reports. Come back and see who was closer.</span></div>
-        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Move measured like Charvee's table</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Tab built by Joyce</button></div>
+        <div class="band"><b>Real move</b><span id="c-when">Known at Thursday's close, the day after NVIDIA reports. Come back and see who was closer.</span></div>
+        <details class="lastweek">
+          <summary>Last week's results <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary>
+          <div class="lw-body">
+            <div class="lw-table">
+              <div class="lw-row lw-head"><span>Company</span><span>Simple</span><span>Model</span><span>Real</span><span>Closer</span></div>
+              <div class="lw-row"><span>NFLX</span><span>6.8%</span><span>7.6%</span><span>8.0%</span><span><b>Model</b></span></div>
+              <div class="lw-row"><span>TSLA</span><span>8.1%</span><span>7.0%</span><span>4.3%</span><span><b>Model</b></span></div>
+              <div class="lw-row"><span>PG</span><span>2.2%</span><span>2.6%</span><span>1.9%</span><span>Simple</span></div>
+              <div class="lw-row"><span>KO</span><span>2.0%</span><span>1.8%</span><span>1.5%</span><span><b>Model</b></span></div>
+            </div>
+            <p class="lw-sum">Model closer on 3 of 4.</p>
+            <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Graded by Isani's score.py</button></div>
+          </div>
+        </details>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Real move: Charvee's math</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Screen built by Joyce</button></div>
       </div>
     </div>
 
     <div class="app dark" id="m2" role="tabpanel" aria-label="Beat the model" hidden>
       <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab" data-tab="1" aria-selected="false">This week's calls</button><button type="button" role="tab" class="app-tab on" data-tab="2" aria-selected="true">Beat the model</button></div></div>
       <div class="app-body">
-        <div class="q"><h4>Can you beat our model?</h4><p>Tesla reported earnings on Apr 23, 2024. How big was the move the next day?</p></div>
+        <span class="when-chip dark">Past report · answer already known</span>
+        <div class="q"><h4>Can you beat our model?</h4><p id="g-q">NVIDIA reported earnings in Aug 2024. How big was the move the next day? Up or down doesn't matter, just the size.</p></div>
         <div class="dial">
           <button class="step" type="button" id="down" aria-label="Guess lower">−</button>
           <div class="val" id="guess" aria-live="polite">4.0%</div>
@@ -532,16 +571,18 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
         <div id="out" hidden>
           <div class="results">
             <div class="r"><div class="t">You</div><div class="n" id="you">4.0%</div></div>
-            <div class="r"><div class="t">Simple guess</div><div class="n" style="color:var(--app-simple-dk)">6.4%</div></div>
-            <div class="r"><div class="t">Our model</div><div class="n" style="color:var(--app-model-dk)">9.8%</div></div>
-            <div class="r actual"><div class="t">Actual</div><div class="n">12.1%</div></div>
+            <div class="r"><div class="t">Simple guess</div><div class="n" id="g-simple" style="color:var(--app-simple-dk)">6.0%</div></div>
+            <div class="r"><div class="t">Our model</div><div class="n" id="g-model" style="color:var(--app-model-dk)">7.1%</div></div>
+            <div class="r actual"><div class="t">Real move</div><div class="n" id="g-actual">6.4%</div></div>
           </div>
           <p class="verdict" id="verdict"></p>
+          <button class="again" type="button" id="again">Try another report</button>
         </div>
-        <p class="hint" id="hint">Try it: set a guess, then press Reveal.</p>
-        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Past reports</button><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Model's guess</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Game built by Joyce</button></div>
+        <p class="hint" id="hint">Set a guess, then press Reveal.</p>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Past reports</button><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Model's guess (tested)</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Game built by Joyce</button></div>
       </div>
     </div>
+    <p class="small">Example numbers. The game only uses reports the model was tested on, never ones it learned from, so its guess is fair.</p>
   </section>
 
   <!-- 5 -->
@@ -631,20 +672,50 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     });
   });
 
-  // game
-  var g = 4.0, ACTUAL = 12.1, MODEL = 9.8;
+  // "This week's calls": switching company updates both guesses
+  var week = [
+    { s: 6.1, m: 7.4, note: 'Expects a bigger move than usual', when: "Known at Thursday's close, the day after NVIDIA reports." },
+    { s: 5.2, m: 4.6, note: 'Expects a smaller move than usual', when: "Known at Thursday's close, the day after Salesforce reports." },
+    { s: 3.0, m: 3.4, note: 'Expects a slightly bigger move than usual', when: "Known at Thursday's close, the same day Walmart reports." },
+    { s: 3.8, m: 3.7, note: 'Expects about the usual move', when: "Known at Friday's close, the same day Deere reports." }
+  ];
+  document.getElementById('co').addEventListener('change', function (e) {
+    var w = week[+e.target.value];
+    document.getElementById('c-simple').textContent = w.s.toFixed(1) + '%';
+    document.getElementById('c-model').textContent = w.m.toFixed(1) + '%';
+    document.getElementById('c-note').textContent = w.note;
+    document.getElementById('c-when').textContent = w.when + ' Come back and see who was closer.';
+  });
+
+  // game: one past report at a time, "Try another report" moves to the next
+  var rounds = [
+    { q: 'NVIDIA reported earnings in Aug 2024.', s: 6.0, m: 7.1, a: 6.4 },
+    { q: 'Tesla reported earnings in Apr 2024.', s: 6.4, m: 9.8, a: 12.1 },
+    { q: 'Netflix reported earnings in Oct 2023.', s: 7.2, m: 9.1, a: 14.5 },
+    { q: 'Coca-Cola reported earnings in Jul 2024.', s: 1.9, m: 1.7, a: 1.2 }
+  ];
+  var ri = 0, g = 4.0;
   var guessEl = document.getElementById('guess'), out = document.getElementById('out'), hint = document.getElementById('hint');
   function show() { guessEl.textContent = g.toFixed(1) + '%'; out.hidden = true; hint.hidden = false; }
+  function loadRound() {
+    var r = rounds[ri];
+    document.getElementById('g-q').textContent = r.q + " How big was the move the next day? Up or down doesn't matter, just the size.";
+    document.getElementById('g-simple').textContent = r.s.toFixed(1) + '%';
+    document.getElementById('g-model').textContent = r.m.toFixed(1) + '%';
+    document.getElementById('g-actual').textContent = r.a.toFixed(1) + '%';
+    g = 4.0; show();
+  }
   document.getElementById('up').addEventListener('click', function () { g = Math.min(30, g + 0.5); show(); });
   document.getElementById('down').addEventListener('click', function () { g = Math.max(0, g - 0.5); show(); });
   document.getElementById('reveal').addEventListener('click', function () {
-    var you = Math.abs(g - ACTUAL), model = Math.abs(MODEL - ACTUAL);
+    var r = rounds[ri], you = Math.abs(g - r.a), model = Math.abs(r.m - r.a);
     document.getElementById('you').textContent = g.toFixed(1) + '%';
     document.getElementById('verdict').textContent = you < model
       ? 'You beat the model! Off by ' + you.toFixed(1) + ' points.'
       : 'The model wins this one. You were off by ' + you.toFixed(1) + ' points.';
     out.hidden = false; hint.hidden = true;
   });
+  document.getElementById('again').addEventListener('click', function () { ri = (ri + 1) % rounds.length; loadRound(); });
 })();
 </script>
 
