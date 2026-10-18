@@ -190,7 +190,14 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .build li + li { border-top: 1px solid var(--hair); }
 .build code { font-family: var(--mono); font-size: 15px; font-weight: 700; color: var(--fg); }
 .build .later { color: var(--muted); }
-.build .src { display: block; margin-top: 4px; font-size: 15px; line-height: 1.45; color: var(--muted); }
+.fake-note { font-size: 15px; line-height: 1.5; color: var(--muted); margin: -4px 0 10px; max-width: none; }
+.build details.src { margin-top: 6px; }
+.build details.src summary { list-style: none; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; font-size: 14px; font-weight: 600; color: var(--muted); padding: 4px 0; min-height: 32px; }
+.build details.src summary::-webkit-details-marker { display: none; }
+.build details.src summary:hover { color: var(--fg); }
+.build details.src summary svg { width: 14px; height: 14px; transition: transform .2s ease; }
+.build details.src[open] summary svg { transform: rotate(180deg); }
+.build details.src p { font-size: 15px; line-height: 1.5; color: var(--muted); background: var(--soft); border-radius: 10px; padding: 10px 12px; margin: 2px 0 0; }
 .why { font-size: 19px; line-height: 1.55; }
 .why .label { margin-bottom: 4px; }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -386,9 +393,9 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     <article class="card" data-p="daniel" data-card="daniel" hidden>
       <div class="card-top"><div class="role">Daniel · Earnings dates</div><h3>Find <u>exactly when</u> each company announced earnings, and how much its stock usually moves.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><ul class="build">
-          <li><code>edgar.py</code><span>Pull each company's filings from the SEC website and keep <strong>only the earnings announcements</strong>, with the exact minute each went out.<small class="src">From: the SEC's free EDGAR website, where companies post official filings. You download it.</small></span></li>
-          <li><code>history.py</code><span>Look back at each company's last 8 reports and take the middle move. That's <span class="simple">the simple guess</span> we're trying to beat.<small class="src">From: the past moves measured in Charvee's table. No download.</small></span></li>
+        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+          <li><code>edgar.py</code><span>Pull each company's filings from the SEC website and keep <strong>only the earnings announcements</strong>, with the exact minute each went out.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The SEC's free EDGAR website, where companies post official filings. You download it.</p></details></span></li>
+          <li><code>history.py</code><span>Look back at each company's last 8 reports and take the middle move. That's <span class="simple">the simple guess</span> we're trying to beat.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The past moves measured in Charvee's table. No download.</p></details></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>A 7 am report counts that day. A 4:30 pm report counts the next day. <u>Wrong time means we measure the wrong jump.</u></div>
         <div class="tiles">
@@ -404,11 +411,11 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     <article class="card" data-p="isani" data-card="isani" hidden>
       <div class="card-top"><div class="role">Isani · Prices and live forecasts</div><h3>Get every stock's daily prices and turn them into <u>"how jumpy has it been lately"</u> numbers.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><ul class="build">
-          <li><code>prices.py</code><span>Download daily prices for about 500 companies, plus SPY (the whole market) and the VIX (the market's nervousness gauge).<small class="src">From: Yahoo Finance, through the yfinance Python library. You download it.</small></span></li>
-          <li><code>price.py</code><span>Using prices up to the cutoff day only, measure how much each stock has bounced around lately. <strong>Never look past the cutoff.</strong><small class="src">From: the prices you downloaded. No new download.</small></span></li>
-          <li><code>forecast.py</code><span>Sends out our real predictions each week. <span class="later">Goes live in Week 2.</span><small class="src">From: Philip's model and that week's prices.</small></span></li>
-          <li><code>score.py</code><span>Grades those predictions after the reports come out.<small class="src">From: fresh prices downloaded after the reports come out.</small></span></li>
+        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+          <li><code>prices.py</code><span>Download daily prices for about 500 companies, plus SPY (the whole market) and the VIX (the market's nervousness gauge).<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Yahoo Finance, through the yfinance Python library. You download it.</p></details></span></li>
+          <li><code>price.py</code><span>Using prices up to the cutoff day only, measure how much each stock has bounced around lately. <strong>Never look past the cutoff.</strong><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The prices you downloaded. No new download.</p></details></span></li>
+          <li><code>forecast.py</code><span>Sends out our real predictions each week. <span class="later">Goes live in Week 2.</span><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Philip's model and that week's prices.</p></details></span></li>
+          <li><code>score.py</code><span>Grades those predictions after the reports come out.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Fresh prices downloaded after the reports come out.</p></details></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>Stocks that have been jumpy lately tend to jump more at earnings. These are <u>the clues the model has that the simple guess doesn't</u>.</div>
         <div class="tiles">
@@ -424,10 +431,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     <article class="card" data-p="charvee" data-card="charvee" hidden>
       <div class="card-top"><div class="role">Charvee · Dataset</div><h3>Build <u>the one big table</u> everyone uses: one row per earnings report, with the real move and every allowed clue.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><ul class="build">
-          <li><code>calendar.py</code><span>Which days the stock market is open, including holidays and half days, so a move is never measured on a day the market was closed.<small class="src">From: exchange_calendars, a Python library that already knows the New York Stock Exchange's open days, holidays and early closes. No download. You wrap it in simple helpers like "next trading day".</small></span></li>
-          <li><code>windows.py</code><span>Given when a report came out, pick the closing prices just before and just after it.<small class="src">From: the report times in Daniel's filings, plus your calendar.</small></span></li>
-          <li><code>build.py</code><span>Put it together: measure each move minus the market's move, attach the clues, and <strong>set aside bad rows with a reason</strong>.<small class="src">From: Daniel's filings and Isani's prices, saved as files in the project, plus their clue-making code. No download of your own.</small></span></li>
+        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+          <li><code>calendar.py</code><span>Which days the stock market is open, including holidays and half days, so a move is never measured on a day the market was closed.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>It uses exchange_calendars, a Python library that already knows the New York Stock Exchange's open days, holidays and early closes. No download. You wrap it in simple helpers like "next trading day".</p></details></span></li>
+          <li><code>windows.py</code><span>Given when a report came out, pick the closing prices just before and just after it.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The report times in Daniel's filings, plus your calendar.</p></details></span></li>
+          <li><code>build.py</code><span>Put it together: measure each move minus the market's move, attach the clues, and <strong>set aside bad rows with a reason</strong>.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Daniel's filings and Isani's prices, saved as files in the project, plus their clue-making code. No download of your own.</p></details></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>The model, the scores and the app all read from this table. <u>A wrong row here is wrong everywhere.</u></div>
         <div class="tiles">
@@ -443,11 +450,11 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     <article class="card" data-p="philip" data-card="philip" hidden>
       <div class="card-top"><div class="role">Philip · Model</div><h3>Build both guesses and <u>test them fairly</u>: train on the past, predict the next quarter, repeat.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><ul class="build">
-          <li><code>baseline.py</code><span><span class="simple">The simple guess</span>: the middle of the last 8 moves.<small class="src">From: the history columns in Charvee's table.</small></span></li>
-          <li><code>lgbm.py</code><span><span class="model">The model</span>: LightGBM, which learns from the 9 clues in the table.<small class="src">From: Charvee's table. No download.</small></span></li>
-          <li><code>shrinkage.py</code><span>Pulls the model partway back toward the simple guess when that helps.<small class="src">From: your model and the simple guess.</small></span></li>
-          <li><code>splits.py</code><span>The practice tests, <strong>one quarter at a time</strong>, 2022 to 2024. Plus <code>predict_folds</code> to run them.<small class="src">From: the report dates in Charvee's table.</small></span></li>
+        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+          <li><code>baseline.py</code><span><span class="simple">The simple guess</span>: the middle of the last 8 moves.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The history columns in Charvee's table.</p></details></span></li>
+          <li><code>lgbm.py</code><span><span class="model">The model</span>: LightGBM, which learns from the 9 clues in the table.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Charvee's table. No download.</p></details></span></li>
+          <li><code>shrinkage.py</code><span>Pulls the model partway back toward the simple guess when that helps.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Your model and the simple guess.</p></details></span></li>
+          <li><code>splits.py</code><span>The practice tests, <strong>one quarter at a time</strong>, 2022 to 2024. Plus <code>predict_folds</code> to run them.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The report dates in Charvee's table.</p></details></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>A model that peeks at the future looks amazing in testing and fails for real. <u>Your splits keep the test honest.</u></div>
         <div class="tiles">
@@ -463,10 +470,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     <article class="card" data-p="joyce" data-card="joyce" hidden>
       <div class="card-top"><div class="role">Joyce · Evaluation and app</div><h3>Decide <u>who won</u> and whether it was luck, then build the charts and the app.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><ul class="build">
-          <li><code>metrics.py</code><span>Each guess's <strong>average miss</strong>, how much better the model is, and how often it was closer.<small class="src">From: Philip's predictions and the real moves.</small></span></li>
-          <li><code>bootstrap.py</code><span>The luck check: rerun the comparison 2,000 times on reshuffled weeks. <strong>Still winning? Not luck.</strong><small class="src">From: the same predictions, grouped by week.</small></span></li>
-          <li><code>the app</code><span>The charts, the data report and both app tabs. <span class="later">Due Sun Oct 25.</span><small class="src">From: the saved results files. It runs on example results until the real ones exist.</small></span></li>
+        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+          <li><code>metrics.py</code><span>Each guess's <strong>average miss</strong>, how much better the model is, and how often it was closer.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Philip's predictions and the real moves.</p></details></span></li>
+          <li><code>bootstrap.py</code><span>The luck check: rerun the comparison 2,000 times on reshuffled weeks. <strong>Still winning? Not luck.</strong><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The same predictions, grouped by week.</p></details></span></li>
+          <li><code>the app</code><span>The charts, the data report and both app tabs. <span class="later">Due Sun Oct 25.</span><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The saved results files. It runs on example results until the real ones exist.</p></details></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>"Our model is better" means nothing without a number and a range. <u>Your scorecard is the final answer.</u></div>
         <div class="tiles">
