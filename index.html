@@ -96,6 +96,47 @@ a:focus-visible, button:focus-visible { outline: 3px solid var(--fg); outline-of
 .guess .name { font-size: 19px; font-weight: 700; }
 .win { font-size: 22px; font-weight: 500; }
 
+/* section 1 additions */
+h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-top: 8px; }
+.gnum { font-size: 34px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; margin: 2px 0 4px; }
+.guess a { color: var(--fg); font-weight: 600; }
+.verdict-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.verdict-row > div { border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.verdict-row b { font-size: 26px; font-weight: 800; letter-spacing: -0.02em; }
+.tlabel { font-size: 14px; color: var(--muted); font-weight: 600; }
+.median { background: var(--soft); border-radius: 22px; padding: 28px 28px 22px; display: flex; flex-direction: column; gap: 16px; scroll-margin-top: 72px; }
+.median h3.minor { margin-top: 0; }
+.steps { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.chart-wrap { background: var(--bg); border-radius: 16px; padding: 18px 16px 10px; display: flex; flex-direction: column; gap: 6px; }
+.chart-title { font-size: 14px; font-weight: 600; color: var(--muted); }
+.bars, .qrow { --track: 120px; display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 8px; }
+.bars { position: relative; align-items: end; }
+.qrow { margin: 4px 0 12px; text-align: center; }
+.qrow > div { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.bar { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.bar .v { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bar .track { height: var(--track); width: 100%; display: flex; align-items: flex-end; }
+.bar .track i { display: block; width: 100%; border-radius: 6px 6px 2px 2px; background: #f2c7ae; }
+.bar.mid .track i { background: var(--simple); }
+.bar.mid .v { color: var(--simple); }
+.qrow .q { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.qrow .dir { font-size: 11px; color: var(--muted); white-space: nowrap; line-height: 1; }
+.qrow .dir em { font-style: normal; }
+.medline { position: absolute; left: 0; right: 0; border-top: 2px dashed var(--fg); pointer-events: none; }
+.medline span { position: absolute; left: 0; top: -26px; background: var(--fg); color: #fff; font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+@media (max-width: 640px) {
+  .verdict-row { gap: 6px; }
+  .verdict-row > div { padding: 10px 10px; }
+  .verdict-row b { font-size: 22px; }
+  .tlabel { font-size: 13px; line-height: 1.3; }
+  .median { padding: 22px 14px 16px; }
+  .chart-wrap { padding: 16px 10px 8px; }
+  .bars, .qrow { gap: 4px; }
+  .bar .v { font-size: 11px; }
+  .qrow .q { font-size: 9.5px; letter-spacing: -0.02em; }
+  .qrow .dir em { display: none; }
+}
+
 /* 2 pipeline */
 .pipe { display: flex; align-items: stretch; gap: 6px; }
 .pipe .col { display: flex; flex-direction: column; gap: 8px; flex: 1 1 0; min-width: 0; }
@@ -252,18 +293,47 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   <!-- 1 -->
   <section id="idea" aria-labelledby="h-idea">
     <h2 id="h-idea"><span class="num">1 of 5</span>The idea in 30 seconds</h2>
-    <p class="sub">When a company reports earnings, its stock often jumps the next day. We guess <u>how big the jump will be</u>, before it happens.</p>
+    <p class="sub">When a company reports earnings, its stock often jumps the next day. We predict <u>how big that jump will be</u>, before it happens. <strong>Up or down doesn't matter, only the size</strong>: an 8% drop counts as 8%, same as an 8% rise.</p>
+
+    <h3 class="minor">The real answer (what happens)</h3>
     <div class="story">
       <div class="beat"><div class="when">Thu, 4:05 pm</div><div>Netflix posts earnings after the market closes.</div></div>
-      <div class="beat"><div class="when">Fri close</div><div class="big">+9%</div><div>Netflix is up 9%. The market is up 1%.</div></div>
-      <div class="beat key"><div class="when">What we predict</div><div class="big">8%</div><div>The part caused by the report.</div></div>
+      <div class="beat"><div class="when">Fri close</div><div class="big">+9%</div><div>Netflix is up 9%. The whole market is up 1%.</div></div>
+      <div class="beat key"><div class="when">The real move</div><div class="big">8%</div><div>The jump caused by the report: 9% minus the market's 1%.</div></div>
     </div>
+
+    <h3 class="minor">Two guesses, made before Thursday</h3>
     <div class="versus">
-      <div class="guess s"><div class="name simple">The simple guess</div><div>"It usually moves about 7%." The middle of its last 8 earnings moves.</div></div>
-      <div class="guess m"><div class="name model">Our model</div><div>Machine learning that also checks how jumpy the stock has been and how nervous the market is.</div></div>
+      <div class="guess s"><div class="name simple">The simple guess</div><div class="gnum simple">6.8%</div><div>Netflix's usual earnings move: the middle of its last 8. <a href="#median">How it's worked out ↓</a></div></div>
+      <div class="guess m"><div class="name model">Our model</div><div class="gnum model">7.6%</div><div>Starts from the same history, and also looks at how jumpy the stock has been lately and how nervous the market is.</div></div>
     </div>
-    <p class="win">If the model is closer more often, we <u>beat the baseline</u>. That's the project.</p>
-    <p class="small">All numbers on this page are examples.</p>
+
+    <div class="verdict-row">
+      <div><span class="tlabel">Real move</span><b>8%</b></div>
+      <div><span class="tlabel">Model missed by</span><b class="model">0.4</b></div>
+      <div><span class="tlabel">Simple guess missed by</span><b class="simple">1.2</b></div>
+    </div>
+    <p class="win">The model was closer, so it wins this one. We do this for thousands of past reports. If the model is closer more often, we <u>beat the baseline</u>. That's the project.</p>
+
+    <div class="median" id="median">
+      <h3 class="minor">Where the simple guess comes from</h3>
+      <ol class="steps">
+        <li>Take Netflix's <strong>last 8 earnings moves</strong>. Only the size counts, so drops count too.</li>
+        <li>Line them up from smallest to biggest.</li>
+        <li>The middle is the simple guess. With 8 moves there are two in the middle, so average them: (6.2 + 7.4) ÷ 2 = <strong class="simple">6.8%</strong>.</li>
+      </ol>
+      <div class="chart-wrap">
+        <div class="chart-title">In the order they happened</div>
+        <div class="bars" role="img" aria-label="Netflix's last 8 earnings moves in date order: 4.1, 9.6, 6.2, 11.8, 5.5, 7.4, 3.0 and 8.3 percent."><div class="bar"><span class="v">4.1</span><div class="track"><i style="height:34.2%"></i></div></div><div class="bar"><span class="v">9.6</span><div class="track"><i style="height:80.0%"></i></div></div><div class="bar"><span class="v">6.2</span><div class="track"><i style="height:51.7%"></i></div></div><div class="bar"><span class="v">11.8</span><div class="track"><i style="height:98.3%"></i></div></div><div class="bar"><span class="v">5.5</span><div class="track"><i style="height:45.8%"></i></div></div><div class="bar"><span class="v">7.4</span><div class="track"><i style="height:61.7%"></i></div></div><div class="bar"><span class="v">3.0</span><div class="track"><i style="height:25.0%"></i></div></div><div class="bar"><span class="v">8.3</span><div class="track"><i style="height:69.2%"></i></div></div></div>
+        <div class="qrow" aria-hidden="true"><div><span class="q">Q3 '24</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q4 '24</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q1 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q2 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q3 '25</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q4 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q1 '26</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q2 '26</span><span class="dir">▲<em> up</em></span></div></div>
+        <div class="chart-title">Lined up smallest to biggest</div>
+        <div class="bars sorted" role="img" aria-label="The same 8 moves sorted: 3.0, 4.1, 5.5, 6.2, 7.4, 8.3, 9.6, 11.8. The middle two, 6.2 and 7.4, average to 6.8 percent."><div class="bar"><span class="v">3.0</span><div class="track"><i style="height:25.0%"></i></div></div><div class="bar"><span class="v">4.1</span><div class="track"><i style="height:34.2%"></i></div></div><div class="bar"><span class="v">5.5</span><div class="track"><i style="height:45.8%"></i></div></div><div class="bar mid"><span class="v">6.2</span><div class="track"><i style="height:51.7%"></i></div></div><div class="bar mid"><span class="v">7.4</span><div class="track"><i style="height:61.7%"></i></div></div><div class="bar"><span class="v">8.3</span><div class="track"><i style="height:69.2%"></i></div></div><div class="bar"><span class="v">9.6</span><div class="track"><i style="height:80.0%"></i></div></div><div class="bar"><span class="v">11.8</span><div class="track"><i style="height:98.3%"></i></div></div>
+          <div class="medline" style="bottom: calc(var(--track) * 0.567)"><span>middle = 6.8%</span></div>
+        </div>
+        <div class="qrow" aria-hidden="true"><div><span class="q">Q1 '26</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q3 '24</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q3 '25</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q1 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q4 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q2 '26</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q4 '24</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q2 '25</span><span class="dir">▲<em> up</em></span></div></div>
+      </div>
+      <p class="small">Example numbers. Daniel's code works this out for every company, using only reports from before the one being predicted.</p>
+    </div>
   </section>
 
   <!-- 2 -->
