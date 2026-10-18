@@ -190,6 +190,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .build li + li { border-top: 1px solid var(--hair); }
 .build code { font-family: var(--mono); font-size: 15px; font-weight: 700; color: var(--fg); }
 .build .later { color: var(--muted); }
+.build .src { display: block; margin-top: 4px; font-size: 15px; line-height: 1.45; color: var(--muted); }
 .why { font-size: 19px; line-height: 1.55; }
 .why .label { margin-bottom: 4px; }
 .tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
@@ -206,6 +207,7 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
   .card-top { padding: 22px 20px; }
   .card-body { padding: 18px 20px 22px; }
   .build li { grid-template-columns: minmax(0, 1fr); }
+  .sample { white-space: normal; overflow-wrap: anywhere; }
 }
 
 /* 4 app mockups (the app's own look) */
@@ -217,7 +219,9 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .app-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 22px; }
 .app-brand { font-weight: 800; font-size: 17px; }
 .app-tabs { display: flex; gap: 6px; }
-.app-tab { font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; }
+.app-tab { font-family: var(--app-sans); font-size: 13px; font-weight: 700; padding: 8px 14px; border-radius: 999px; border: 0; background: transparent; cursor: pointer; min-height: 36px; white-space: nowrap; }
+.app.light .app-tab:not(.on):hover { box-shadow: inset 0 0 0 1.5px var(--app-line); }
+.app.dark .app-tab:not(.on):hover { box-shadow: inset 0 0 0 1.5px var(--app-dark-line); }
 .app-body { padding: 22px; display: flex; flex-direction: column; gap: 18px; }
 .app.light { background: var(--app-light); color: var(--app-ink); }
 .app.light .app-bar { border-bottom: 1.5px solid var(--app-line); }
@@ -383,8 +387,8 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="card-top"><div class="role">Daniel · Earnings dates</div><h3>Find <u>exactly when</u> each company announced earnings, and how much its stock usually moves.</h3></div>
       <div class="card-body">
         <div><div class="label">What you build</div><ul class="build">
-          <li><code>edgar.py</code><span>Pull each company's filings from the SEC website and keep <strong>only the earnings announcements</strong>, with the exact minute each went out.</span></li>
-          <li><code>history.py</code><span>Look back at each company's last 8 reports and take the middle move. That's <span class="simple">the simple guess</span> we're trying to beat.</span></li>
+          <li><code>edgar.py</code><span>Pull each company's filings from the SEC website and keep <strong>only the earnings announcements</strong>, with the exact minute each went out.<small class="src">From: the SEC's free EDGAR website, where companies post official filings. You download it.</small></span></li>
+          <li><code>history.py</code><span>Look back at each company's last 8 reports and take the middle move. That's <span class="simple">the simple guess</span> we're trying to beat.<small class="src">From: the past moves measured in Charvee's table. No download.</small></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>A 7 am report counts that day. A 4:30 pm report counts the next day. <u>Wrong time means we measure the wrong jump.</u></div>
         <div class="tiles">
@@ -401,10 +405,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="card-top"><div class="role">Isani · Prices and live forecasts</div><h3>Get every stock's daily prices and turn them into <u>"how jumpy has it been lately"</u> numbers.</h3></div>
       <div class="card-body">
         <div><div class="label">What you build</div><ul class="build">
-          <li><code>prices.py</code><span>Download daily prices for about 500 companies, plus SPY (the whole market) and the VIX (the market's nervousness gauge).</span></li>
-          <li><code>price.py</code><span>Using prices up to the cutoff day only, measure how much each stock has bounced around lately. <strong>Never look past the cutoff.</strong></span></li>
-          <li><code>forecast.py</code><span>Sends out our real predictions each week. <span class="later">Goes live in Week 2.</span></span></li>
-          <li><code>score.py</code><span>Grades those predictions after the reports come out.</span></li>
+          <li><code>prices.py</code><span>Download daily prices for about 500 companies, plus SPY (the whole market) and the VIX (the market's nervousness gauge).<small class="src">From: Yahoo Finance, through the yfinance Python library. You download it.</small></span></li>
+          <li><code>price.py</code><span>Using prices up to the cutoff day only, measure how much each stock has bounced around lately. <strong>Never look past the cutoff.</strong><small class="src">From: the prices you downloaded. No new download.</small></span></li>
+          <li><code>forecast.py</code><span>Sends out our real predictions each week. <span class="later">Goes live in Week 2.</span><small class="src">From: Philip's model and that week's prices.</small></span></li>
+          <li><code>score.py</code><span>Grades those predictions after the reports come out.<small class="src">From: fresh prices downloaded after the reports come out.</small></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>Stocks that have been jumpy lately tend to jump more at earnings. These are <u>the clues the model has that the simple guess doesn't</u>.</div>
         <div class="tiles">
@@ -421,9 +425,9 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="card-top"><div class="role">Charvee · Dataset</div><h3>Build <u>the one big table</u> everyone uses: one row per earnings report, with the real move and every allowed clue.</h3></div>
       <div class="card-body">
         <div><div class="label">What you build</div><ul class="build">
-          <li><code>calendar.py</code><span>Which days the market is open, including holidays and half days.</span></li>
-          <li><code>windows.py</code><span>Given when a report came out, pick the closing prices just before and just after it.</span></li>
-          <li><code>build.py</code><span>Put it together: measure each move minus the market's move, attach the clues, and <strong>set aside bad rows with a reason</strong>.</span></li>
+          <li><code>calendar.py</code><span>Which days the stock market is open, including holidays and half days, so a move is never measured on a day the market was closed.<small class="src">From: exchange_calendars, a Python library that already knows the New York Stock Exchange's open days, holidays and early closes. No download. You wrap it in simple helpers like "next trading day".</small></span></li>
+          <li><code>windows.py</code><span>Given when a report came out, pick the closing prices just before and just after it.<small class="src">From: the report times in Daniel's filings, plus your calendar.</small></span></li>
+          <li><code>build.py</code><span>Put it together: measure each move minus the market's move, attach the clues, and <strong>set aside bad rows with a reason</strong>.<small class="src">From: Daniel's filings and Isani's prices, saved as files in the project, plus their clue-making code. No download of your own.</small></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>The model, the scores and the app all read from this table. <u>A wrong row here is wrong everywhere.</u></div>
         <div class="tiles">
@@ -440,10 +444,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="card-top"><div class="role">Philip · Model</div><h3>Build both guesses and <u>test them fairly</u>: train on the past, predict the next quarter, repeat.</h3></div>
       <div class="card-body">
         <div><div class="label">What you build</div><ul class="build">
-          <li><code>baseline.py</code><span><span class="simple">The simple guess</span>: the middle of the last 8 moves.</span></li>
-          <li><code>lgbm.py</code><span><span class="model">The model</span>: LightGBM, which learns from the 9 clues in the table.</span></li>
-          <li><code>shrinkage.py</code><span>Pulls the model partway back toward the simple guess when that helps.</span></li>
-          <li><code>splits.py</code><span>The practice tests, <strong>one quarter at a time</strong>, 2022 to 2024. Plus <code>predict_folds</code> to run them.</span></li>
+          <li><code>baseline.py</code><span><span class="simple">The simple guess</span>: the middle of the last 8 moves.<small class="src">From: the history columns in Charvee's table.</small></span></li>
+          <li><code>lgbm.py</code><span><span class="model">The model</span>: LightGBM, which learns from the 9 clues in the table.<small class="src">From: Charvee's table. No download.</small></span></li>
+          <li><code>shrinkage.py</code><span>Pulls the model partway back toward the simple guess when that helps.<small class="src">From: your model and the simple guess.</small></span></li>
+          <li><code>splits.py</code><span>The practice tests, <strong>one quarter at a time</strong>, 2022 to 2024. Plus <code>predict_folds</code> to run them.<small class="src">From: the report dates in Charvee's table.</small></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>A model that peeks at the future looks amazing in testing and fails for real. <u>Your splits keep the test honest.</u></div>
         <div class="tiles">
@@ -460,9 +464,9 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="card-top"><div class="role">Joyce · Evaluation and app</div><h3>Decide <u>who won</u> and whether it was luck, then build the charts and the app.</h3></div>
       <div class="card-body">
         <div><div class="label">What you build</div><ul class="build">
-          <li><code>metrics.py</code><span>Each guess's <strong>average miss</strong>, how much better the model is, and how often it was closer.</span></li>
-          <li><code>bootstrap.py</code><span>The luck check: rerun the comparison 2,000 times on reshuffled weeks. <strong>Still winning? Not luck.</strong></span></li>
-          <li><code>the app</code><span>The charts, the data report and both app tabs. <span class="later">Due Sun Oct 25.</span></span></li>
+          <li><code>metrics.py</code><span>Each guess's <strong>average miss</strong>, how much better the model is, and how often it was closer.<small class="src">From: Philip's predictions and the real moves.</small></span></li>
+          <li><code>bootstrap.py</code><span>The luck check: rerun the comparison 2,000 times on reshuffled weeks. <strong>Still winning? Not luck.</strong><small class="src">From: the same predictions, grouped by week.</small></span></li>
+          <li><code>the app</code><span>The charts, the data report and both app tabs. <span class="later">Due Sun Oct 25.</span><small class="src">From: the saved results files. It runs on example results until the real ones exist.</small></span></li>
         </ul></div>
         <div class="why"><div class="label">Why it matters</div>"Our model is better" means nothing without a number and a range. <u>Your scorecard is the final answer.</u></div>
         <div class="tiles">
@@ -479,14 +483,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   <!-- 4 -->
   <section class="panel" id="app" aria-labelledby="h-app">
     <h2 id="h-app"><span class="num">4 of 5</span>What it all turns into</h2>
-    <p class="sub">The app we demo at the showcase. Colored tags show whose work feeds each piece. Tap a tag to see that person's part.</p>
-    <div class="switch" role="tablist" aria-label="App tab">
-      <button type="button" role="tab" id="t1" aria-selected="true" aria-controls="m1">This week's calls</button>
-      <button type="button" role="tab" id="t2" aria-selected="false" aria-controls="m2">Beat the model</button>
-    </div>
+    <p class="sub">The app we demo at the showcase. <strong>Tap the tabs inside the app</strong> to switch between its two screens. Colored tags show whose work feeds each piece; tap one to see that person's part.</p>
 
-    <div class="app light" id="m1" role="tabpanel" aria-labelledby="t1">
-      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs"><span class="app-tab on">This week's calls</span><span class="app-tab">Beat the model</span></div></div>
+    <div class="app light" id="m1" role="tabpanel" aria-label="This week's calls">
+      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab on" data-tab="1" aria-selected="true">This week's calls</button><button type="button" role="tab" class="app-tab" data-tab="2" aria-selected="false">Beat the model</button></div></div>
       <div class="app-body">
         <div class="pick">
           <div class="lab">Pick a company reporting this week</div>
@@ -512,8 +512,8 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       </div>
     </div>
 
-    <div class="app dark" id="m2" role="tabpanel" aria-labelledby="t2" hidden>
-      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs"><span class="app-tab">This week's calls</span><span class="app-tab on">Beat the model</span></div></div>
+    <div class="app dark" id="m2" role="tabpanel" aria-label="Beat the model" hidden>
+      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab" data-tab="1" aria-selected="false">This week's calls</button><button type="button" role="tab" class="app-tab on" data-tab="2" aria-selected="true">Beat the model</button></div></div>
       <div class="app-body">
         <div class="q"><h4>Can you beat our model?</h4><p>Tesla reported earnings on Apr 23, 2024. How big was the move the next day?</p></div>
         <div class="dial">
@@ -611,12 +611,18 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   });
   if (location.hash === '#median') openDetails('median');
 
-  // app tab switch
-  var t1 = document.getElementById('t1'), t2 = document.getElementById('t2');
-  var m1 = document.getElementById('m1'), m2 = document.getElementById('m2');
-  function tab(n) { t1.setAttribute('aria-selected', String(n === 1)); t2.setAttribute('aria-selected', String(n === 2)); m1.hidden = n !== 1; m2.hidden = n !== 2; }
-  t1.addEventListener('click', function () { tab(1); });
-  t2.addEventListener('click', function () { tab(2); });
+  // app tabs: the tabs drawn inside the mockup switch screens
+  var panels = { 1: document.getElementById('m1'), 2: document.getElementById('m2') };
+  document.querySelectorAll('.app-tab[data-tab]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var n = btn.dataset.tab;
+      Object.keys(panels).forEach(function (k) { panels[k].hidden = k !== n; });
+      document.querySelectorAll('.app-tab[data-tab]').forEach(function (t) {
+        var on = t.dataset.tab === n; t.classList.toggle('on', on); t.setAttribute('aria-selected', String(on));
+      });
+      var same = panels[n].querySelector('.app-tab[data-tab="' + n + '"]'); if (same) same.focus();
+    });
+  });
 
   // game
   var g = 4.0, ACTUAL = 12.1, MODEL = 9.8;
