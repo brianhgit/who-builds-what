@@ -1,0 +1,551 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Who Builds What</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700;800&family=Atkinson+Hyperlegible+Mono:wght@500;700&family=Archivo:wght@500;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: white page, neutral grays do the structure. Color has two jobs only: a person's color marks that person everywhere, and orange/blue mark the simple guess and the model (as in the app). Sections 2 and 4 sit on gray panels. Mockups keep the app's own look. */
+:root {
+  --bg: #ffffff; --soft: #f5f6f9; --fg: #1b1d24; --muted: #4c5160; --line: #dcdfe7; --hair: #eceef3; --on-dark: #ffffff;
+  --simple: #a8440f; --simple-soft: #fbefe8; --model: #2a62c9; --model-soft: #e8eefb;
+  --daniel: #0b6d6f; --daniel-soft: #e6f3f3;
+  --isani: #2c6a2e; --isani-soft: #e8f2e7;
+  --charvee: #6a2bb8; --charvee-soft: #f1eafa;
+  --philip: #a62a68; --philip-soft: #fae9f1;
+  --joyce: #835800; --joyce-soft: #f8f0dc;
+  --app-light: #f6f7f5; --app-white: #ffffff; --app-ink: #16191d; --app-muted: #5b6168; --app-line: #e1e3df;
+  --app-dark: #16191d; --app-dark-2: #23282e; --app-dark-line: #3a4047; --app-dark-muted: #9aa1a8; --app-dark-text: #c8ccd0;
+  --app-simple: #c2511c; --app-model: #2a62c9; --app-simple-dk: #f08a52; --app-model-dk: #6aa0f0;
+  --sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --app-sans: Archivo, "Helvetica Neue", Arial, sans-serif;
+  --app-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+
+[data-p="daniel"]  { --p: var(--daniel);  --p-soft: var(--daniel-soft); }
+[data-p="isani"]   { --p: var(--isani);   --p-soft: var(--isani-soft); }
+[data-p="charvee"] { --p: var(--charvee); --p-soft: var(--charvee-soft); }
+[data-p="philip"]  { --p: var(--philip);  --p-soft: var(--philip-soft); }
+[data-p="joyce"]   { --p: var(--joyce);   --p-soft: var(--joyce-soft); }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; animation: none !important; } }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--sans); font-size: 18px; line-height: 1.6; letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+  padding-block: 0 80px;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: rgba(255,255,255,0.9); }
+main { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 72px; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(40px, 8vw, 62px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+h2 { font-size: clamp(28px, 5vw, 38px); font-weight: 800; line-height: 1.12; letter-spacing: -0.015em; }
+h2 .num { display: block; font-size: 15px; font-weight: 600; letter-spacing: 0; color: var(--muted); margin-bottom: 6px; }
+p { margin: 0; max-width: 62ch; }
+section { display: flex; flex-direction: column; gap: 20px; scroll-margin-top: 72px; }
+.sub { color: var(--muted); font-size: 19px; }
+section.panel { background: var(--soft); border-radius: 28px; padding: 40px 36px; }
+section.panel .note, section.panel .switch, section.panel .empty, section.panel .beat:not(.key), section.panel .road li:not(.now) { background: var(--bg); }
+@media (max-width: 640px) { section.panel { padding: 28px 18px; border-radius: 22px; margin-inline: -4px; } }
+.small { color: var(--muted); font-size: 15px; }
+strong { font-weight: 700; color: var(--fg); }
+u { text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: 4px; text-decoration-skip-ink: auto; font-weight: 700; }
+.card-top u { text-decoration-color: rgba(255,255,255,0.8); }
+.simple { color: var(--simple); font-weight: 600; }
+.model { color: var(--model); font-weight: 600; }
+button { font-family: var(--sans); cursor: pointer; }
+a:focus-visible, button:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+
+/* sticky legend: neutral chips, the current section is filled */
+.legend { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: rgba(255,255,255,0.86); -webkit-backdrop-filter: saturate(180%) blur(20px); backdrop-filter: saturate(180%) blur(20px); padding-block: 10px; border-bottom: 1px solid var(--hair); }
+.legend ol { position: relative; list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+.legend ol::-webkit-scrollbar { display: none; }
+.legend a { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; text-decoration: none; color: var(--fg); font-size: 14px; font-weight: 500; padding: 7px 14px 7px 8px; border-radius: 999px; min-height: 36px; box-sizing: border-box; background: var(--soft); transition: background .2s ease, color .2s ease; }
+.legend a span { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--bg); color: var(--fg); font-size: 12px; font-weight: 700; }
+.legend a:hover { box-shadow: inset 0 0 0 1.5px var(--line); }
+.legend a.on { background: var(--fg); color: #fff; }
+.legend a.on span { background: #fff; color: var(--fg); }
+
+/* hero */
+.hero { display: flex; flex-direction: column; gap: 16px; padding-top: 56px; }
+.eyebrow { font-size: 15px; font-weight: 600; color: var(--muted); }
+.hero p { font-size: 21px; line-height: 1.5; color: var(--muted); }
+.hero p em { color: var(--fg); font-style: normal; font-weight: 600; }
+.who { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.who button { display: inline-flex; align-items: center; gap: 8px; border: 0; background: var(--p-soft); color: var(--fg); font-weight: 600; font-size: 16px; padding: 6px 16px 6px 6px; border-radius: 999px; min-height: 44px; }
+.who button i { width: 32px; height: 32px; border-radius: 50%; background: var(--p); color: #fff; display: inline-grid; place-items: center; font-style: normal; font-size: 13px; font-weight: 700; }
+
+/* 1 idea */
+.story { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.beat { background: var(--soft); border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.beat .when { font-size: 14px; font-weight: 600; color: var(--muted); }
+.beat .big { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
+.beat.key { background: var(--fg); color: #fff; }
+.beat.key .when { color: rgba(255,255,255,0.8); }
+.versus { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.guess { border-radius: 18px; padding: 20px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.guess.s { background: var(--simple-soft); }
+.guess.m { background: var(--model-soft); }
+.guess .name { font-size: 19px; font-weight: 700; }
+.win { font-size: 22px; font-weight: 500; }
+
+/* 2 pipeline */
+.pipe { display: flex; align-items: stretch; gap: 6px; }
+.pipe .col { display: flex; flex-direction: column; gap: 8px; flex: 1 1 0; min-width: 0; }
+.node { flex: 1; display: flex; flex-direction: column; gap: 2px; text-align: left; background: var(--bg); border: 0; border-radius: 16px; padding: 14px 16px; color: var(--fg); min-height: 44px; transition: box-shadow .2s ease; }
+.node:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
+.node b { font-size: 18px; font-weight: 700; color: var(--p); }
+.node span { font-size: 15px; color: var(--muted); line-height: 1.4; }
+.node .go { color: var(--fg); font-size: 14px; font-weight: 600; margin-top: 6px; }
+.arrow { display: flex; align-items: center; justify-content: center; color: var(--muted); flex: 0 0 16px; }
+.arrow svg { width: 16px; height: 16px; }
+.note { background: var(--soft); border-radius: 16px; padding: 16px 20px; font-size: 16px; color: var(--fg); }
+.note b { font-weight: 700; }
+@media (max-width: 640px) {
+  .pipe { flex-direction: column; }
+  .pipe .col { flex-direction: row; }
+  .arrow svg { transform: rotate(90deg); }
+    .story, .versus { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 3 people picker */
+.picker { display: flex; flex-wrap: wrap; gap: 8px; }
+.pbtn { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px 6px 6px; border-radius: 999px; border: 0; background: var(--p-soft); color: var(--fg); font-weight: 600; font-size: 16px; min-height: 44px; transition: background .2s ease, color .2s ease; }
+.pbtn i { width: 32px; height: 32px; border-radius: 50%; background: var(--p); color: #fff; display: inline-grid; place-items: center; font-style: normal; font-size: 14px; font-weight: 700; }
+.pbtn small { font-weight: 400; color: var(--muted); font-size: 14px; }
+.pbtn:hover, .who button:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
+.pbtn[aria-pressed="true"] { background: var(--p); color: #fff; }
+.pbtn[aria-pressed="true"] small { color: rgba(255,255,255,0.85); }
+.pbtn[aria-pressed="true"] i { background: #fff; color: var(--p); }
+
+.empty { background: var(--soft); border-radius: 20px; padding: 32px; display: flex; flex-direction: column; gap: 6px; align-items: flex-start; }
+.empty b { font-size: 21px; font-weight: 700; }
+.empty span { color: var(--muted); }
+
+.card { border-radius: 22px; overflow: hidden; background: var(--soft); animation: rise .3s ease; }
+@keyframes rise { from { transform: translateY(8px); } to { transform: none; } }
+.card-top { padding: 28px 32px; display: flex; flex-direction: column; gap: 8px; background: var(--p); color: #fff; }
+.card-top .role { font-size: 15px; font-weight: 600; color: #ffffff; opacity: 0.9; }
+.card-top h3 { font-size: clamp(23px, 4vw, 29px); font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; }
+.card-body { padding: 24px 32px 26px; display: flex; flex-direction: column; gap: 24px; }
+.label { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 10px; }
+.build { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; background: var(--bg); border-radius: 16px; }
+.build li { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 4px 16px; align-items: baseline; padding: 14px 18px; }
+.build li + li { border-top: 1px solid var(--hair); }
+.build code { font-family: var(--mono); font-size: 15px; font-weight: 700; color: var(--fg); }
+.build .later { color: var(--muted); }
+.why { font-size: 19px; line-height: 1.55; }
+.why .label { margin-bottom: 4px; }
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.tile { background: var(--bg); border-radius: 16px; padding: 14px 16px; min-width: 0; font-size: 17px; line-height: 1.45; }
+.tile .label { margin-bottom: 4px; }
+.sample { font-family: var(--mono); font-size: 15px; background: var(--bg); border-radius: 14px; padding: 14px 16px; overflow-x: auto; white-space: nowrap; }
+.sample div + div { margin-top: 4px; }
+.files { font-family: var(--mono); font-size: 14px; color: var(--muted); }
+.next { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.next button { border: 0; background: none; color: var(--fg); font-size: 16px; font-weight: 600; padding: 8px 0; min-height: 44px; }
+.next button:hover { text-decoration: underline; }
+@media (max-width: 640px) {
+  .tiles { grid-template-columns: minmax(0, 1fr); }
+  .card-top { padding: 22px 20px; }
+  .card-body { padding: 18px 20px 22px; }
+  .build li { grid-template-columns: minmax(0, 1fr); }
+}
+
+/* 4 app mockups (the app's own look) */
+.switch { display: inline-flex; background: var(--soft); border-radius: 999px; padding: 4px; gap: 2px; align-self: flex-start; }
+.switch button { border: 0; background: none; color: var(--fg); font-size: 14px; padding: 8px 16px; border-radius: 999px; min-height: 36px; }
+.switch button[aria-selected="true"] { background: var(--fg); color: #fff; font-weight: 600; }
+.app { border-radius: 20px; overflow: hidden; border: 1px solid var(--line); font-family: var(--app-sans); letter-spacing: 0; box-shadow: 0 10px 40px rgba(0,0,0,0.06); }
+.app button { font-family: var(--app-sans); }
+.app-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 14px 22px; }
+.app-brand { font-weight: 800; font-size: 17px; }
+.app-tabs { display: flex; gap: 6px; }
+.app-tab { font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; }
+.app-body { padding: 22px; display: flex; flex-direction: column; gap: 18px; }
+.app.light { background: var(--app-light); color: var(--app-ink); }
+.app.light .app-bar { border-bottom: 1.5px solid var(--app-line); }
+.app.light .app-tab { color: var(--app-muted); }
+.app.light .app-tab.on { background: var(--app-ink); color: var(--app-light); }
+.pick { display: flex; flex-direction: column; gap: 6px; }
+.pick .lab { font-size: 14px; color: var(--app-muted); }
+.pick .field { font-weight: 700; font-size: 17px; padding: 12px 16px; border: 1.5px solid #c9cdc8; border-radius: 10px; background: var(--app-white); max-width: 460px; }
+.two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.gcard { background: var(--app-white); border: 1.5px solid var(--app-line); border-radius: 14px; padding: 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.gcard .t { font-size: 14px; color: var(--app-muted); }
+.gcard .n { font-family: var(--app-mono); font-size: clamp(40px, 9vw, 58px); font-weight: 700; line-height: 1.05; }
+.band { display: flex; flex-wrap: wrap; gap: 6px 14px; background: var(--app-dark); color: var(--app-light); border-radius: 12px; padding: 16px 20px; }
+.band span { color: var(--app-dark-text); font-size: 15px; }
+.app.dark { background: var(--app-dark); color: var(--app-light); border-color: var(--app-dark-line); }
+.app.dark .app-bar { border-bottom: 1.5px solid var(--app-dark-line); }
+.app.dark .app-tab { color: var(--app-dark-muted); }
+.app.dark .app-tab.on { background: var(--app-light); color: var(--app-ink); }
+.q h4 { font-size: clamp(26px, 5vw, 34px); font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.q p { color: var(--app-dark-text); margin-top: 6px; }
+.dial { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.step { width: 48px; height: 48px; border-radius: 24px; border: 2px solid var(--app-dark-line); background: transparent; color: var(--app-light); font-size: 24px; line-height: 1; }
+.val { font-family: var(--app-mono); font-size: clamp(44px, 10vw, 62px); font-weight: 700; min-width: 4.2ch; text-align: center; line-height: 1; font-variant-numeric: tabular-nums; }
+.reveal { height: 48px; padding: 0 26px; border-radius: 10px; border: 0; background: var(--app-light); color: var(--app-ink); font-weight: 800; font-size: 17px; }
+.results { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.r { background: var(--app-dark-2); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.r .t { font-size: 13px; color: var(--app-dark-muted); }
+.r .n { font-family: var(--app-mono); font-size: 26px; font-weight: 700; }
+.r.actual { background: var(--app-light); color: var(--app-ink); }
+.r.actual .t { color: var(--app-muted); }
+.verdict { font-size: 18px; font-weight: 700; margin-top: 14px; }
+.hint { color: var(--app-dark-muted); font-size: 14px; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-family: var(--sans) !important; font-size: 13px; font-weight: 600; padding: 4px 12px 4px 4px; border-radius: 999px; border: 0; background: var(--p-soft); color: var(--p); line-height: 1.3; min-height: 30px; letter-spacing: -0.01em; }
+.tag i { width: 22px; height: 22px; border-radius: 50%; background: var(--p); color: #fff; display: inline-grid; place-items: center; font-style: normal; font-size: 11px; font-weight: 700; }
+.tag:hover { box-shadow: 0 0 0 1.5px var(--p); }
+@media (max-width: 640px) {
+  .two { grid-template-columns: minmax(0, 1fr); }
+  .results { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-body { padding: 18px 16px; }
+}
+
+/* 5 road */
+.road { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.road li { display: grid; grid-template-columns: 28px 120px minmax(0, 1fr); gap: 14px; align-items: center; padding: 12px 16px; border-radius: 14px; background: var(--soft); }
+.road li::before { content: ""; width: 14px; height: 14px; border-radius: 50%; background: var(--line); justify-self: center; }
+.road .d { font-size: 15px; font-weight: 600; color: var(--muted); }
+.road li.now { background: var(--fg); color: #fff; }
+.road li.now::before { background: #fff; }
+.road li.now .d { color: #ffffff; opacity: 0.85; }
+.here { display: inline-block; font-size: 12px; font-weight: 700; background: #fff; color: var(--fg); padding: 2px 10px; border-radius: 999px; margin-left: 8px; }
+@media (max-width: 640px) { .road li { grid-template-columns: 20px minmax(0, 1fr); gap: 2px 10px; } .road li > span:last-child { grid-column: 2; } }
+footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1px solid var(--hair); }
+</style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="eyebrow">MLSN · Beat the Baseline · Week 1</div>
+    <h1>Who builds what</h1>
+    <p>Your Notion page says <em>how</em> to build your part. This page shows <em>what</em> it is and what it turns into. <strong>Tap your name</strong> to jump straight to your part.</p>
+    <div class="who" aria-label="Jump to a person">
+      <button type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button>
+      <button type="button" data-p="isani" data-pick="isani"><i>I</i>Isani</button>
+      <button type="button" data-p="charvee" data-pick="charvee"><i>C</i>Charvee</button>
+      <button type="button" data-p="philip" data-pick="philip"><i>P</i>Philip</button>
+      <button type="button" data-p="joyce" data-pick="joyce"><i>J</i>Joyce</button>
+    </div>
+  </header>
+
+  <nav class="legend" aria-label="Sections">
+    <ol>
+      <li><a href="#idea"><span>1</span>The idea</a></li>
+      <li><a href="#connect"><span>2</span>How it connects</a></li>
+      <li><a href="#part"><span>3</span>Your part</a></li>
+      <li><a href="#app"><span>4</span>The app</a></li>
+      <li><a href="#road"><span>5</span>The road</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section id="idea" aria-labelledby="h-idea">
+    <h2 id="h-idea"><span class="num">1 of 5</span>The idea in 30 seconds</h2>
+    <p class="sub">When a company reports earnings, its stock often jumps the next day. We guess <u>how big the jump will be</u>, before it happens.</p>
+    <div class="story">
+      <div class="beat"><div class="when">Thu, 4:05 pm</div><div>Netflix posts earnings after the market closes.</div></div>
+      <div class="beat"><div class="when">Fri close</div><div class="big">+9%</div><div>Netflix is up 9%. The market is up 1%.</div></div>
+      <div class="beat key"><div class="when">What we predict</div><div class="big">8%</div><div>The part caused by the report.</div></div>
+    </div>
+    <div class="versus">
+      <div class="guess s"><div class="name simple">The simple guess</div><div>"It usually moves about 7%." The middle of its last 8 earnings moves.</div></div>
+      <div class="guess m"><div class="name model">Our model</div><div>Machine learning that also checks how jumpy the stock has been and how nervous the market is.</div></div>
+    </div>
+    <p class="win">If the model is closer more often, we <u>beat the baseline</u>. That's the project.</p>
+    <p class="small">All numbers on this page are examples.</p>
+  </section>
+
+  <!-- 2 -->
+  <section class="panel" id="connect" aria-labelledby="h-connect">
+    <h2 id="h-connect"><span class="num">2 of 5</span>How it connects</h2>
+    <p class="sub">Data flows left to right. Tap anyone to see their part.</p>
+    <div class="pipe">
+      <div class="col">
+        <button class="node" type="button" data-p="daniel" data-pick="daniel"><b>Daniel</b><span>When did each company report?</span><span class="go">See part ›</span></button>
+        <button class="node" type="button" data-p="isani" data-pick="isani"><b>Isani</b><span>Prices and how jumpy each stock is</span><span class="go">See part ›</span></button>
+      </div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <div class="col"><button class="node" type="button" data-p="charvee" data-pick="charvee"><b>Charvee</b><span>The big table, one row per report</span><span class="go">See part ›</span></button></div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <div class="col"><button class="node" type="button" data-p="philip" data-pick="philip"><b>Philip</b><span>Both guesses, tested fairly</span><span class="go">See part ›</span></button></div>
+      <div class="arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8h11M9 4l4 4-4 4"/></svg></div>
+      <div class="col"><button class="node" type="button" data-p="joyce" data-pick="joyce"><b>Joyce</b><span>Who won, and the app</span><span class="go">See part ›</span></button></div>
+    </div>
+    <div class="note">This week everyone uses <b>fake data</b> with the same columns as the real thing, so nobody waits on anybody. The pieces get plugged together next week.</div>
+  </section>
+
+  <!-- 3 -->
+  <section id="part" aria-labelledby="h-part">
+    <h2 id="h-part"><span class="num">3 of 5</span>Your part this week</h2>
+    <div class="picker" role="group" aria-label="Pick a person">
+      <button class="pbtn" type="button" data-p="daniel" data-pick="daniel" aria-pressed="false"><i>D</i>Daniel <small>Earnings dates</small></button>
+      <button class="pbtn" type="button" data-p="isani" data-pick="isani" aria-pressed="false"><i>I</i>Isani <small>Prices</small></button>
+      <button class="pbtn" type="button" data-p="charvee" data-pick="charvee" aria-pressed="false"><i>C</i>Charvee <small>Dataset</small></button>
+      <button class="pbtn" type="button" data-p="philip" data-pick="philip" aria-pressed="false"><i>P</i>Philip <small>Model</small></button>
+      <button class="pbtn" type="button" data-p="joyce" data-pick="joyce" aria-pressed="false"><i>J</i>Joyce <small>Evaluation and app</small></button>
+    </div>
+
+    <div class="empty" id="empty"><b>Tap your name above.</b><span>You'll see just your part: what you build, why it matters, and where it shows up in the app.</span></div>
+
+    <article class="card" data-p="daniel" data-card="daniel" hidden>
+      <div class="card-top"><div class="role">Daniel · Earnings dates</div><h3>Find <u>exactly when</u> each company announced earnings, and how much its stock usually moves.</h3></div>
+      <div class="card-body">
+        <div><div class="label">What you build</div><ul class="build">
+          <li><code>edgar.py</code><span>Pull each company's filings from the SEC website and keep <strong>only the earnings announcements</strong>, with the exact minute each went out.</span></li>
+          <li><code>history.py</code><span>Look back at each company's last 8 reports and take the middle move. That's <span class="simple">the simple guess</span> we're trying to beat.</span></li>
+        </ul></div>
+        <div class="why"><div class="label">Why it matters</div>A 7 am report counts that day. A 4:30 pm report counts the next day. <u>Wrong time means we measure the wrong jump.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The company list</div>
+          <div class="tile"><div class="label">You hand off</div>Filings to Charvee, the simple guess to Philip</div>
+          <div class="tile"><div class="label">In the app</div>The <span class="simple">orange</span> number</div>
+        </div>
+        <div><div class="label">When it works</div><div class="sample"><div>AAPL · filed Thu 4:31 pm ET · after the close</div><div>usually moves 3.8% (middle of last 8)</div></div></div>
+        <div class="next"><span class="files">edgar.py · history.py</span><button type="button" data-pick="isani">Next: Isani ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="isani" data-card="isani" hidden>
+      <div class="card-top"><div class="role">Isani · Prices and live forecasts</div><h3>Get every stock's daily prices and turn them into <u>"how jumpy has it been lately"</u> numbers.</h3></div>
+      <div class="card-body">
+        <div><div class="label">What you build</div><ul class="build">
+          <li><code>prices.py</code><span>Download daily prices for about 500 companies, plus SPY (the whole market) and the VIX (the market's nervousness gauge).</span></li>
+          <li><code>price.py</code><span>Using prices up to the cutoff day only, measure how much each stock has bounced around lately. <strong>Never look past the cutoff.</strong></span></li>
+          <li><code>forecast.py</code><span>Sends out our real predictions each week. <span class="later">Goes live in Week 2.</span></span></li>
+          <li><code>score.py</code><span>Grades those predictions after the reports come out.</span></li>
+        </ul></div>
+        <div class="why"><div class="label">Why it matters</div>Stocks that have been jumpy lately tend to jump more at earnings. These are <u>the clues the model has that the simple guess doesn't</u>.</div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The company list and Yahoo Finance</div>
+          <div class="tile"><div class="label">You hand off</div>Prices to Charvee, weekly picks to the app</div>
+          <div class="tile"><div class="label">In the app</div>This week's companies and the real moves</div>
+        </div>
+        <div><div class="label">When it works</div><div class="sample"><div>NVDA · on the cutoff day</div><div>jumpiness last month 48 · last 3 months 41 · VIX 17</div></div></div>
+        <div class="next"><button type="button" data-pick="daniel">‹ Daniel</button><button type="button" data-pick="charvee">Next: Charvee ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="charvee" data-card="charvee" hidden>
+      <div class="card-top"><div class="role">Charvee · Dataset</div><h3>Build <u>the one big table</u> everyone uses: one row per earnings report, with the real move and every allowed clue.</h3></div>
+      <div class="card-body">
+        <div><div class="label">What you build</div><ul class="build">
+          <li><code>calendar.py</code><span>Which days the market is open, including holidays and half days.</span></li>
+          <li><code>windows.py</code><span>Given when a report came out, pick the closing prices just before and just after it.</span></li>
+          <li><code>build.py</code><span>Put it together: measure each move minus the market's move, attach the clues, and <strong>set aside bad rows with a reason</strong>.</span></li>
+        </ul></div>
+        <div class="why"><div class="label">Why it matters</div>The model, the scores and the app all read from this table. <u>A wrong row here is wrong everywhere.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>Filings from Daniel, prices from Isani</div>
+          <div class="tile"><div class="label">You hand off</div>The table, to Philip and Joyce</div>
+          <div class="tile"><div class="label">In the app</div>Every number traces back to your table</div>
+        </div>
+        <div><div class="label">When it works</div><div class="sample"><div>AAPL · Aug 2023 · after the close</div><div>moved 4.7% more than the market · 9 clues attached</div></div></div>
+        <div class="next"><button type="button" data-pick="isani">‹ Isani</button><button type="button" data-pick="philip">Next: Philip ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="philip" data-card="philip" hidden>
+      <div class="card-top"><div class="role">Philip · Model</div><h3>Build both guesses and <u>test them fairly</u>: train on the past, predict the next quarter, repeat.</h3></div>
+      <div class="card-body">
+        <div><div class="label">What you build</div><ul class="build">
+          <li><code>baseline.py</code><span><span class="simple">The simple guess</span>: the middle of the last 8 moves.</span></li>
+          <li><code>lgbm.py</code><span><span class="model">The model</span>: LightGBM, which learns from the 9 clues in the table.</span></li>
+          <li><code>shrinkage.py</code><span>Pulls the model partway back toward the simple guess when that helps.</span></li>
+          <li><code>splits.py</code><span>The practice tests, <strong>one quarter at a time</strong>, 2022 to 2024. Plus <code>predict_folds</code> to run them.</span></li>
+        </ul></div>
+        <div class="why"><div class="label">Why it matters</div>A model that peeks at the future looks amazing in testing and fails for real. <u>Your splits keep the test honest.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The table from Charvee</div>
+          <div class="tile"><div class="label">You hand off</div>Predictions to Joyce, the model to Isani</div>
+          <div class="tile"><div class="label">In the app</div>The <span class="model">blue</span> number</div>
+        </div>
+        <div><div class="label">When it works</div><div class="sample"><div>Test quarter 2023 Q2 · trained only on earlier reports</div><div>NFLX · <span class="simple">simple 6.8%</span> · <span class="model">model 7.9%</span></div></div></div>
+        <div class="next"><button type="button" data-pick="charvee">‹ Charvee</button><button type="button" data-pick="joyce">Next: Joyce ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="joyce" data-card="joyce" hidden>
+      <div class="card-top"><div class="role">Joyce · Evaluation and app</div><h3>Decide <u>who won</u> and whether it was luck, then build the charts and the app.</h3></div>
+      <div class="card-body">
+        <div><div class="label">What you build</div><ul class="build">
+          <li><code>metrics.py</code><span>Each guess's <strong>average miss</strong>, how much better the model is, and how often it was closer.</span></li>
+          <li><code>bootstrap.py</code><span>The luck check: rerun the comparison 2,000 times on reshuffled weeks. <strong>Still winning? Not luck.</strong></span></li>
+          <li><code>the app</code><span>The charts, the data report and both app tabs. <span class="later">Due Sun Oct 25.</span></span></li>
+        </ul></div>
+        <div class="why"><div class="label">Why it matters</div>"Our model is better" means nothing without a number and a range. <u>Your scorecard is the final answer.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>Predictions from Philip</div>
+          <div class="tile"><div class="label">You hand off</div>The results, to the team and the showcase</div>
+          <div class="tile"><div class="label">In the app</div>You build both tabs</div>
+        </div>
+        <div><div class="label">When it works</div><div class="sample"><div>average miss: <span class="model">model 3.1</span> · <span class="simple">simple 3.3</span></div><div>6% better · luck range 2% to 10%</div></div></div>
+        <div class="next"><button type="button" data-pick="philip">‹ Philip</button><button type="button" data-goto="app">See the app ›</button></div>
+      </div>
+    </article>
+  </section>
+
+  <!-- 4 -->
+  <section class="panel" id="app" aria-labelledby="h-app">
+    <h2 id="h-app"><span class="num">4 of 5</span>What it all turns into</h2>
+    <p class="sub">The app we demo at the showcase. Colored tags show whose work feeds each piece. Tap a tag to see that person's part.</p>
+    <div class="switch" role="tablist" aria-label="App tab">
+      <button type="button" role="tab" id="t1" aria-selected="true" aria-controls="m1">This week's calls</button>
+      <button type="button" role="tab" id="t2" aria-selected="false" aria-controls="m2">Beat the model</button>
+    </div>
+
+    <div class="app light" id="m1" role="tabpanel" aria-labelledby="t1">
+      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs"><span class="app-tab on">This week's calls</span><span class="app-tab">Beat the model</span></div></div>
+      <div class="app-body">
+        <div class="pick">
+          <div class="lab">Pick a company reporting this week</div>
+          <div class="field">NVDA · reports Wed after close</div>
+          <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>This week's list</button></div>
+        </div>
+        <div class="two">
+          <div class="gcard">
+            <div class="t">The simple guess</div>
+            <div class="n" style="color:var(--app-simple)">±6.1%</div>
+            <div class="t">How much it usually moves</div>
+            <div class="tags"><button class="tag" type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button></div>
+          </div>
+          <div class="gcard">
+            <div class="t">Our model</div>
+            <div class="n" style="color:var(--app-model)">±7.4%</div>
+            <div class="t">Expects a bigger move than usual</div>
+            <div class="tags"><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Philip</button><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Isani's clues</button></div>
+          </div>
+        </div>
+        <div class="band"><b>Actual move</b><span>Shows up Thursday after Nvidia reports. Come back and see who was closer.</span></div>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Move measured like Charvee's table</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Tab built by Joyce</button></div>
+      </div>
+    </div>
+
+    <div class="app dark" id="m2" role="tabpanel" aria-labelledby="t2" hidden>
+      <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs"><span class="app-tab">This week's calls</span><span class="app-tab on">Beat the model</span></div></div>
+      <div class="app-body">
+        <div class="q"><h4>Can you beat our model?</h4><p>Tesla reported earnings on Apr 23, 2024. How big was the move the next day?</p></div>
+        <div class="dial">
+          <button class="step" type="button" id="down" aria-label="Guess lower">−</button>
+          <div class="val" id="guess" aria-live="polite">4.0%</div>
+          <button class="step" type="button" id="up" aria-label="Guess higher">+</button>
+          <button class="reveal" type="button" id="reveal">Reveal</button>
+        </div>
+        <div id="out" hidden>
+          <div class="results">
+            <div class="r"><div class="t">You</div><div class="n" id="you">4.0%</div></div>
+            <div class="r"><div class="t">Simple guess</div><div class="n" style="color:var(--app-simple-dk)">6.4%</div></div>
+            <div class="r"><div class="t">Our model</div><div class="n" style="color:var(--app-model-dk)">9.8%</div></div>
+            <div class="r actual"><div class="t">Actual</div><div class="n">12.1%</div></div>
+          </div>
+          <p class="verdict" id="verdict"></p>
+        </div>
+        <p class="hint" id="hint">Try it: set a guess, then press Reveal.</p>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Past reports</button><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Model's guess</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Game built by Joyce</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section id="road" aria-labelledby="h-road">
+    <h2 id="h-road"><span class="num">5 of 5</span>The road</h2>
+    <p class="sub">Where this is heading. <strong>Only Week 1 matters right now</strong>, and everything after it is a <u>rough plan that may change</u>.</p>
+    <ol class="road">
+      <li class="now"><span class="d">Week 1 · Sun Oct 18</span><span><b>Build your part on fake data.</b><span class="here">You are here</span></span></li>
+      <li><span class="d">Next</span><span>Switch to real data, run the real test, and send out our first live predictions.</span></li>
+      <li><span class="d">After that</span><span>Fix what we find and grade the live predictions.</span></li>
+      <li><span class="d">Wrapping up</span><span>Write-up, slides and the final app.</span></li>
+      <li><span class="d">Showcase</span><span>Demo the app with a live prediction.</span></li>
+    </ol>
+  </section>
+
+  <footer>Stuck on where your part fits? Post in the group chat, or bring it to Monday's meeting (Oct 19, 7 pm).</footer>
+</main>
+
+<script>
+(function () {
+  var people = ['daniel', 'isani', 'charvee', 'philip', 'joyce'];
+  var part = document.getElementById('part');
+  var empty = document.getElementById('empty');
+
+  function select(name, scroll) {
+    if (people.indexOf(name) < 0) return;
+    document.querySelectorAll('[data-card]').forEach(function (c) { c.hidden = c.dataset.card !== name; });
+    document.querySelectorAll('.pbtn').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.pick === name)); });
+    empty.hidden = true;
+    if (scroll) part.scrollIntoView({ block: 'start' });
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('[data-pick]');
+    if (t) { select(t.dataset.pick, !t.classList.contains('pbtn')); return; }
+    var g = e.target.closest('[data-goto]');
+    if (g) document.getElementById(g.dataset.goto).scrollIntoView({ block: 'start' });
+  });
+
+  // link straight to a person with #daniel, #isani, ...
+  function fromHash() { var h = location.hash.slice(1); if (people.indexOf(h) >= 0) select(h, true); }
+  window.addEventListener('hashchange', fromHash);
+  fromHash();
+
+  // legend highlights the section you're in, and slides that chip into view on narrow screens
+  var legendList = document.querySelector('.legend ol');
+  var legendLinks = Array.prototype.slice.call(document.querySelectorAll('.legend a'));
+  var secs = legendLinks.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  var current = null;
+  function updateLegend() {
+    var line = 140, idx = -1;
+    secs.forEach(function (sec, i) { if (sec && sec.getBoundingClientRect().top <= line) idx = i; });
+    var doc = document.documentElement;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) idx = secs.length - 1;
+    if (idx === current) return;
+    current = idx;
+    legendLinks.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
+    if (idx < 0) { legendList.scrollTo({ left: 0, behavior: 'smooth' }); return; }
+    var a = legendLinks[idx];
+    var left = a.offsetLeft - (legendList.clientWidth - a.offsetWidth) / 2;
+    legendList.scrollTo({ left: Math.max(0, left), behavior: 'smooth' });
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(function () { ticking = false; updateLegend(); });
+  }, { passive: true });
+  window.addEventListener('resize', updateLegend);
+  updateLegend();
+
+  // app tab switch
+  var t1 = document.getElementById('t1'), t2 = document.getElementById('t2');
+  var m1 = document.getElementById('m1'), m2 = document.getElementById('m2');
+  function tab(n) { t1.setAttribute('aria-selected', String(n === 1)); t2.setAttribute('aria-selected', String(n === 2)); m1.hidden = n !== 1; m2.hidden = n !== 2; }
+  t1.addEventListener('click', function () { tab(1); });
+  t2.addEventListener('click', function () { tab(2); });
+
+  // game
+  var g = 4.0, ACTUAL = 12.1, MODEL = 9.8;
+  var guessEl = document.getElementById('guess'), out = document.getElementById('out'), hint = document.getElementById('hint');
+  function show() { guessEl.textContent = g.toFixed(1) + '%'; out.hidden = true; hint.hidden = false; }
+  document.getElementById('up').addEventListener('click', function () { g = Math.min(30, g + 0.5); show(); });
+  document.getElementById('down').addEventListener('click', function () { g = Math.max(0, g - 0.5); show(); });
+  document.getElementById('reveal').addEventListener('click', function () {
+    var you = Math.abs(g - ACTUAL), model = Math.abs(MODEL - ACTUAL);
+    document.getElementById('you').textContent = g.toFixed(1) + '%';
+    document.getElementById('verdict').textContent = you < model
+      ? 'You beat the model! Off by ' + you.toFixed(1) + ' points.'
+      : 'The model wins this one. You were off by ' + you.toFixed(1) + ' points.';
+    out.hidden = false; hint.hidden = true;
+  });
+})();
+</script>
+
+</body>
+</html>
