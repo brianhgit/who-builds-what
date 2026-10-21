@@ -349,14 +349,106 @@ h3.minor { font-size: 21px; font-weight: 700; letter-spacing: -0.01em; margin-to
 .here { display: inline-block; font-size: 12px; font-weight: 700; background: #fff; color: var(--fg); padding: 2px 10px; border-radius: 999px; margin-left: 8px; }
 @media (max-width: 640px) { .road li { grid-template-columns: 20px minmax(0, 1fr); gap: 2px 10px; } .road li > span:last-child { grid-column: 2; } }
 footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1px solid var(--hair); }
+
+/* ---- Week switcher, week-specific blocks, Week 2 relay ---- */
+[data-p="brian"] { --p: var(--fg); --p-soft: #e8e9ee; }
+.weeks { display: inline-flex; align-self: flex-start; gap: 4px; background: var(--soft); border-radius: 999px; padding: 4px; }
+.weeks button { border: 0; background: none; color: var(--fg); font-size: 15px; font-weight: 600; padding: 8px 18px; border-radius: 999px; min-height: 40px; }
+.weeks button:hover { box-shadow: inset 0 0 0 1.5px var(--line); }
+.weeks button[aria-pressed="true"] { background: var(--fg); color: #fff; }
+.weeks button small { font-weight: 500; opacity: 0.75; margin-left: 4px; font-size: 13px; }
+.wk { display: flex; flex-direction: column; gap: 20px; }
+.relay { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.day { background: var(--bg); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.day h4 { font-size: 15px; font-weight: 700; display: flex; flex-direction: column; gap: 0; }
+.day h4 small { font-size: 13px; font-weight: 600; color: var(--muted); }
+.task { display: flex; flex-direction: column; gap: 2px; text-align: left; border: 0; background: var(--p-soft); border-radius: 12px; padding: 10px 12px; color: var(--fg); font-size: 14px; line-height: 1.4; min-height: 44px; }
+button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
+.task b { color: var(--p); font-size: 14px; font-weight: 700; }
+.task.all { background: var(--soft); }
+.task.all b { color: var(--fg); }
+.fold { background: var(--bg); border-radius: 18px; }
+.fold summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 22px; min-height: 44px; font-size: 18px; font-weight: 700; border-radius: 18px; }
+.fold summary::-webkit-details-marker { display: none; }
+.fold summary:hover { box-shadow: inset 0 0 0 1.5px var(--line); }
+.fold .chev { display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--soft); flex: none; transition: transform .2s ease; }
+.fold .chev svg { width: 16px; height: 16px; }
+.fold[open] .chev { transform: rotate(180deg); }
+.fold-body { padding: 0 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+.rules { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.rule { background: var(--soft); border-radius: 12px; padding: 12px 14px; display: flex; flex-direction: column; gap: 2px; font-size: 15px; line-height: 1.45; min-width: 0; }
+.rule b { font-size: 14px; }
+.rule .w { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.build li .dt { font-family: var(--mono); font-size: 14px; font-weight: 700; color: var(--p); }
+.build li .code { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.road li.done::before { background: var(--fg); }
+.road .tent { font-size: 13px; color: var(--muted); font-weight: 600; margin-left: 6px; }
+.road li.now .tent { color: #fff; opacity: 0.8; }
+.next .ahead { font-size: 15px; color: var(--muted); }
+@media (max-width: 900px) {
+  .relay { grid-template-columns: minmax(0, 1fr); }
+  .day { display: grid; grid-template-columns: 96px minmax(0, 1fr); align-items: start; gap: 8px 12px; }
+  .day h4 { grid-row: span 6; }
+}
+@media (max-width: 640px) {
+  .rules { grid-template-columns: minmax(0, 1fr); }
+  .day { grid-template-columns: minmax(0, 1fr); }
+  .day h4 { grid-row: auto; flex-direction: row; gap: 8px; align-items: baseline; }
+  .fold summary { padding: 14px 16px; }
+  .fold-body { padding: 0 14px 16px; }
+}
+
+.cb-side { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+.cb-main { min-width: 0; }
+
+.goals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.goal { background: var(--soft); border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.goal .k { font-size: 14px; font-weight: 600; color: var(--muted); }
+.goal b { font-size: 20px; line-height: 1.3; }
+.goal span { font-size: 16px; line-height: 1.45; color: var(--muted); }
+.goal.done { background: var(--fg); color: #fff; }
+.goal.done .k, .goal.done span { color: rgba(255,255,255,0.82); }
+.known .mini, .known .mini-vals, .known .mini-cap { max-width: 440px; }
+.known .mini { height: 84px; }
+@media (max-width: 640px) { .goals { grid-template-columns: minmax(0, 1fr); } .known .mini { height: 64px; } }
+
+.build li.flash { animation: flash 2.2s ease; }
+@keyframes flash { 0%, 60% { background: var(--p-soft); box-shadow: inset 4px 0 0 var(--p); } 100% { background: transparent; box-shadow: none; } }
+
+/* ---- Desktop: use the width ---- */
+.chart-pair { display: flex; flex-direction: column; gap: 6px; }
+.chart-col { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+@media (min-width: 1000px) {
+  main { max-width: 1080px; }
+  .chart-pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .bars, .qrow { --track: 180px; gap: 10px; }
+  .chart-wrap { padding: 22px 22px 12px; }
+  .card-body { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 24px 32px; align-items: start; }
+  .cb-side { display: flex; flex-direction: column; gap: 20px; }
+  .cb-side .tiles { grid-template-columns: minmax(0, 1fr); }
+  .cb-side .sample { white-space: normal; }
+  .card-body .next { grid-column: 1 / -1; }
+  .build li { grid-template-columns: 116px minmax(0, 1fr); }
+  .app-body { padding: 28px 32px; }
+}
+@media (min-width: 1000px) and (max-width: 1180px) { .relay { gap: 8px; } .day { padding: 12px; } }
+
 </style>
+
 </head>
 <body>
 <main>
-  <header class="hero">
-    <div class="eyebrow">MLSN · Beat the Baseline · Week 1</div>
+  <header class="hero" id="top">
+    <div class="eyebrow">MLSN · Beat the Baseline · <span data-show="2">Week 2 · due Sun Oct 25</span><span data-show="1" hidden>Week 1 · done</span><span data-show="product" hidden>The end product</span></div>
     <h1>Who builds what</h1>
-    <p>Your Notion page says <em>how</em> to build your part. This page shows <em>what</em> it is and what it turns into. <strong>Tap your name</strong> to jump straight to your part.</p>
+    <p data-show="2">Week 1 built every piece on fake data. <em>This week the real data goes in</em>, one step after another. Your Notion page says <em>how</em>; this page shows <em>what</em> and how it all fits. <strong>Tap your name</strong> to jump to your part.</p>
+    <p data-show="product" hidden>Everything we build turns into this: a fair test of our model against a simple guess, and an app to show it off. The <em>Week</em> tabs show who builds what each week.</p>
+    <p data-show="1" hidden>Your Notion page says <em>how</em> to build your part. This page shows <em>what</em> it is and what it turns into. <strong>Tap your name</strong> to jump straight to your part.</p>
+    <div class="weeks" role="group" aria-label="Which view">
+      <button type="button" data-setweek="product" aria-pressed="false">End product <small>the big picture</small></button>
+      <button type="button" data-setweek="1" aria-pressed="false">Week 1 <small>fake data</small></button>
+      <button type="button" data-setweek="2" aria-pressed="true">Week 2 <small>real data</small></button>
+    </div>
     <div class="who" aria-label="Jump to a person">
       <button type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button>
       <button type="button" data-p="isani" data-pick="isani"><i>I</i>Isani</button>
@@ -368,17 +460,19 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
 
   <nav class="legend" aria-label="Sections">
     <ol>
-      <li><a href="#idea"><span>1</span>The idea</a></li>
-      <li><a href="#connect"><span>2</span>How it connects</a></li>
-      <li><a href="#part"><span>3</span>Your part</a></li>
-      <li><a href="#app"><span>4</span>The app</a></li>
-      <li><a href="#road"><span>5</span>The road</a></li>
+      <li data-show="1 2"><a href="#goal"><span>1</span>Objective</a></li>
+      <li data-show="1 2"><a href="#connect"><span>2</span>How it connects</a></li>
+      <li data-show="1 2"><a href="#part"><span>3</span>Your part</a></li>
+      <li data-show="1 2"><a href="#road"><span>4</span>The road</a></li>
+      <li data-show="product" hidden><a href="#idea"><span>1</span>The idea</a></li>
+      <li data-show="product" hidden><a href="#app"><span>2</span>The app</a></li>
     </ol>
   </nav>
 
   <!-- 1 -->
-  <section id="idea" aria-labelledby="h-idea">
-    <h2 id="h-idea"><span class="num">1 of 5</span>The idea in 30 seconds</h2>
+  <!-- 1 -->
+  <section id="idea" aria-labelledby="h-idea" data-show="product" hidden>
+    <h2 id="h-idea">The idea in 30 seconds</h2>
     <p class="sub">When a company reports earnings, its stock often jumps the next day. We predict <u>how big that jump will be</u>, before it happens. <strong>Up or down doesn't matter, only the size</strong>: an 8% drop counts as 8%, same as an 8% rise.</p>
 
     <h3 class="minor">What actually happens</h3>
@@ -410,24 +504,93 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
         <li>Line them up from smallest to biggest.</li>
         <li>The middle is the simple guess. With 8 moves there are two in the middle, so average them: (6.2 + 7.4) ÷ 2 = <strong class="simple">6.8%</strong>.</li>
       </ol>
-      <div class="chart-wrap">
+      <div class="chart-wrap"><div class="chart-pair"><div class="chart-col">
         <div class="chart-title">In the order they happened</div>
         <div class="bars" role="img" aria-label="Netflix's last 8 earnings moves in date order: 4.1, 9.6, 6.2, 11.8, 5.5, 7.4, 3.0 and 8.3 percent."><div class="bar"><span class="v">4.1</span><div class="track"><i style="height:34.2%"></i></div></div><div class="bar"><span class="v">9.6</span><div class="track"><i style="height:80.0%"></i></div></div><div class="bar"><span class="v">6.2</span><div class="track"><i style="height:51.7%"></i></div></div><div class="bar"><span class="v">11.8</span><div class="track"><i style="height:98.3%"></i></div></div><div class="bar"><span class="v">5.5</span><div class="track"><i style="height:45.8%"></i></div></div><div class="bar"><span class="v">7.4</span><div class="track"><i style="height:61.7%"></i></div></div><div class="bar"><span class="v">3.0</span><div class="track"><i style="height:25.0%"></i></div></div><div class="bar"><span class="v">8.3</span><div class="track"><i style="height:69.2%"></i></div></div></div>
         <div class="qrow" aria-hidden="true"><div><span class="q">Q3 '24</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q4 '24</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q1 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q2 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q3 '25</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q4 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q1 '26</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q2 '26</span><span class="dir">▲<em> up</em></span></div></div>
+        </div><div class="chart-col">
         <div class="chart-title">Lined up smallest to biggest</div>
         <div class="bars sorted" role="img" aria-label="The same 8 moves sorted: 3.0, 4.1, 5.5, 6.2, 7.4, 8.3, 9.6, 11.8. The middle two, 6.2 and 7.4, average to 6.8 percent."><div class="bar"><span class="v">3.0</span><div class="track"><i style="height:25.0%"></i></div></div><div class="bar"><span class="v">4.1</span><div class="track"><i style="height:34.2%"></i></div></div><div class="bar"><span class="v">5.5</span><div class="track"><i style="height:45.8%"></i></div></div><div class="bar mid"><span class="v">6.2</span><div class="track"><i style="height:51.7%"></i></div></div><div class="bar mid"><span class="v">7.4</span><div class="track"><i style="height:61.7%"></i></div></div><div class="bar"><span class="v">8.3</span><div class="track"><i style="height:69.2%"></i></div></div><div class="bar"><span class="v">9.6</span><div class="track"><i style="height:80.0%"></i></div></div><div class="bar"><span class="v">11.8</span><div class="track"><i style="height:98.3%"></i></div></div>
           <div class="medline" style="bottom: calc(var(--track) * 0.567)"><span>middle = 6.8%</span></div>
         </div>
         <div class="qrow" aria-hidden="true"><div><span class="q">Q1 '26</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q3 '24</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q3 '25</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q1 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q4 '25</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q2 '26</span><span class="dir">▲<em> up</em></span></div><div><span class="q">Q4 '24</span><span class="dir">▼<em> down</em></span></div><div><span class="q">Q2 '25</span><span class="dir">▲<em> up</em></span></div></div>
-      </div>
+      </div></div></div>
       <p class="small">Example numbers. Daniel's code works this out for every company, using only reports from before the one being predicted.</p>
       </div>
     </details>
   </section>
 
+  <section id="goal" aria-labelledby="h-goal" data-show="1 2">
+    <div class="wk" data-show="2">
+      <h2 id="h-goal">Week 2 objective</h2>
+      <p class="sub">Week 1 proved every piece works on fake data. <strong>Week 2 runs the same pieces on the real thing</strong> and gets the first honest answer to our question: does the model beat the simple guess?</p>
+      <div class="goals">
+        <div class="goal"><span class="k">By Thu Oct 22</span><b>Real data in</b><span>Every SEC earnings filing and every daily price for our ~500 companies, in one shared copy that matches on every laptop.</span></div>
+        <div class="goal"><span class="k">By Sat Oct 24</span><b>Checked and locked</b><span>The hand check says our dates are right, and we lock our rules before seeing any result.</span></div>
+        <div class="goal"><span class="k">By Sun Oct 25</span><b>First real result</b><span>The model tested on 2022 to 2024, plus the data report and the charts.</span></div>
+      </div>
+    </div>
+    <div class="wk" data-show="1" hidden>
+      <h2>Week 1 objective</h2>
+      <p class="sub">Build every piece of the project and test it on <strong>fake data</strong> with the same columns as the real thing, so nobody waits on anybody.</p>
+      <div class="goals">
+        <div class="goal done"><span class="k">Done Oct 19</span><b>Every part built</b><span>Earnings dates, prices, the big table, the model and the scoring.</span></div>
+        <div class="goal done"><span class="k">Done Oct 19</span><b>All five merged</b><span>Every PR reviewed against the expected results and merged into main.</span></div>
+        <div class="goal done"><span class="k">Done Oct 19</span><b>Runs end to end</b><span>The whole pipeline works on fake data, ready for the real thing.</span></div>
+      </div>
+    </div>
+  </section>
+
   <!-- 2 -->
-  <section class="panel" id="connect" aria-labelledby="h-connect">
-    <h2 id="h-connect"><span class="num">2 of 5</span>How it connects</h2>
+  <section class="panel" id="connect" aria-labelledby="h-connect" data-show="1 2">
+    <div class="wk" data-show="2">
+    <h2 id="h-connect">How it connects this week</h2>
+    <p class="sub">Week 1 everyone built side by side on fake data. This week the <strong>real data</strong> goes in, and it runs like a relay: each step hands off to the next. Tap a name to see that part.</p>
+    <div class="relay">
+      <div class="day"><h4>Wed<small>Oct 21</small></h4>
+        <button class="task" type="button" data-p="daniel" data-pick="daniel"><b>Daniel</b>Downloads every SEC earnings filing</button>
+        <button class="task" type="button" data-p="isani" data-pick="isani"><b>Isani</b>Downloads every daily price</button>
+        <button class="task" type="button" data-p="charvee" data-pick="charvee"><b>Charvee</b>Small cleanup from Week 1</button>
+      </div>
+      <div class="day"><h4>Thu<small>Oct 22</small></h4>
+        <div class="task" data-p="brian"><b>Brian</b>Bundles one shared copy of the data for everyone</div>
+        <button class="task" type="button" data-p="charvee" data-pick="charvee"><b>Charvee</b>Builds the big table</button>
+        <button class="task" type="button" data-p="philip" data-pick="philip"><b>Philip</b>Builds it too, to check we match</button>
+        <button class="task" type="button" data-p="daniel" data-pick="daniel"><b>Daniel + Isani</b>Start their data checks</button>
+      </div>
+      <div class="day"><h4>Fri to Sat<small>Oct 23 to 24</small></h4>
+        <div class="task all"><b>Everyone</b>Hand check: about 15 rows each, due Sat 12 pm</div>
+        <button class="task" type="button" data-p="daniel" data-pick="daniel"><b>Daniel</b>Filing counts and 20 moves by hand</button>
+        <button class="task" type="button" data-p="isani" data-pick="isani"><b>Isani</b>Missing days, big jumps, 30 prices</button>
+      </div>
+      <div class="day"><h4>Sat<small>Oct 24</small></h4>
+        <div class="task" data-p="brian"><b>Brian</b>Locks our rules, so nobody can change them after seeing results</div>
+        <button class="task" type="button" data-p="charvee" data-pick="charvee"><b>Charvee</b>Rebuilds if a rule changed</button>
+      </div>
+      <div class="day"><h4>Sun<small>Oct 25</small></h4>
+        <button class="task" type="button" data-p="philip" data-pick="philip"><b>Philip</b>First real model run and the data report</button>
+        <button class="task" type="button" data-p="joyce" data-pick="joyce"><b>Joyce</b>The 8 charts</button>
+        <div class="task" data-p="brian"><b>Brian</b>The app</div>
+        <div class="task all"><b>Everyone</b>Your 1 to 3 sentences for Monday</div>
+      </div>
+    </div>
+    <div class="note">Since steps depend on each other, <b>post in the group chat when your step is done or you're stuck.</b> And one rule for everyone: <b>don't look at 2025 or 2026 earnings moves.</b> That's our final exam, and we open it once, on Oct 31. Counts are fine; the moves themselves aren't.</div>
+    <details class="fold" id="handcheck">
+      <summary><span>What's the hand check?</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></span></summary>
+      <div class="fold-body">
+        <p>Our code decides which day each stock reacted to its earnings, from the time the company filed with the SEC. Before we trust it for 500 companies, each of us checks about 15 of its calls against the <u>real press release</u>. You get two small sheets: 10 rows of "did we get this right?" and 5 of "did we miss one?". Your sheet code (c2 to c6) is on your Notion page.</p>
+        <div class="rules">
+          <div class="rule"><b>Released before 9:30 am</b><span>The move is the previous day's close to that day's close.</span><span class="w">before the open · BMO</span></div>
+          <div class="rule"><b>Released after 4 pm</b><span>The move is that day's close to the next day's close. (1 pm on early-close days.)</span><span class="w">after the close · AMC</span></div>
+          <div class="rule"><b>On a weekend or holiday</b><span>Counts as before the open of the next trading day.</span><span class="w">Sat 10 am → Monday</span></div>
+          <div class="rule"><b>Between 9:30 am and 4 pm</b><span>We skip these on purpose, since the market was already reacting.</span><span class="w">during market hours</span></div>
+        </div>
+        <p class="small">Example: Netflix's release went out Tue Apr 18, 2023 at 4:01 pm, after the close. So the right move is Apr 18's close to Apr 19's close. If our sheet says the same, mark it yes.</p>
+      </div>
+    </details>
+    </div>
+    <div class="wk" data-show="1" hidden>
+    <h2>How it connects</h2>
     <p class="sub">Data flows left to right. Tap anyone to see their part.</p>
     <div class="pipe">
       <div class="col">
@@ -442,28 +605,140 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="col"><button class="node" type="button" data-p="joyce" data-pick="joyce"><b>Joyce</b><span>Who won, and the app</span><span class="go">See part ›</span></button></div>
     </div>
     <div class="note">This week everyone uses <b>fake data</b> with the same columns as the real thing, so nobody waits on anybody. The pieces get plugged together next week.</div>
+    </div>
   </section>
 
   <!-- 3 -->
-  <section id="part" aria-labelledby="h-part">
-    <h2 id="h-part"><span class="num">3 of 5</span>Your part this week</h2>
+  <section id="part" aria-labelledby="h-part" data-show="1 2">
+    <h2 id="h-part">Your part this week</h2>
     <div class="picker" role="group" aria-label="Pick a person">
       <button class="pbtn" type="button" data-p="daniel" data-pick="daniel" aria-pressed="false"><i>D</i>Daniel <small>Earnings dates</small></button>
       <button class="pbtn" type="button" data-p="isani" data-pick="isani" aria-pressed="false"><i>I</i>Isani <small>Prices</small></button>
       <button class="pbtn" type="button" data-p="charvee" data-pick="charvee" aria-pressed="false"><i>C</i>Charvee <small>Dataset</small></button>
-      <button class="pbtn" type="button" data-p="philip" data-pick="philip" aria-pressed="false"><i>P</i>Philip <small>Model</small></button>
-      <button class="pbtn" type="button" data-p="joyce" data-pick="joyce" aria-pressed="false"><i>J</i>Joyce <small>Evaluation and app</small></button>
+      <button class="pbtn" type="button" data-p="philip" data-pick="philip" aria-pressed="false"><i>P</i>Philip <small data-show="2">Model and data report</small><small data-show="1" hidden>Model</small></button>
+      <button class="pbtn" type="button" data-p="joyce" data-pick="joyce" aria-pressed="false"><i>J</i>Joyce <small data-show="2">Charts</small><small data-show="1" hidden>Evaluation and app</small></button>
     </div>
 
-    <div class="empty" id="empty"><b>Tap your name above.</b><span>You'll see just your part: what you build, why it matters, and where it shows up in the app.</span></div>
+    <div class="empty" id="empty"><b>Tap your name above.</b><span>You'll see just your part for the week: what you do, why it matters, and what you hand off.</span></div>
 
-    <article class="card" data-p="daniel" data-card="daniel" hidden>
+    <article class="card" data-p="daniel" data-card="daniel" data-week="2" hidden>
+      <div class="card-top"><div class="role">Daniel · Earnings dates · Week 2</div><h3>Download <u>every real earnings filing</u> and check the dates look right.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Wed</span><span>Download every SEC earnings filing for our ~500 companies (about 5 to 15 minutes), zip it, and send it to Brian.<details class="src"><summary>What happens to it? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Brian bundles it with Isani's prices into one shared copy, so every laptop runs on exactly the same data.</p></details></span></li>
+          <li><span class="dt">Thu to Fri</span><span>Count each company's filings per quarter: how many quarters have 0, how many have 2 or more, and the share with exactly 1. Then list the companies that look like Tesla.</span></li>
+          <li><span class="dt">Fri to Sat</span><span>Check 20 moves by hand against nasdaq.com prices.</span></li>
+          <li><span class="dt">Fri to Sat</span><span>Hand check: your 15 rows (sheet c2).</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>Your counts decide the Tesla fix on Saturday. <u>One wrong filing means we measure the wrong day's move.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The company list from Brian</div>
+          <div class="tile"><div class="label">You hand off</div>Filings to Brian, counts to the team</div>
+          <div class="tile"><div class="label">Done when</div>Download sent, counts and 20 moves posted</div>
+        </div>
+        <div><div class="label">What you'll post (example)</div><div class="sample"><div><span class="nw">0 filings: 41</span> · <span class="nw">2 or more: 58</span> · <span class="nw">exactly 1: 97%</span></div><div><span class="nw">Tesla-like: TSLA, ...</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">Next week: record Wall Street's expected moves before the live test.</span><button type="button" data-pick="isani">Next: Isani ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="isani" data-card="isani" data-week="2" hidden>
+      <div class="card-top"><div class="role">Isani · Prices and live forecasts · Week 2</div><h3>Download <u>every real daily price</u> and make sure it's clean.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Wed</span><span>Download daily prices for every company, plus SPY (the whole market) and the VIX, load them into one table, and send them to Brian. Post any tickers that failed.</span></li>
+          <li><span class="dt">Thu to Fri</span><span>Three checks: trading days that are missing, days a stock jumped more than 40% without a split, and 30 prices checked by hand against nasdaq.com.</span></li>
+          <li><span class="dt">Fri to Sat</span><span>Hand check: your 15 rows (sheet c3).</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>Every move we measure and every "how jumpy" clue comes from these prices. <u>A gap or a bad price quietly breaks a row.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The company list from Brian</div>
+          <div class="tile"><div class="label">You hand off</div>Prices to Brian, check results to the team</div>
+          <div class="tile"><div class="label">Done when</div>Download sent, all 3 checks posted</div>
+        </div>
+        <div><div class="label">What you'll post (example)</div><div class="sample"><div><span class="nw">missing days: none</span> · <span class="nw">big jumps: 7, all real earnings days</span></div><div><span class="nw">30 of 30 prices match</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">Next week: you run and freeze the live forecast.</span><button type="button" data-pick="charvee">Next: Charvee ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="charvee" data-card="charvee" data-week="2" hidden>
+      <div class="card-top"><div class="role">Charvee · Dataset · Week 2</div><h3>Turn the real filings and prices into <u>the one big table</u>.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Wed</span><span>A small cleanup PR from Week 1: dates read from the config, a "kept / dropped" printout, and the instructions put back.</span></li>
+          <li><span class="dt">Thu</span><span>Build the real table and post its report.<details class="src"><summary>How do we know it's right? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Philip builds it on his own laptop too. If your two reports match exactly, our data and code give the same answer anywhere.</p></details></span></li>
+          <li><span class="dt">Sat</span><span>Rebuild if the hand check changes a rule.</span></li>
+          <li><span class="dt">Sun</span><span>Commit the final build report.</span></li>
+          <li><span class="dt">Fri to Sat</span><span>Hand check: your 15 rows (sheet c4).</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>The model, the scores and the app all read from this table. <u>Two laptops matching proves anyone can rerun our results.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The shared data from Brian</div>
+          <div class="tile"><div class="label">You hand off</div>The table, to Philip, Joyce and Brian</div>
+          <div class="tile"><div class="label">Done when</div>Report posted and it matches Philip's</div>
+        </div>
+        <div><div class="label">What you'll post (example)</div><div class="sample"><div><span class="nw">kept 1,964 reports in 2023</span></div><div><span class="nw">dropped, with a reason: duplicates, market hours, missing prices</span></div></div></div>
+        </div>
+        <div class="next"><button type="button" data-pick="isani">‹ Isani</button><button type="button" data-pick="philip">Next: Philip ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="philip" data-card="philip" data-week="2" hidden>
+      <div class="card-top"><div class="role">Philip · Model and data report · Week 2</div><h3>Run the model on <u>real data for the first time</u>, and write the data report.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Any day</span><span>The full fake-data run, start to finish. Joyce's scoring is in now, so it works.</span></li>
+          <li><span class="dt">Thu</span><span>Build the big table yourself and compare it with Charvee's.</span></li>
+          <li><span class="dt">This week</span><span><strong>New:</strong> the data report. What we kept, what we dropped and why, and how the hand check scored.</span></li>
+          <li><span class="dt">Sun</span><span>First real run, testing 2022 to 2024 one quarter at a time.<details class="src"><summary>Why wait until Sunday? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Brian locks our rules on Saturday. Running the model on real data before that would let us tweak the rules after seeing a result, which is exactly what we promised not to do.</p></details></span></li>
+          <li><span class="dt">Fri to Sat</span><span>Hand check: your 15 rows (sheet c5).</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>This is the first real answer to our question. <u>If the model looks more than 30% better, stop:</u> it's probably peeking at the future.</div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The big table</div>
+          <div class="tile"><div class="label">You hand off</div>Results to Joyce and Brian</div>
+          <div class="tile"><div class="label">Done when</div>Real run logged, data report in a PR</div>
+        </div>
+        <div><div class="label">What you'll post</div><div class="sample"><div><span class="nw">lgbm_v1 · 2022 to 2024</span> · <span class="nw">12 quarters</span></div><div><span class="nw"><span class="model">model</span> vs <span class="simple">simple</span>: we find out Sunday</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">Next week: final checks, then the final model on Sat Oct 31.</span><button type="button" data-pick="joyce">Next: Joyce ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="joyce" data-card="joyce" data-week="2" hidden>
+      <div class="card-top"><div class="role">Joyce · Charts · Week 2</div><h3>Build <u>the charts</u> that show who won and by how much.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">This week</span><span>The 8 charts in <code>charts.py</code>, made from a sample run and checked in your browser.</span></li>
+          <li><span class="dt">Fri to Sat</span><span>Hand check: your 15 rows (sheet c6).</span></li>
+        </ul>
+        <p class="fake-note" style="margin-top:12px">Brian is building the app himself and Philip took the data report, so this week is all about the charts.</p></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>Charts are how the showcase audience sees our answer. <u>One clear chart beats a table of numbers.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>Model results (a sample run for now)</div>
+          <div class="tile"><div class="label">You hand off</div>Charts, for the app and the slides</div>
+          <div class="tile"><div class="label">Done when</div>Chart tests pass and every chart reads clearly</div>
+        </div>
+        <div><div class="label">The 8 charts</div><div class="sample"><div><span class="nw">headline result</span> · <span class="nw">miss by quarter</span> · <span class="nw">running edge</span> · <span class="nw">luck range</span></div><div><span class="nw">calibration</span> · <span class="nw">by sector</span> · <span class="nw">by market mood</span> · <span class="nw">progress over runs</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">Next week: the same charts on our real results.</span><button type="button" data-goto="app">See the app ›</button></div>
+      </div>
+    </article>
+
+    <article class="card" data-p="daniel" data-card="daniel" data-week="1" hidden>
       <div class="card-top"><div class="role">Daniel · Earnings dates</div><h3>Find <u>exactly when</u> each company announced earnings, and how much its stock usually moves.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+        <div class="cb-main"><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
           <li><code>edgar.py</code><span>Pull each company's filings from the SEC website and keep <strong>only the earnings announcements</strong>, with the exact minute each went out.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The SEC's free EDGAR website, where companies post official filings. You download it.</p></details></span></li>
           <li><code>history.py</code><span>Look back at each company's last 8 reports and take the middle move. That's <span class="simple">the simple guess</span> we're trying to beat.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The past moves measured in Charvee's table. No download.</p></details></span></li>
         </ul></div>
+        <div class="cb-side">
         <div class="why"><div class="label">Why it matters</div>A 7 am report counts that day. A 4:30 pm report counts the next day. <u>Wrong time means we measure the wrong jump.</u></div>
         <div class="tiles">
           <div class="tile"><div class="label">You get</div>The company list</div>
@@ -471,19 +746,21 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">In the app</div>The <span class="simple">orange</span> number</div>
         </div>
         <div><div class="label">When it works</div><div class="sample"><div><span class="nw">AAPL</span> · <span class="nw">filed Thu 4:31 pm ET</span> · <span class="nw">after the close</span></div><div><span class="nw">usually moves 3.8% (middle of last 8)</span></div></div></div>
+        </div>
         <div class="next"><span class="files">edgar.py · history.py</span><button type="button" data-pick="isani">Next: Isani ›</button></div>
       </div>
     </article>
 
-    <article class="card" data-p="isani" data-card="isani" hidden>
+    <article class="card" data-p="isani" data-card="isani" data-week="1" hidden>
       <div class="card-top"><div class="role">Isani · Prices and live forecasts</div><h3>Get every stock's daily prices and turn them into <u>"how jumpy has it been lately"</u> numbers.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+        <div class="cb-main"><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
           <li><code>prices.py</code><span>Download daily prices for about 500 companies, plus SPY (the whole market) and the VIX (the market's nervousness gauge).<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Yahoo Finance, through the yfinance Python library. You download it.</p></details></span></li>
           <li><code>price.py</code><span>Using prices up to the cutoff day only, measure how much each stock has bounced around lately. <strong>Never look past the cutoff.</strong><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The prices you downloaded. No new download.</p></details></span></li>
           <li><code>forecast.py</code><span>Sends out our real predictions each week. <span class="later">Goes live in Week 2.</span><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Philip's model and that week's prices.</p></details></span></li>
           <li><code>score.py</code><span>Grades those predictions after the reports come out.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Fresh prices downloaded after the reports come out.</p></details></span></li>
         </ul></div>
+        <div class="cb-side">
         <div class="why"><div class="label">Why it matters</div>Stocks that have been jumpy lately tend to jump more at earnings. These are <u>the clues the model has that the simple guess doesn't</u>.</div>
         <div class="tiles">
           <div class="tile"><div class="label">You get</div>The company list and Yahoo Finance</div>
@@ -491,18 +768,20 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">In the app</div>This week's companies and the real moves</div>
         </div>
         <div><div class="label">When it works</div><div class="sample"><div><span class="nw">NVDA</span> · <span class="nw">on the cutoff day</span></div><div><span class="nw">jumpiness last month 48</span> · <span class="nw">last 3 months 41</span> · <span class="nw">VIX 17</span></div></div></div>
+        </div>
         <div class="next"><button type="button" data-pick="daniel">‹ Daniel</button><button type="button" data-pick="charvee">Next: Charvee ›</button></div>
       </div>
     </article>
 
-    <article class="card" data-p="charvee" data-card="charvee" hidden>
+    <article class="card" data-p="charvee" data-card="charvee" data-week="1" hidden>
       <div class="card-top"><div class="role">Charvee · Dataset</div><h3>Build <u>the one big table</u> everyone uses: one row per earnings report, with the real move and every allowed clue.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+        <div class="cb-main"><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
           <li><code>calendar.py</code><span>Which days the stock market is open, including holidays and half days, so a move is never measured on a day the market was closed.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>It uses exchange_calendars, a Python library that already knows the New York Stock Exchange's open days, holidays and early closes. No download. You wrap it in simple helpers like "next trading day".</p></details></span></li>
           <li><code>windows.py</code><span>Given when a report came out, pick the closing prices just before and just after it.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The report times in Daniel's filings, plus your calendar.</p></details></span></li>
           <li><code>build.py</code><span>Put it together: measure each move minus the market's move, attach the clues, and <strong>set aside bad rows with a reason</strong>.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Daniel's filings and Isani's prices, saved as files in the project, plus their clue-making code. No download of your own.</p></details></span></li>
         </ul></div>
+        <div class="cb-side">
         <div class="why"><div class="label">Why it matters</div>The model, the scores and the app all read from this table. <u>A wrong row here is wrong everywhere.</u></div>
         <div class="tiles">
           <div class="tile"><div class="label">You get</div>Filings from Daniel, prices from Isani</div>
@@ -510,19 +789,21 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">In the app</div>Every number traces back to your table</div>
         </div>
         <div><div class="label">When it works</div><div class="sample"><div><span class="nw">AAPL</span> · <span class="nw">Aug 2023</span> · <span class="nw">after the close</span></div><div><span class="nw">moved 4.7% more than the market</span> · <span class="nw">9 clues attached</span></div></div></div>
+        </div>
         <div class="next"><button type="button" data-pick="isani">‹ Isani</button><button type="button" data-pick="philip">Next: Philip ›</button></div>
       </div>
     </article>
 
-    <article class="card" data-p="philip" data-card="philip" hidden>
+    <article class="card" data-p="philip" data-card="philip" data-week="1" hidden>
       <div class="card-top"><div class="role">Philip · Model</div><h3>Build both guesses and <u>test them fairly</u>: train on the past, predict the next quarter, repeat.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+        <div class="cb-main"><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
           <li><code>baseline.py</code><span><span class="simple">The simple guess</span>: the middle of the last 8 moves.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The history columns in Charvee's table.</p></details></span></li>
           <li><code>lgbm.py</code><span><span class="model">The model</span>: LightGBM, which learns from the 9 clues in the table.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Charvee's table. No download.</p></details></span></li>
           <li><code>shrinkage.py</code><span>Pulls the model partway back toward the simple guess when that helps.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Your model and the simple guess.</p></details></span></li>
           <li><code>splits.py</code><span>The practice tests, <strong>one quarter at a time</strong>, 2022 to 2024. Plus <code>predict_folds</code> to run them.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The report dates in Charvee's table.</p></details></span></li>
         </ul></div>
+        <div class="cb-side">
         <div class="why"><div class="label">Why it matters</div>A model that peeks at the future looks amazing in testing and fails for real. <u>Your splits keep the test honest.</u></div>
         <div class="tiles">
           <div class="tile"><div class="label">You get</div>The table from Charvee</div>
@@ -530,18 +811,20 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">In the app</div>The <span class="model">blue</span> number</div>
         </div>
         <div><div class="label">When it works</div><div class="sample"><div><span class="nw">Test quarter 2023 Q2</span> · <span class="nw">trained only on earlier reports</span></div><div><span class="nw">NFLX</span> · <span class="nw"><span class="simple">simple 6.8%</span></span> · <span class="nw"><span class="model">model 7.9%</span></span></div></div></div>
+        </div>
         <div class="next"><button type="button" data-pick="charvee">‹ Charvee</button><button type="button" data-pick="joyce">Next: Joyce ›</button></div>
       </div>
     </article>
 
-    <article class="card" data-p="joyce" data-card="joyce" hidden>
+    <article class="card" data-p="joyce" data-card="joyce" data-week="1" hidden>
       <div class="card-top"><div class="role">Joyce · Evaluation and app</div><h3>Decide <u>who won</u> and whether it was luck, then build the charts and the app.</h3></div>
       <div class="card-body">
-        <div><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
+        <div class="cb-main"><div class="label">What you build</div><p class="fake-note">This week you build and test this on <strong>fake data</strong> with the same columns as the real thing. Tap "Where's the data from?" to see the real source we switch to next week.</p><ul class="build">
           <li><code>metrics.py</code><span>Each guess's <strong>average miss</strong>, how much better the model is, and how often it was closer.<details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Philip's predictions and the real moves.</p></details></span></li>
           <li><code>bootstrap.py</code><span>The luck check: rerun the comparison 2,000 times on reshuffled weeks. <strong>Still winning? Not luck.</strong><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The same predictions, grouped by week.</p></details></span></li>
           <li><code>the app</code><span>The charts, the data report and both app tabs. <span class="later">Due Sun Oct 25.</span><details class="src"><summary>Where's the data from? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The saved results files. It runs on example results until the real ones exist.</p></details></span></li>
         </ul></div>
+        <div class="cb-side">
         <div class="why"><div class="label">Why it matters</div>"Our model is better" means nothing without a number and a range. <u>Your scorecard is the final answer.</u></div>
         <div class="tiles">
           <div class="tile"><div class="label">You get</div>Predictions from Philip</div>
@@ -549,15 +832,16 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <div class="tile"><div class="label">In the app</div>You build both tabs</div>
         </div>
         <div><div class="label">When it works</div><div class="sample"><div><span class="nw">average miss: <span class="model">model 3.1</span></span> · <span class="nw"><span class="simple">simple 3.3</span></span></div><div><span class="nw">6% better</span> · <span class="nw">luck range 2% to 10%</span></div></div></div>
+        </div>
         <div class="next"><button type="button" data-pick="philip">‹ Philip</button><button type="button" data-goto="app">See the app ›</button></div>
       </div>
     </article>
   </section>
 
   <!-- 4 -->
-  <section class="panel" id="app" aria-labelledby="h-app">
-    <h2 id="h-app"><span class="num">4 of 5</span>What it all turns into</h2>
-    <p class="sub">The app we demo at the showcase has two screens. <strong>This week's calls</strong> is the live test: we post our guesses before the reports come out, so nobody can say we changed them after. <strong>Try a past report</strong> lets you guess a report that already happened, using the same clues the model had. Tap the tabs inside the app to switch.</p>
+  <section class="panel" id="app" aria-labelledby="h-app" data-show="product" hidden>
+    <h2 id="h-app">What it all turns into</h2>
+    <p class="sub">The app we demo at the showcase has two screens. <strong>This week's calls</strong> is the live test: we post our guesses before the reports come out, so nobody can say we changed them after. <strong>Try a past report</strong> lets you guess a report that already happened, using the same clues the model had. Tap the tabs inside the app to switch. <strong>Tap a name tag</strong> to see the code behind that number, in the week it was built.</p>
 
     <div class="app light" id="m1" role="tabpanel" aria-label="This week's calls">
       <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab on" data-tab="1" aria-selected="true">This week's calls</button><button type="button" role="tab" class="app-tab" data-tab="2" aria-selected="false">Try a past report</button></div></div>
@@ -584,20 +868,20 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
             <div class="t">The simple guess</div>
             <div class="n" id="c-simple" style="color:var(--app-simple)">6.1%</div>
             <div class="t">Its usual move</div>
-            <div class="tags"><button class="tag" type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button></div>
+            <div class="tags"><button class="tag" type="button" data-p="daniel" data-pick="daniel" data-from="1" data-file="history.py"><i>D</i>Daniel · history.py</button></div>
           </div>
           <div class="gcard">
             <div class="t">Our model</div>
             <div class="n" id="c-model" style="color:var(--app-model)">7.4%</div>
             <div class="t" id="c-note">Bigger than usual</div>
-            <div class="tags"><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Philip</button></div>
+            <div class="tags"><button class="tag" type="button" data-p="philip" data-pick="philip" data-from="1" data-file="lgbm.py"><i>P</i>Philip · lgbm.py</button></div>
           </div>
         </div>
         <div class="mood">
           <div class="mood-title">Why the model thinks that</div>
           <div class="mood-row"><span id="c-who">NVIDIA lately</span><b id="c-jump">Jumpier</b></div>
           <div class="mood-row"><span>Market mood (VIX)</span><b id="c-mkt" class="lvl" data-lvl="calm">Calm</b></div>
-          <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Isani's clues</button></div>
+          <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani" data-from="1" data-file="price.py"><i>I</i>Isani's clues · price.py</button></div>
         </div>
         <div class="band"><b>Real move: not known yet</b><span id="c-when">If NVIDIA reports this week, we grade this guess right after its report. If it doesn't, nothing gets graded for it this week.</span></div>
         <details class="lastweek">
@@ -612,10 +896,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
               <div class="lw-row"><span>KO</span><span>2.0%</span><span>1.8%</span><span>1.5%</span><span><b>Model</b></span></div>
             </div>
             <p class="lw-sum">This shows we called it in advance. One week can still be luck, so the real proof is our test on years of past reports.</p>
-            <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani"><i>I</i>Graded by Isani</button></div>
+            <div class="tags"><button class="tag" type="button" data-p="isani" data-pick="isani" data-from="1" data-file="score.py"><i>I</i>Graded by Isani · score.py</button></div>
           </div>
         </details>
-        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Real move: Charvee's math</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Screen built by Joyce</button></div>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee" data-from="1" data-file="build.py"><i>C</i>Real move: Charvee's build.py</button><span class="tag" data-p="brian"><i>B</i>Screen built by Brian</span></div>
       </div>
     </div>
 
@@ -623,10 +907,10 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
       <div class="app-bar"><div class="app-brand">Beat the Baseline</div><div class="app-tabs" role="tablist" aria-label="App tab"><button type="button" role="tab" class="app-tab" data-tab="1" aria-selected="false">This week's calls</button><button type="button" role="tab" class="app-tab on" data-tab="2" aria-selected="true">Try a past report</button></div></div>
       <div class="app-body">
         <span class="when-chip dark">Past report · answer already known</span>
-        <div class="q"><h4>Can you beat our model?</h4><p id="g-q">NVIDIA reported earnings in Aug 2024. How big was the move the next day? Up or down doesn't matter, just the size.</p></div>
+        <div class="q"><h4>How big was the move?</h4><p id="g-q">NVIDIA reported earnings in Aug 2024. How big was the move the next day? Up or down doesn't matter, just the size.</p></div>
         <div class="known">
           <div class="mood-title">What was known before the report</div>
-          <div class="mini" id="g-bars" role="img" aria-label="Its last 8 earnings moves"><div class="mb"><i style="height:11px"></i></div><div class="mb"><i style="height:29px"></i></div><div class="mb"><i style="height:18px"></i></div><div class="mb"><i style="height:56px"></i></div><div class="mb"><i style="height:23px"></i></div><div class="mb"><i style="height:8px"></i></div><div class="mb"><i style="height:33px"></i></div><div class="mb"><i style="height:17px"></i></div><div class="mline" style="bottom:20px" aria-hidden="true"></div></div>
+          <div class="mini" id="g-bars" role="img" aria-label="Its last 8 earnings moves"><div class="mb"><i style="height:19.6%"></i></div><div class="mb"><i style="height:51.8%"></i></div><div class="mb"><i style="height:32.1%"></i></div><div class="mb"><i style="height:100.0%"></i></div><div class="mb"><i style="height:41.1%"></i></div><div class="mb"><i style="height:14.3%"></i></div><div class="mb"><i style="height:58.9%"></i></div><div class="mb"><i style="height:30.4%"></i></div><div class="mline" style="bottom:35.7%" aria-hidden="true"></div></div>
           <div class="mini-vals" id="g-vals" aria-hidden="true"><span>3.1</span><span>8.4</span><span>5.2</span><span>16.4</span><span>6.8</span><span>2.4</span><span>9.7</span><span>4.9</span></div>
           <div class="mini-cap">Its last 8 earnings moves, oldest to newest. <span class="mcap-line"></span> Median: <b id="g-med">6.0%</b></div>
           <div class="mood-row"><span id="g-who">NVIDIA vs. usual</span><b id="g-jump">Jumpier</b></div>
@@ -649,26 +933,27 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
           <button class="again" type="button" id="again">Try another report</button>
         </div>
         <p class="hint" id="hint">Set a guess, then press Reveal.</p>
-        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee"><i>C</i>Past reports</button><button class="tag" type="button" data-p="philip" data-pick="philip"><i>P</i>Model's guess (tested)</button><button class="tag" type="button" data-p="joyce" data-pick="joyce"><i>J</i>Screen built by Joyce</button></div>
+        <div class="tags"><button class="tag" type="button" data-p="charvee" data-pick="charvee" data-from="1" data-file="build.py"><i>C</i>Past reports · build.py</button><button class="tag" type="button" data-p="philip" data-pick="philip" data-from="1" data-file="splits.py"><i>P</i>Model's guess, tested · splits.py</button><span class="tag" data-p="brian"><i>B</i>Screen built by Brian</span></div>
       </div>
     </div>
     <p class="small">All numbers in this preview are made up. In the real app, "Try a past report" only shows reports the model never saw while it was learning, so it can't just remember the answer.</p>
   </section>
 
   <!-- 5 -->
-  <section id="road" aria-labelledby="h-road">
-    <h2 id="h-road"><span class="num">5 of 5</span>The road</h2>
-    <p class="sub">Where this is heading. <strong>Only Week 1 matters right now</strong>, and everything after it is a <u>rough plan that may change</u>.</p>
+  <section id="road" aria-labelledby="h-road" data-show="1 2">
+    <h2 id="h-road">The road</h2>
+    <p class="sub">Where this is heading. <strong>Only this week matters right now</strong>, and the later dates are a <u>plan that may shift</u>.</p>
     <ol class="road">
-      <li class="now"><span class="d">Week 1 · Sun Oct 18</span><span><b>Build your part on fake data.</b><span class="here">You are here</span></span></li>
-      <li><span class="d">Next</span><span>Switch to real data, run the real test, and send out our first live predictions.</span></li>
-      <li><span class="d">After that</span><span>Fix what we find and grade the live predictions.</span></li>
-      <li><span class="d">Wrapping up</span><span>Write-up, slides and the final app.</span></li>
-      <li><span class="d">Showcase</span><span>Demo the app with a live prediction.</span></li>
+      <li class="done"><span class="d">Week 1 · Oct 18</span><span><b>Every part built and tested on fake data.</b> All five merged.</span></li>
+      <li class="now"><span class="d">Week 2 · Oct 25</span><span><b>Real data in, hand check, rules locked, first real results.</b><span class="here">You are here</span></span></li>
+      <li><span class="d">Week 3 · Nov 1</span><span>Final model, then we open the final exam (2025 to 2026) once and lock our live guesses.<span class="tent">tentative</span></span></li>
+      <li><span class="d">Nov 2 to 6</span><span>Live test week: real companies report, and our frozen guesses get graded.<span class="tent">tentative</span></span></li>
+      <li><span class="d">Week 4 · Nov 8</span><span>Write-up, slides and the final app. Everything done.<span class="tent">tentative</span></span></li>
+      <li><span class="d">Tue Nov 17</span><span>Showcase: demo the app with a live call.</span></li>
     </ol>
   </section>
 
-  <footer>Stuck on where your part fits? Post in the group chat, or bring it to Monday's meeting (Oct 19, 7 pm).</footer>
+  <footer>Stuck on where your part fits? Post in the group chat, or bring it to Monday's meeting (Oct 26, 7 pm).</footer>
 </main>
 
 <script>
@@ -676,23 +961,56 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   var people = ['daniel', 'isani', 'charvee', 'philip', 'joyce'];
   var part = document.getElementById('part');
   var empty = document.getElementById('empty');
+  var curWeek = '2', lastWeek = '2', chosen = null;
+  // Week 1 / Week 2 switch: week-specific blocks carry data-week
+  function setWeek(w, scroll) {
+    curWeek = w;
+    document.querySelectorAll('[data-show]').forEach(function (el) { el.hidden = el.dataset.show.split(' ').indexOf(w) < 0; });
+    if (w !== 'product') lastWeek = w;
+    current = null; updateLegend();
+    document.querySelectorAll('.weeks button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.setweek === w)); });
+    if (w !== 'product') { if (chosen) select(chosen, false); else document.querySelectorAll('[data-card]').forEach(function (c) { c.hidden = true; }); }
+    if (scroll) document.getElementById('top').scrollIntoView({ block: 'start' });
+  }
+  document.querySelectorAll('.weeks button').forEach(function (b) { b.addEventListener('click', function () { setWeek(b.dataset.setweek, false); }); });
 
   function select(name, scroll) {
     if (people.indexOf(name) < 0) return;
-    document.querySelectorAll('[data-card]').forEach(function (c) { c.hidden = c.dataset.card !== name; });
+    if (curWeek === 'product') setWeek(lastWeek, false);
+    chosen = name;
+    document.querySelectorAll('[data-card]').forEach(function (c) { c.hidden = !(c.dataset.card === name && c.dataset.week === curWeek); });
     document.querySelectorAll('.pbtn').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.pick === name)); });
     empty.hidden = true;
     if (scroll) part.scrollIntoView({ block: 'start' });
   }
   document.addEventListener('click', function (e) {
     var t = e.target.closest('[data-pick]');
-    if (t) { select(t.dataset.pick, !t.classList.contains('pbtn')); return; }
+    if (t) {
+      if (t.dataset.from) setWeek(t.dataset.from, false);
+      select(t.dataset.pick, !t.classList.contains('pbtn'));
+      if (t.dataset.file) flashFile(t.dataset.pick, t.dataset.file);
+      return;
+    }
     var g = e.target.closest('[data-goto]');
-    if (g) document.getElementById(g.dataset.goto).scrollIntoView({ block: 'start' });
+    if (g) { var tgt = document.getElementById(g.dataset.goto); if (tgt.hidden) setWeek('product', false); tgt.scrollIntoView({ block: 'start' }); }
   });
 
+  // highlight the file row that a tag in the app points to
+  function flashFile(name, file) {
+    var card = document.querySelector('[data-card="' + name + '"][data-week="' + curWeek + '"]');
+    if (!card) return;
+    card.querySelectorAll('.build li').forEach(function (li) {
+      var c = li.querySelector('code');
+      if (c && c.textContent.trim() === file) {
+        li.classList.remove('flash'); void li.offsetWidth; li.classList.add('flash');
+        li.addEventListener('animationend', function () { li.classList.remove('flash'); }, { once: true });
+      }
+    });
+  }
+
   // link straight to a person with #daniel, #isani, ...
-  function fromHash() { var h = location.hash.slice(1); if (people.indexOf(h) >= 0) select(h, true); }
+  function fromHash() { var h = location.hash.slice(1); if (h === 'week1' || h === 'week2') { setWeek(h.slice(4), true); return; } if (h === 'product') { setWeek('product', true); return; } if (people.indexOf(h) >= 0) select(h, true); }
+  setWeek('2', false);
   window.addEventListener('hashchange', fromHash);
   fromHash();
 
@@ -702,10 +1020,11 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   var secs = legendLinks.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
   var current = null;
   function updateLegend() {
+    if (!secs) return;
     var line = 140, idx = -1;
-    secs.forEach(function (sec, i) { if (sec && sec.getBoundingClientRect().top <= line) idx = i; });
+    secs.forEach(function (sec, i) { if (sec && !sec.hidden && sec.getBoundingClientRect().top <= line) idx = i; });
     var doc = document.documentElement;
-    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) idx = secs.length - 1;
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) { for (var j = secs.length - 1; j >= 0; j--) { if (secs[j] && !secs[j].hidden) { idx = j; break; } } }
     if (idx === current) return;
     current = idx;
     legendLinks.forEach(function (a, i) { a.classList.toggle('on', i === idx); });
@@ -727,7 +1046,8 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
   document.querySelectorAll('[data-open]').forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); openDetails(a.dataset.open); });
   });
-  if (location.hash === '#median') openDetails('median');
+  if (location.hash === '#median') { setWeek('product', false); openDetails('median'); }
+  if (location.hash === '#handcheck') { setWeek('2', false); openDetails('handcheck'); }
 
   // app tabs: the tabs drawn inside the mockup switch screens
   var panels = { 1: document.getElementById('m1'), 2: document.getElementById('m2') };
@@ -800,8 +1120,8 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     var mx = Math.max.apply(null, r.last);
     document.getElementById('g-vals').innerHTML = r.last.map(function (v) { return '<span>' + v.toFixed(1) + '</span>'; }).join('');
     document.getElementById('g-bars').innerHTML = r.last.map(function (v) {
-      return '<div class="mb"><i style="height:' + Math.round(v / mx * 56) + 'px"></i></div>';
-    }).join('') + '<div class="mline" style="bottom:' + Math.round(r.s / mx * 56) + 'px" aria-hidden="true"></div>';
+      return '<div class="mb"><i style="height:' + (v / mx * 100).toFixed(1) + '%"></i></div>';
+    }).join('') + '<div class="mline" style="bottom:' + (r.s / mx * 100).toFixed(1) + '%" aria-hidden="true"></div>';
     document.getElementById('g-med').textContent = r.s.toFixed(1) + '%';
     g = 4.0; show();
   }
@@ -811,13 +1131,12 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
     var r = rounds[ri], you = Math.abs(g - r.a), model = Math.abs(r.m - r.a);
     document.getElementById('you').textContent = g.toFixed(1) + '%';
     document.getElementById('verdict').textContent = you < model
-      ? 'You beat the model! Off by ' + you.toFixed(1) + ' points.'
-      : 'The model wins this one. You were off by ' + you.toFixed(1) + ' points.';
+      ? 'You were closer than the model. Off by ' + you.toFixed(1) + ' points.'
+      : 'The model was closer this time. You were off by ' + you.toFixed(1) + ' points.';
     out.hidden = false; hint.hidden = true;
   });
   document.getElementById('again').addEventListener('click', function () { ri = (ri + 1) % rounds.length; loadRound(); });
 })();
 </script>
-
 </body>
 </html>
