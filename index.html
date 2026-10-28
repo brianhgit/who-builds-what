@@ -357,6 +357,15 @@ footer { color: var(--muted); font-size: 14px; padding-top: 20px; border-top: 1p
 .weeks button:hover { box-shadow: inset 0 0 0 1.5px var(--line); }
 .weeks button[aria-pressed="true"] { background: var(--fg); color: #fff; }
 .weeks button small { font-weight: 500; opacity: 0.75; margin-left: 4px; font-size: 13px; }
+@media (max-width: 760px) {
+  .weeks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-self: stretch; border-radius: 20px; }
+  .weeks button { border-radius: 16px; padding: 8px 10px; display: flex; flex-direction: column; align-items: center; line-height: 1.25; }
+  .weeks button small { margin-left: 0; }
+}
+.task.key { background: var(--fg); color: #fff; }
+.task.key b { color: #fff; }
+.task .t { font-size: 12.5px; font-weight: 700; color: var(--muted); }
+.task.key .t { color: rgba(255,255,255,0.8); }
 .wk { display: flex; flex-direction: column; gap: 20px; }
 .relay { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
 .day { background: var(--bg); border-radius: 16px; padding: 14px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
@@ -439,15 +448,17 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
 <body>
 <main>
   <header class="hero" id="top">
-    <div class="eyebrow">MLSN · Beat the Baseline · <span data-show="2">Week 2 · due Sun Oct 25</span><span data-show="1" hidden>Week 1 · done</span><span data-show="product" hidden>The end product</span></div>
+    <div class="eyebrow">MLSN · Beat the Baseline · <span data-show="3">Week 3 · due Sun Nov 1</span><span data-show="2" hidden>Week 2 · done</span><span data-show="1" hidden>Week 1 · done</span><span data-show="product" hidden>The end product</span></div>
     <h1>Who builds what</h1>
-    <p data-show="2">Week 1 built every piece on fake data. <em>This week the real data goes in</em>, one step after another. Your Notion page says <em>how</em>; this page shows <em>what</em> and how it all fits. <strong>Tap your name</strong> to jump to your part.</p>
+    <p data-show="3">Our rules are locked. <em>This week we get real answers</em>: the final exam, opened once on Saturday, and a live forecast published before next week's reports. Every step has its own day and time. Your Notion page says <em>how</em>; this page shows <em>what</em> and <em>when</em>. <strong>Tap your name</strong> to jump to your part.</p>
+    <p data-show="2" hidden>Week 1 built every piece on fake data. <em>Week 2 put the real data in</em>, one step after another, checked it by hand and locked our rules. <strong>Tap a name</strong> to see what each person did.</p>
     <p data-show="product" hidden>Everything we build turns into this: a fair test of our model against a simple guess, and an app to show it off. The <em>Week</em> tabs show who builds what each week.</p>
     <p data-show="1" hidden>Your Notion page says <em>how</em> to build your part. This page shows <em>what</em> it is and what it turns into. <strong>Tap your name</strong> to jump straight to your part.</p>
     <div class="weeks" role="group" aria-label="Which view">
       <button type="button" data-setweek="product" aria-pressed="false">End product <small>the big picture</small></button>
       <button type="button" data-setweek="1" aria-pressed="false">Week 1 <small>fake data</small></button>
-      <button type="button" data-setweek="2" aria-pressed="true">Week 2 <small>real data</small></button>
+      <button type="button" data-setweek="2" aria-pressed="false">Week 2 <small>real data</small></button>
+      <button type="button" data-setweek="3" aria-pressed="true">Week 3 <small>the real test</small></button>
     </div>
     <div class="who" aria-label="Jump to a person">
       <button type="button" data-p="daniel" data-pick="daniel"><i>D</i>Daniel</button>
@@ -460,10 +471,10 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
 
   <nav class="legend" aria-label="Sections">
     <ol>
-      <li data-show="1 2"><a href="#goal"><span>1</span>Objective</a></li>
-      <li data-show="1 2"><a href="#connect"><span>2</span>How it connects</a></li>
-      <li data-show="1 2"><a href="#part"><span>3</span>Your part</a></li>
-      <li data-show="1 2"><a href="#road"><span>4</span>The road</a></li>
+      <li data-show="1 2 3"><a href="#goal"><span>1</span>Objective</a></li>
+      <li data-show="1 2 3"><a href="#connect"><span>2</span>How it connects</a></li>
+      <li data-show="1 2 3"><a href="#part"><span>3</span>Your part</a></li>
+      <li data-show="1 2 3"><a href="#road"><span>4</span>The road</a></li>
       <li data-show="product" hidden><a href="#idea"><span>1</span>The idea</a></li>
       <li data-show="product" hidden><a href="#app"><span>2</span>The app</a></li>
     </ol>
@@ -520,14 +531,23 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
     </details>
   </section>
 
-  <section id="goal" aria-labelledby="h-goal" data-show="1 2">
-    <div class="wk" data-show="2">
-      <h2 id="h-goal">Week 2 objective</h2>
-      <p class="sub">Week 1 proved every piece works on fake data. <strong>Week 2 runs the same pieces on the real thing</strong> and gets the first honest answer to our question: does the model beat the simple guess?</p>
+  <section id="goal" aria-labelledby="h-goal" data-show="1 2 3">
+    <div class="wk" data-show="3">
+      <h2 id="h-goal">Week 3 objective</h2>
+      <p class="sub">Week 2 put the real data in and locked our rules: every move is now the <strong>2-day earnings-window move</strong>, from the close before the report to the close after. <strong>Week 3 gets the real answers</strong>, in two tests nobody can argue with.</p>
       <div class="goals">
-        <div class="goal"><span class="k">By Thu Oct 22</span><b>Real data in</b><span>Every SEC earnings filing and every daily price for our ~500 companies, in one shared copy that matches on every laptop.</span></div>
-        <div class="goal"><span class="k">By Sat Oct 24</span><b>Checked and locked</b><span>The hand check says our dates are right, and we lock our rules before seeing any result.</span></div>
-        <div class="goal"><span class="k">By Sun Oct 25</span><b>First real result</b><span>The model tested on 2022 to 2024, plus the data report and the charts.</span></div>
+        <div class="goal"><span class="k">By Thu Oct 29</span><b>First real test</b><span>Three laptops rebuild the table and match, then the model is tested on 2022 to 2024.</span></div>
+        <div class="goal"><span class="k">Sat Oct 31, ~2 pm</span><b>Final exam, opened once</b><span>Jan 2025 to Sep 2026, data nobody has looked at. Pass or fail, that's our answer.</span></div>
+        <div class="goal"><span class="k">By Sun Nov 1</span><b>Live forecast frozen</b><span>Our guess for every company reporting Nov 2 to 6, locked with a fingerprint before the first report.</span></div>
+      </div>
+    </div>
+    <div class="wk" data-show="2" hidden>
+      <h2>Week 2 objective</h2>
+      <p class="sub">Week 1 proved every piece works on fake data. <strong>Week 2 ran the same pieces on the real thing</strong>, checked our dates by hand and locked the rules before seeing any result.</p>
+      <div class="goals">
+        <div class="goal done"><span class="k">Done Oct 22</span><b>Real data in</b><span>Every SEC earnings filing and every daily price for our ~500 companies, in one shared copy that matches on every laptop.</span></div>
+        <div class="goal done"><span class="k">Done Oct 27</span><b>Checked and locked</b><span>The hand check passed, and we locked our rules (plan B, the 2-day window) before seeing any result.</span></div>
+        <div class="goal"><span class="k">Moved to Week 3</span><b>First real result</b><span>Waits until the rules are locked, so it runs Thu Oct 29. The charts were built on a sample run.</span></div>
       </div>
     </div>
     <div class="wk" data-show="1" hidden>
@@ -542,10 +562,59 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
   </section>
 
   <!-- 2 -->
-  <section class="panel" id="connect" aria-labelledby="h-connect" data-show="1 2">
-    <div class="wk" data-show="2">
+  <section class="panel" id="connect" aria-labelledby="h-connect" data-show="1 2 3">
+    <div class="wk" data-show="3">
     <h2 id="h-connect">How it connects this week</h2>
-    <p class="sub">Week 1 everyone built side by side on fake data. This week the <strong>real data</strong> goes in, and it runs like a relay: each step hands off to the next. Tap a name to see that part.</p>
+    <p class="sub">It's a chain: <strong>each step unlocks the next</strong>, so most steps have their own day and time. Brian or a teammate posts in the group chat when it's your turn. Tap a name to see that part.</p>
+    <div class="relay">
+      <div class="day"><h4>Wed<small>Oct 28</small></h4>
+        <button class="task" type="button" data-p="charvee" data-pick="charvee"><span class="t">9 pm</span><b>Charvee</b>Rebuilds the table and matches Brian's numbers</button>
+        <button class="task" type="button" data-p="philip" data-pick="philip"><span class="t">9 pm</span><b>Philip</b>Same rebuild, before any model run</button>
+        <button class="task" type="button" data-p="isani" data-pick="isani"><span class="t">9 pm</span><b>Isani</b>Same rebuild (her laptop makes the forecast)</button>
+      </div>
+      <div class="day"><h4>Thu<small>Oct 29</small></h4>
+        <button class="task" type="button" data-p="philip" data-pick="philip"><span class="t">9 pm</span><b>Philip</b>First real test of the model, 2022 to 2024</button>
+      </div>
+      <div class="day"><h4>Fri<small>Oct 30</small></h4>
+        <div class="task" data-p="brian"><span class="t">by 12 pm</span><b>Brian</b>Reviews Philip's run, then posts "go"</div>
+        <button class="task" type="button" data-p="joyce" data-pick="joyce"><span class="t">9 pm</span><b>Joyce</b>Charts on Philip's test</button>
+        <button class="task" type="button" data-p="charvee" data-pick="charvee"><span class="t">9 pm</span><b>Charvee</b>Reruns Philip's test on a second laptop</button>
+      </div>
+      <div class="day"><h4>Sat<small>Oct 31</small></h4>
+        <button class="task" type="button" data-p="isani" data-pick="isani"><span class="t">by 12 pm</span><b>Isani</b>Downloads Friday's closing prices</button>
+        <button class="task" type="button" data-p="daniel" data-pick="daniel"><span class="t">12 pm</span><b>Daniel</b>Draws 30 companies reporting next week</button>
+        <button class="task" type="button" data-p="joyce" data-pick="joyce"><span class="t">12 pm</span><b>Joyce</b>Practice charts on the sample exam</button>
+        <button class="task key" type="button" data-p="philip" data-pick="philip"><span class="t">~2 pm call</span><b>Brian + Philip</b>Open the final exam, once</button>
+        <button class="task" type="button" data-p="isani" data-pick="isani"><span class="t">by 9 pm</span><b>Isani</b>Makes the live forecast</button>
+      </div>
+      <div class="day"><h4>Sun<small>Nov 1</small></h4>
+        <button class="task" type="button" data-p="charvee" data-pick="charvee"><span class="t">10 am</span><b>Charvee</b>Double-checks the forecast</button>
+        <button class="task" type="button" data-p="isani" data-pick="isani"><span class="t">12 pm · firm 9 pm</span><b>Isani</b>Freezes it and posts the fingerprint</button>
+        <button class="task" type="button" data-p="daniel" data-pick="daniel"><span class="t">12 pm · firm 9 pm</span><b>Daniel</b>Records the market's expected moves</button>
+        <button class="task" type="button" data-p="philip" data-pick="philip"><b>Philip</b>The real data report</button>
+        <button class="task" type="button" data-p="joyce" data-pick="joyce"><b>Joyce</b>Final-exam charts and README results</button>
+        <div class="task all"><b>Everyone</b>Your 1 to 3 sentences for Monday</div>
+      </div>
+    </div>
+    <div class="note"><b>Post in the group chat when your step is done or you're stuck.</b> If a step is more than 12 hours late, Brian or a backup takes it over (the Sunday 9 pm limits are firm). And the one rule, until Brian posts the final-exam result on Saturday: <b>don't open the final-exam file or look at any 2025 or 2026 earnings move.</b></div>
+    <details class="fold" id="words">
+      <summary><span>Words you'll see this week</span><span class="chev" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6l4 4 4-4"/></svg></span></summary>
+      <div class="fold-body">
+        <div class="rules">
+          <div class="rule"><b>Final exam</b><span>our test on Jan 2025 to Sep 2026 data, which nobody has looked at. It gets opened exactly once.</span><span class="w">the lockbox</span></div>
+          <div class="rule"><b>Live forecast</b><span>our guess for every company, made before next week's reports.</span><span class="w">drop2b</span></div>
+          <div class="rule"><b>Freeze</b><span>lock the forecast file for good. Nobody opens or edits it after this.</span><span class="w">Sun Nov 1</span></div>
+          <div class="rule"><b>Fingerprint</b><span>a short code made from a file. Change one character and the code changes, so posting it proves the file existed at that time.</span><span class="w">SHA-256</span></div>
+          <div class="rule"><b>MAE</b><span>the average size of a miss, in percentage points. Lower is better.</span><span class="w">mean absolute error</span></div>
+          <div class="rule"><b>Plan B</b><span>every move is measured over 2 days: the close before the report to the close after.</span><span class="w">2-day earnings-window move</span></div>
+        </div>
+        <p class="small">"Pre-registered success" on Saturday means the model's average miss is at least 3% smaller than the simple guess, with the whole 95% range above 0.</p>
+      </div>
+    </details>
+    </div>
+    <div class="wk" data-show="2" hidden>
+    <h2>How it connected in Week 2</h2>
+    <p class="sub">Week 1 everyone built side by side on fake data. In Week 2 the <strong>real data</strong> went in, like a relay: each step handed off to the next. Tap a name to see that part.</p>
     <div class="relay">
       <div class="day"><h4>Wed<small>Oct 21</small></h4>
         <button class="task" type="button" data-p="daniel" data-pick="daniel"><b>Daniel</b>Downloads every SEC earnings filing</button>
@@ -609,17 +678,123 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
   </section>
 
   <!-- 3 -->
-  <section id="part" aria-labelledby="h-part" data-show="1 2">
+  <section id="part" aria-labelledby="h-part" data-show="1 2 3">
     <h2 id="h-part">Your part this week</h2>
     <div class="picker" role="group" aria-label="Pick a person">
-      <button class="pbtn" type="button" data-p="daniel" data-pick="daniel" aria-pressed="false"><i>D</i>Daniel <small>Earnings dates</small></button>
-      <button class="pbtn" type="button" data-p="isani" data-pick="isani" aria-pressed="false"><i>I</i>Isani <small>Prices</small></button>
-      <button class="pbtn" type="button" data-p="charvee" data-pick="charvee" aria-pressed="false"><i>C</i>Charvee <small>Dataset</small></button>
-      <button class="pbtn" type="button" data-p="philip" data-pick="philip" aria-pressed="false"><i>P</i>Philip <small data-show="2">Model and data report</small><small data-show="1" hidden>Model</small></button>
-      <button class="pbtn" type="button" data-p="joyce" data-pick="joyce" aria-pressed="false"><i>J</i>Joyce <small data-show="2">Charts</small><small data-show="1" hidden>Evaluation and app</small></button>
+      <button class="pbtn" type="button" data-p="daniel" data-pick="daniel" aria-pressed="false"><i>D</i>Daniel <small data-show="3">Market check</small><small data-show="1 2" hidden>Earnings dates</small></button>
+      <button class="pbtn" type="button" data-p="isani" data-pick="isani" aria-pressed="false"><i>I</i>Isani <small data-show="3">Live forecast</small><small data-show="1 2" hidden>Prices</small></button>
+      <button class="pbtn" type="button" data-p="charvee" data-pick="charvee" aria-pressed="false"><i>C</i>Charvee <small data-show="3">Second laptop</small><small data-show="1 2" hidden>Dataset</small></button>
+      <button class="pbtn" type="button" data-p="philip" data-pick="philip" aria-pressed="false"><i>P</i>Philip <small data-show="3">Model</small><small data-show="2" hidden>Model and data report</small><small data-show="1" hidden>Model</small></button>
+      <button class="pbtn" type="button" data-p="joyce" data-pick="joyce" aria-pressed="false"><i>J</i>Joyce <small data-show="3">Charts</small><small data-show="2" hidden>Charts</small><small data-show="1" hidden>Evaluation and app</small></button>
     </div>
 
     <div class="empty" id="empty"><b>Tap your name above.</b><span>You'll see just your part for the week: what you do, why it matters, and what you hand off.</span></div>
+
+    <article class="card" data-p="daniel" data-card="daniel" data-week="3" hidden>
+      <div class="card-top"><div class="role">Daniel · Options market check · Week 3</div><h3>Write down <u>what the market expects</u> for 30 companies, before they report.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Sat 12 pm</span><span>List every company of ours with a confirmed report date Nov 2 to 6, then draw 30 with our fixed seed. Post the 30 in the group chat before you record anything.<details class="src"><summary>Why a fixed seed? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The same "random" pick comes out every time, so anyone can check we didn't choose easy companies.</p></details></span></li>
+          <li><span class="dt">Sat to Sun</span><span>Record each company's expected move from one free site into <code>implied_moves.csv</code>, in the drawn order. Spot-check 5 on a second site.</span></li>
+          <li><span class="dt">Sun 12 pm</span><span>Fingerprint the file, post the fingerprint, and upload the file to the Drive <code>implied moves</code> folder. Firm limit 9 pm.</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>The first question at a demo is "how does this compare to what the market expects?" <u>It can only be written down before the reports come out.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>Our company list (you already have it)</div>
+          <div class="tile"><div class="label">You hand off</div>The file in Drive, its fingerprint in the chat</div>
+          <div class="tile"><div class="label">Done when</div>30 posted, file uploaded, fingerprint posted</div>
+        </div>
+        <div><div class="label">What you'll post (example)</div><div class="sample"><div><span class="nw">52 candidates</span> · <span class="nw">picked 30, in order</span></div><div><span class="nw">fingerprint: 64 characters</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">A side comparison, not our scored result, so no PR this week.</span><button type="button" data-pick="isani">Next: Isani ›</button></div>
+      </div>
+    </article>
+    <article class="card" data-p="isani" data-card="isani" data-week="3" hidden>
+      <div class="card-top"><div class="role">Isani · Prices and live forecast · Week 3</div><h3>Make <u>our live forecast</u> and lock it in before the reports start.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Wed 9 pm</span><span>Rebuild the table and match Brian's numbers. Your laptop makes the forecast, so it has to match exactly.</span></li>
+          <li><span class="dt">Sat by 12 pm</span><span>Download Friday's closing prices (after 6 am PT), check every company and the VIX has one, and upload the zip to the Drive <code>live</code> folder.</span></li>
+          <li><span class="dt">Sat by 9 pm</span><span>Make the forecast after Brian posts the final-exam result, then post "forecast ready" with how many companies.<details class="src"><summary>Why wait for the final exam? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>The forecast won't run until the final exam is opened. Final exam first, then live, so nothing about the model can change after this.</p></details></span></li>
+          <li><span class="dt">Sun by 12 pm</span><span>After Charvee's check, freeze it and post the fingerprint right away. Then open a PR and put your data back. Firm limit 9 pm.</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>This is the one test nobody can argue with: <u>we publish our guesses before the reports happen</u>, with a timestamp that proves it.</div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The locked model and Friday's prices</div>
+          <div class="tile"><div class="label">You hand off</div>The forecast to Charvee, then the frozen file to everyone</div>
+          <div class="tile"><div class="label">Done when</div>Fingerprint posted, PR open, data put back</div>
+        </div>
+        <div><div class="label">What you'll post</div><div class="sample"><div><span class="nw">drop2b: N companies forecast</span></div><div><span class="nw">the 2 lines under "Post this publicly now"</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">Your weekend is the busy one, so Week 4 is lighter.</span><button type="button" data-pick="charvee">Next: Charvee ›</button></div>
+      </div>
+    </article>
+    <article class="card" data-p="charvee" data-card="charvee" data-week="3" hidden>
+      <div class="card-top"><div class="role">Charvee · Second laptop and backup · Week 3</div><h3>Prove <u>everything comes out the same</u> on a second laptop.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Wed 9 pm</span><span>Rebuild the table and match Brian's numbers.</span></li>
+          <li><span class="dt">Fri 9 pm</span><span>After Brian posts "go", rerun Philip's first real test. Your numbers should equal his. Then throw your copy away.<details class="src"><summary>Why rerun it? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>If a second laptop gets the same numbers from the shared data, anyone can rerun our results. It's also one of the checks before the final exam.</p></details></span></li>
+          <li><span class="dt">Sun 10 am</span><span>Double-check Isani's forecast before she freezes it, and post "forecast check passed".</span></li>
+          <li><span class="dt">Optional</span><span>A head start on Week 4, if classes are light.</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>The final exam and the live forecast run on this table. <u>Two laptops agreeing proves nothing drifted.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The shared data and Philip's run</div>
+          <div class="tile"><div class="label">You hand off</div>"match", "rerun matches", "forecast check passed"</div>
+          <div class="tile"><div class="label">Done when</div>All three posted</div>
+        </div>
+        <div><div class="label">What you'll post</div><div class="sample"><div><span class="nw">match</span> · <span class="nw">kept 14,491 · dropped 1,564</span></div><div><span class="nw">rerun matches</span></div></div></div>
+        </div>
+        <div class="next"><button type="button" data-pick="isani">‹ Isani</button><button type="button" data-pick="philip">Next: Philip ›</button></div>
+      </div>
+    </article>
+    <article class="card" data-p="philip" data-card="philip" data-week="3" hidden>
+      <div class="card-top"><div class="role">Philip · Model · Week 3</div><h3>Run the model's <u>first real test</u>, then read out the final exam.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Wed 9 pm</span><span>Rebuild the table and match first. Don't run the model until it matches.</span></li>
+          <li><span class="dt">Thu 9 pm</span><span>The first real test, 2022 to 2024 (<code>lgbm_v1</code>). Post the numbers and open a PR.<details class="src"><summary>Why only one run? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Every run stays in the record. Rerunning until one looks good would fool us, so a crash gets a new name and a note.</p></details></span></li>
+          <li><span class="dt">Sat ~2 pm</span><span>The final-exam call with Brian: read the checklist out loud, then read out the result. Pass or fail, that's our answer.</span></li>
+          <li><span class="dt">Sun</span><span>The real data report, on a fresh branch.</span></li>
+        </ul></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>This is the first time our model sees real moves. <u>If it looks more than 30% better, stop:</u> it's probably peeking at the future.</div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>The table, once it matches</div>
+          <div class="tile"><div class="label">You hand off</div><code>lgbm_v1</code> to Joyce and Charvee, the result to everyone</div>
+          <div class="tile"><div class="label">Done when</div>Run PR and data report PR open, result posted</div>
+        </div>
+        <div><div class="label">What you'll post</div><div class="sample"><div><span class="nw">lgbm_v1 · 2022 to 2024</span></div><div><span class="nw"><span class="model">model</span> vs <span class="simple">simple</span>: we find out Thursday</span></div></div></div>
+        </div>
+        <div class="next"><span class="ahead">Week 4: the write-up and slides.</span><button type="button" data-pick="joyce">Next: Joyce ›</button></div>
+      </div>
+    </article>
+    <article class="card" data-p="joyce" data-card="joyce" data-week="3" hidden>
+      <div class="card-top"><div class="role">Joyce · Charts · Week 3</div><h3>Put <u>the real results</u> into charts and the README.</h3></div>
+      <div class="card-body">
+        <div class="cb-main"><div class="label">What you do</div><ul class="build">
+          <li><span class="dt">Fri 9 pm</span><span>After Brian posts "go", make the charts for Philip's first real test and check every label.<details class="src"><summary>What am I checking for? <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6l4 4 4-4"/></svg></summary><p>Every chart has data and readable labels, and nothing says "earnings-day". We now measure a 2-day window.</p></details></span></li>
+          <li><span class="dt">Sat 12 pm</span><span>Practice on the sample final exam, so Sunday takes minutes.</span></li>
+          <li><span class="dt">Sun</span><span>The final-exam charts and the README results table.</span></li>
+          <li><span class="dt">Optional</span><span>Draft the Method section of the write-up.</span></li>
+        </ul>
+        <p class="fake-note" style="margin-top:12px">No rebuild for you this week: your charts read result files that are already on GitHub.</p></div>
+        <div class="cb-side">
+        <div class="why"><div class="label">Why it matters</div>Charts are what people actually look at. <u>Having them ready means Saturday's numbers go straight into the slides.</u></div>
+        <div class="tiles">
+          <div class="tile"><div class="label">You get</div>Philip's run Friday, the final exam Saturday</div>
+          <div class="tile"><div class="label">You hand off</div>Charts and README results, for the slides and the app</div>
+          <div class="tile"><div class="label">Done when</div>Both chart PRs open, "practice done" posted</div>
+        </div>
+        <div><div class="label">README results (format)</div><div class="sample"><div><span class="nw">improvement 7.5% (3.6% to 11.3%)</span></div><div><span class="nw">practice years</span> · <span class="nw">final exam</span> · <span class="nw">live: after Nov 9</span></div></div></div>
+        </div>
+        <div class="next"><button type="button" data-goto="app">See the app ›</button></div>
+      </div>
+    </article>
 
     <article class="card" data-p="daniel" data-card="daniel" data-week="2" hidden>
       <div class="card-top"><div class="role">Daniel · Earnings dates · Week 2</div><h3>Download <u>every real earnings filing</u> and check the dates look right.</h3></div>
@@ -940,20 +1115,20 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
   </section>
 
   <!-- 5 -->
-  <section id="road" aria-labelledby="h-road" data-show="1 2">
+  <section id="road" aria-labelledby="h-road" data-show="1 2 3">
     <h2 id="h-road">The road</h2>
     <p class="sub">Where this is heading. <strong>Only this week matters right now</strong>, and the later dates are a <u>plan that may shift</u>.</p>
     <ol class="road">
       <li class="done"><span class="d">Week 1 · Oct 18</span><span><b>Every part built and tested on fake data.</b> All five merged.</span></li>
-      <li class="now"><span class="d">Week 2 · Oct 25</span><span><b>Real data in, hand check, rules locked, first real results.</b><span class="here">You are here</span></span></li>
-      <li><span class="d">Week 3 · Nov 1</span><span>Final model, then we open the final exam (2025 to 2026) once and lock our live guesses.<span class="tent">tentative</span></span></li>
+      <li class="done"><span class="d">Week 2 · Oct 25</span><span><b>Real data in and checked by hand.</b> Rules locked Oct 27 (plan B).</span></li>
+      <li class="now"><span class="d">Week 3 · Nov 1</span><span><b>First real test, the final exam opened once, and our live forecast frozen.</b><span class="here">You are here</span></span></li>
       <li><span class="d">Nov 2 to 6</span><span>Live test week: real companies report, and our frozen guesses get graded.<span class="tent">tentative</span></span></li>
       <li><span class="d">Week 4 · Nov 8</span><span>Write-up, slides and the final app. Everything done.<span class="tent">tentative</span></span></li>
       <li><span class="d">Tue Nov 17</span><span>Showcase: demo the app with a live call.</span></li>
     </ol>
   </section>
 
-  <footer>Stuck on where your part fits? Post in the group chat, or bring it to Monday's meeting (Oct 26, 7 pm).</footer>
+  <footer>Stuck on where your part fits? Post in the group chat, or bring it to Monday's meeting (Nov 2, 7 pm).</footer>
 </main>
 
 <script>
@@ -961,8 +1136,8 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
   var people = ['daniel', 'isani', 'charvee', 'philip', 'joyce'];
   var part = document.getElementById('part');
   var empty = document.getElementById('empty');
-  var curWeek = '2', lastWeek = '2', chosen = null;
-  // Week 1 / Week 2 switch: week-specific blocks carry data-week
+  var curWeek = '3', lastWeek = '3', chosen = null;
+  // Week 1 / 2 / 3 switch: week-specific blocks carry data-week
   function setWeek(w, scroll) {
     curWeek = w;
     document.querySelectorAll('[data-show]').forEach(function (el) { el.hidden = el.dataset.show.split(' ').indexOf(w) < 0; });
@@ -1009,8 +1184,8 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
   }
 
   // link straight to a person with #daniel, #isani, ...
-  function fromHash() { var h = location.hash.slice(1); if (h === 'week1' || h === 'week2') { setWeek(h.slice(4), true); return; } if (h === 'product') { setWeek('product', true); return; } if (people.indexOf(h) >= 0) select(h, true); }
-  setWeek('2', false);
+  function fromHash() { var h = location.hash.slice(1); if (/^week[123]$/.test(h)) { setWeek(h.slice(4), true); return; } if (h === 'product') { setWeek('product', true); return; } var fold = { median: 'product', handcheck: '2', words: '3' }[h]; if (fold) { setWeek(fold, false); openDetails(h); return; } if (people.indexOf(h) >= 0) select(h, true); }
+  setWeek('3', false);
   window.addEventListener('hashchange', fromHash);
   fromHash();
 
@@ -1046,8 +1221,6 @@ button.task:hover { box-shadow: inset 0 0 0 1.5px var(--p); }
   document.querySelectorAll('[data-open]').forEach(function (a) {
     a.addEventListener('click', function (e) { e.preventDefault(); openDetails(a.dataset.open); });
   });
-  if (location.hash === '#median') { setWeek('product', false); openDetails('median'); }
-  if (location.hash === '#handcheck') { setWeek('2', false); openDetails('handcheck'); }
 
   // app tabs: the tabs drawn inside the mockup switch screens
   var panels = { 1: document.getElementById('m1'), 2: document.getElementById('m2') };
