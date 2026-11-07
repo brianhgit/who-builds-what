@@ -14,7 +14,6 @@
   --charvee: #6a2bb8; --charvee-soft: #f1eafa;
   --philip: #a62a68; --philip-soft: #fae9f1;
   --joyce: #835800; --joyce-soft: #f8f0dc;
-  --brian: #1b1d24; --brian-soft: #eceef3;
   --sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
   --mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, Consolas, monospace;
   --pad: 20px; --navh: 58px;
@@ -26,7 +25,6 @@
 [data-p="charvee"] { --p: var(--charvee); --p-soft: var(--charvee-soft); }
 [data-p="philip"]  { --p: var(--philip);  --p-soft: var(--philip-soft); }
 [data-p="joyce"]   { --p: var(--joyce);   --p-soft: var(--joyce-soft); }
-[data-p="brian"]   { --p: var(--brian);   --p-soft: var(--brian-soft); }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
@@ -352,7 +350,6 @@ footer { max-width: 860px; margin: 56px auto 0; padding-top: 20px; border-top: 1
     <button data-p="charvee" data-person="charvee" aria-pressed="false"><i>C</i>Charvee</button>
     <button data-p="philip" data-person="philip" aria-pressed="false"><i>P</i>Philip</button>
     <button data-p="joyce" data-person="joyce" aria-pressed="false"><i>J</i>Joyce</button>
-    <button data-p="brian" data-person="brian" aria-pressed="false"><i>B</i>Brian</button>
   </div>
   <div id="personSlot"><div class="empty">Pick a name above</div></div>
   <p class="small">The order follows the pipeline: report dates and prices come in, Charvee turns them into the table, Philip's model guesses, Joyce scores it, and the live test and app show it off.</p>
@@ -679,14 +676,7 @@ const P = {
       "You built the range: re-draw whole weeks 2,000 times and see where 95% of results land. Weeks, not single reports, because reports in one week share a market mood.",
       "You made the final exam charts and filled in the README results table."],
     nums: [["1.7%", "final exam improvement"], ["0.6% to 2.9%", "95% range"], ["2,000", "re-draws"], ["52%", "win rate"]],
-    slide: "We score by average miss, lower is better. The whole range sits above zero, so the win is real, but it stays under the 3% goal we set beforehand." },
-  brian: { name: "Brian", role: "The question, the rules and the app",
-    did: ["You set the question and the 3% goal, locked before any results (Oct 27).",
-      "You opened the final exam exactly once on Oct 31, with Philip checking.",
-      "You locked the live forecast on Sun Nov 1 at 5:49 pm.",
-      "You're building the app: this week's guesses, and try a past report yourself."],
-    nums: [["3%", "goal, set first"], ["3,382", "final exam reports"], ["Oct 31", "final exam opened once"], ["480", "live forecasts locked"]],
-    slide: "Can a model guess the size of an earnings move better than a stock's own last 8 moves? We set the bar first and tested once." }
+    slide: "We score by average miss, lower is better. The whole range sits above zero, so the win is real, but it stays under the 3% goal we set beforehand." }
 };
 function showPerson(k, opts) {
   opts = opts || {};
