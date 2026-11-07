@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Our Numbers: Beat the Baseline</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400;500;600;700;800&family=Atkinson+Hyperlegible+Mono:wght@500;700&display=swap">
+<style>
+:root {
+  --bg: #ffffff; --soft: #f5f6f9; --fg: #1b1d24; --muted: #4c5160; --line: #dcdfe7; --hair: #eceef3; --dot: #9aa0ad;
+  --simple: #a8440f; --simple-soft: #fbefe8; --model: #2a62c9; --model-soft: #e8eefb; --rule: #4c5160;
+  --daniel: #0b6d6f; --daniel-soft: #e6f3f3;
+  --isani: #2c6a2e; --isani-soft: #e8f2e7;
+  --charvee: #6a2bb8; --charvee-soft: #f1eafa;
+  --philip: #a62a68; --philip-soft: #fae9f1;
+  --joyce: #835800; --joyce-soft: #f8f0dc;
+  --brian: #1b1d24; --brian-soft: #eceef3;
+  --sans: "Atkinson Hyperlegible Next", "Atkinson Hyperlegible", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, Menlo, Consolas, monospace;
+  --pad: 20px; --navh: 58px;
+  color-scheme: light;
+}
+@media (max-width: 400px) { :root { --pad: 16px; } }
+[data-p="daniel"]  { --p: var(--daniel);  --p-soft: var(--daniel-soft); }
+[data-p="isani"]   { --p: var(--isani);   --p-soft: var(--isani-soft); }
+[data-p="charvee"] { --p: var(--charvee); --p-soft: var(--charvee-soft); }
+[data-p="philip"]  { --p: var(--philip);  --p-soft: var(--philip-soft); }
+[data-p="joyce"]   { --p: var(--joyce);   --p-soft: var(--joyce-soft); }
+[data-p="brian"]   { --p: var(--brian);   --p-soft: var(--brian-soft); }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 18px; line-height: 1.6; -webkit-font-smoothing: antialiased; padding: 0 max(var(--pad), env(safe-area-inset-right, 0px)) calc(48px + env(safe-area-inset-bottom, 0px)) max(var(--pad), env(safe-area-inset-left, 0px)); }
+main { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 64px; }
+@media (max-width: 640px) { main { gap: 48px; } }
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+h2:focus { outline: none; }
+h1 { font-size: clamp(38px, 7vw, 56px); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em; }
+h2 { font-size: clamp(26px, 4.5vw, 34px); font-weight: 800; line-height: 1.15; letter-spacing: -0.015em; }
+h2 .num { display: block; font-size: 15px; font-weight: 600; color: var(--muted); margin-bottom: 6px; letter-spacing: 0; }
+h3 { font-size: 20px; font-weight: 700; }
+p { margin: 0; max-width: 64ch; }
+section { display: flex; flex-direction: column; gap: 18px; scroll-margin-top: calc(var(--navh) + 16px); }
+section.panel { background: var(--soft); border-radius: 28px; padding: 36px 32px; }
+@media (max-width: 640px) { section.panel { padding: 26px 16px; border-radius: 22px; } }
+.sub { color: var(--muted); font-size: 19px; }
+.small { color: var(--muted); font-size: 15px; }
+strong { font-weight: 700; }
+u { text-decoration-thickness: 2px; text-underline-offset: 4px; font-weight: 700; }
+.simple { color: var(--simple); font-weight: 600; }
+.model { color: var(--model); font-weight: 600; }
+button { font-family: var(--sans); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+a { color: var(--fg); }
+a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible { outline: 3px solid var(--fg); outline-offset: 2px; }
+code { font-family: var(--mono); font-size: 0.9em; overflow-wrap: anywhere; }
+
+/* sticky nav */
+.legend { position: sticky; top: 0; z-index: 5; background: rgba(255,255,255,0.94); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); padding-block: 10px; border-bottom: 1px solid var(--hair); margin-inline: calc(-1 * max(var(--pad), env(safe-area-inset-left, 0px))); padding-inline: max(var(--pad), env(safe-area-inset-left, 0px)); }
+.legend ol { list-style: none; margin: 0 auto; padding: 2px; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; max-width: 1180px; }
+@media (min-width: 1100px) { .legend ol { justify-content: center; } }
+.legend ol::-webkit-scrollbar { display: none; }
+.legend li { flex: none; }
+.legend a { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; text-decoration: none; font-size: 14px; font-weight: 500; padding: 7px 14px 7px 8px; border-radius: 999px; background: var(--soft); min-height: 36px; }
+.legend a:hover { background: var(--hair); }
+.legend a:focus-visible { outline-offset: -1px; }
+@media (pointer: coarse) { .legend a { min-height: 44px; } }
+.legend a span { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: #fff; font-size: 12px; font-weight: 700; }
+.legend a.on { background: var(--fg); color: #fff; }
+.legend a.on span { color: var(--fg); }
+
+.hero { display: flex; flex-direction: column; gap: 14px; padding-top: 48px; }
+@media (max-width: 640px) { .hero { padding-top: 32px; } }
+.eyebrow { font-size: 15px; font-weight: 600; color: var(--muted); }
+.hero p { font-size: 21px; line-height: 1.5; color: var(--muted); }
+@media (max-width: 640px) { .hero p { font-size: 19px; } }
+.tip { align-self: flex-start; background: var(--soft); border-radius: 14px; padding: 10px 14px; font-size: 16px; color: var(--muted); max-width: 100%; }
+.tip .c { white-space: nowrap; color: var(--fg); }
+
+/* copyable numbers */
+.c { font: inherit; font-weight: 700; color: inherit; background: none; border: 0; padding: 0 2px; border-bottom: 2px dotted var(--dot); cursor: copy; border-radius: 4px 4px 0 0; transition: background-color .15s; }
+.c:hover { background: var(--hair); }
+.c.done { background: var(--fg); color: #fff; border-bottom-color: transparent; }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%) translateY(16px); background: var(--fg); color: #fff; padding: 10px 18px; border-radius: 999px; font-size: 15px; line-height: 1.35; opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; z-index: 20; max-width: calc(100vw - 32px); width: max-content; text-align: center; box-shadow: 0 4px 16px rgba(27,29,36,.18); }
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* switch */
+.switch { display: inline-flex; background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 4px; gap: 4px; align-self: flex-start; }
+.switch button { border: 0; background: none; padding: 8px 16px; border-radius: 999px; font-size: 15px; font-weight: 600; color: var(--muted); min-height: 44px; line-height: 1.25; }
+.switch button:hover { background: var(--hair); }
+.switch button[aria-pressed="true"] { background: var(--fg); color: #fff; }
+@media (max-width: 640px) {
+  .switch { display: grid; grid-template-columns: 1fr 1fr; align-self: stretch; border-radius: 16px; }
+  .switch button { border-radius: 12px; padding: 8px 10px; }
+}
+
+/* stat tiles */
+.tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 640px) { .tiles { grid-template-columns: 1fr; } }
+.tile { background: var(--bg); border-radius: 18px; padding: 18px 20px; display: flex; flex-direction: column; gap: 2px; }
+.tile .lab { font-size: 15px; font-weight: 600; color: var(--muted); }
+.tile .big { font-size: 38px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+.tile .big.mid { font-size: 26px; line-height: 1.2; letter-spacing: -0.02em; padding-block: 6px 4px; }
+.tile .big .c { border-bottom-width: 3px; }
+.tile.dark { background: var(--fg); color: #fff; }
+.tile.dark .lab { color: #c9ccd4; }
+.tile.dark .c { border-bottom-color: #8a8f9c; }
+.tile.dark .c:hover { background: rgba(255,255,255,.14); }
+.tile.dark .c.done { background: #fff; color: var(--fg); }
+.tile.dark .c:focus-visible { outline-color: #fff; }
+.tile .bar { height: 6px; width: 44px; border-radius: 4px; margin-bottom: 8px; }
+
+/* charts */
+.chart { --cbg: var(--bg); background: var(--cbg); border-radius: 18px; padding: 18px 20px; position: relative; display: flex; flex-direction: column; gap: 8px; }
+@media (max-width: 640px) { .chart { padding: 16px 14px; } }
+.chart h3 { font-size: 17px; line-height: 1.35; }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart text { font-family: var(--sans); fill: var(--muted); font-size: 14px; }
+@media (max-width: 640px) { .chart text { font-size: 13px; } }
+.chart text.ink { fill: var(--fg); font-weight: 700; paint-order: stroke; stroke: var(--cbg); stroke-width: 4px; stroke-linejoin: round; }
+.chart text.blue { fill: var(--model); font-weight: 700; }
+.chart rect.hit { outline: none; cursor: pointer; }
+.chart rect.hit:focus-visible { stroke: var(--fg); stroke-width: 2; }
+.keyrow { display: flex; gap: 6px 18px; flex-wrap: wrap; font-size: 14px; line-height: 1.4; color: var(--muted); }
+.keyrow span { display: inline-flex; gap: 7px; align-items: baseline; }
+.keyrow i { flex: none; display: inline-block; width: 12px; height: 12px; border-radius: 3px; position: relative; top: 1px; }
+.tt { position: absolute; left: 0; top: 0; pointer-events: none; background: var(--fg); color: #fff; font-size: 14px; line-height: 1.4; padding: 8px 12px; border-radius: 10px; opacity: 0; visibility: hidden; transition: opacity .12s, visibility .12s; white-space: nowrap; z-index: 3; box-shadow: 0 4px 16px rgba(27,29,36,.18); }
+.tt.show { opacity: 1; visibility: visible; }
+.qhint { min-height: 1.6em; }
+.qhint.on { color: var(--fg); }
+
+/* buckets */
+.buckets { display: flex; gap: 6px; flex-wrap: wrap; }
+.buckets button { border: 1px solid var(--line); background: var(--bg); border-radius: 12px; padding: 8px 12px; font-size: 15px; font-weight: 600; color: var(--muted); min-height: 44px; }
+.buckets button:hover { background: var(--hair); }
+.buckets button[aria-pressed="true"] { background: var(--fg); color: #fff; border-color: var(--fg); }
+@media (max-width: 640px) { .buckets button { flex: 1 1 auto; } }
+
+/* notes, dropdowns */
+.note { position: relative; background: var(--bg); border-radius: 16px; padding: 16px 18px 16px 24px; }
+.note::before { content: ""; position: absolute; left: 10px; top: 14px; bottom: 14px; width: 4px; border-radius: 2px; background: var(--fg); }
+details { background: var(--bg); border-radius: 16px; padding: 0 18px; }
+details summary { cursor: pointer; font-weight: 700; padding: 14px 0; list-style: none; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; border-radius: 8px; }
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: "+"; flex: none; width: 22px; text-align: center; font-size: 22px; line-height: 28px; color: var(--muted); }
+details[open] summary::after { content: "\2212"; }
+details > div { padding-bottom: 16px; display: flex; flex-direction: column; gap: 10px; }
+section:not(.panel) .chart, section:not(.panel) details, section:not(.panel) .note { --cbg: var(--soft); background: var(--soft); }
+
+/* people */
+.who { display: flex; flex-wrap: wrap; gap: 8px; }
+.who button { display: inline-flex; align-items: center; gap: 8px; border: 2px solid transparent; background: var(--p-soft); color: var(--fg); font-weight: 600; font-size: 16px; padding: 4px 16px 4px 4px; border-radius: 999px; min-height: 44px; }
+.who button:hover { border-color: var(--line); }
+.who button i { width: 32px; height: 32px; border-radius: 50%; background: var(--p); color: #fff; display: inline-grid; place-items: center; font-style: normal; font-size: 13px; font-weight: 700; }
+.who button[aria-pressed="true"] { border-color: var(--p); }
+.person { background: var(--bg); border-radius: 22px; overflow: hidden; border: 1px solid var(--hair); }
+.person .top { background: var(--p); color: #fff; padding: 20px 22px; }
+.person .top .role { font-size: 15px; opacity: .9; }
+.person .top h3 { font-size: 26px; }
+.person .body { padding: 20px 22px; display: flex; flex-direction: column; gap: 18px; }
+@media (max-width: 640px) { .person .top, .person .body { padding-inline: 16px; } }
+.person .lbl { font-size: 13px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--p); margin-bottom: 6px; }
+.person ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; }
+.chip { border: 0; background: var(--p-soft); border-radius: 12px; padding: 10px 12px; text-align: left; font-size: 15px; line-height: 1.35; color: var(--fg); cursor: copy; display: flex; flex-direction: column; gap: 2px; min-height: 44px; transition: background-color .15s; }
+.chip:hover { box-shadow: inset 0 0 0 2px var(--p); }
+.chip b { font-size: 22px; letter-spacing: -0.02em; line-height: 1.2; }
+.chip.done { background: var(--fg); color: #fff; box-shadow: none; }
+.empty { background: var(--bg); border-radius: 18px; padding: 20px; color: var(--muted); text-align: center; border: 2px dashed var(--line); font-size: 16px; }
+
+/* say it */
+.say { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 640px) { .say { grid-template-columns: 1fr; } .say .no { margin-bottom: 8px; } }
+.say div { position: relative; background: var(--bg); border-radius: 14px; padding: 14px 16px 14px 24px; font-size: 16px; }
+.say div::before { content: ""; position: absolute; left: 10px; top: 14px; bottom: 14px; width: 0; }
+.say .yes::before { border-left: 4px solid var(--fg); }
+.say .no::before { border-left: 3px dashed var(--dot); }
+.say .no { color: var(--muted); }
+.say .h { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+
+/* table */
+.tablewrap { background: var(--bg); border-radius: 18px; border: 1px solid var(--hair); }
+table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 15px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--hair); vertical-align: baseline; }
+th { font-size: 13px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; position: sticky; top: var(--navh); background: var(--bg); z-index: 2; box-shadow: 0 1px 0 var(--line); border-bottom: 0; }
+thead tr th:first-child { border-top-left-radius: 17px; }
+thead tr th:last-child { border-top-right-radius: 17px; }
+tbody tr:last-child td { border-bottom: 0; }
+td.n { white-space: nowrap; }
+td.n .c { text-align: left; }
+td.src { font-family: var(--mono); font-size: 13px; color: var(--muted); }
+.srcm { display: none; }
+tr.grp td { background: var(--soft); font-weight: 700; font-size: 14px; }
+@media (max-width: 640px) {
+  th, td { padding: 10px 10px; }
+  th:nth-child(3), td.src { display: none; }
+  td:first-child { width: 52%; }
+  td.n { white-space: normal; }
+  td { vertical-align: top; }
+  .srcm { display: block; font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 2px; overflow-wrap: anywhere; }
+}
+.search { width: 100%; font: inherit; font-size: 16px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--bg); min-height: 48px; }
+.search:focus-visible { outline-offset: 0; }
+footer { max-width: 860px; margin: 56px auto 0; padding-top: 20px; border-top: 1px solid var(--hair); color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<nav class="legend" aria-label="Sections">
+  <ol>
+    <li><a href="#answer"><span>1</span>The answer</a></li>
+    <li><a href="#why"><span>2</span>Why it worked</a></li>
+    <li><a href="#time"><span>3</span>Over time</a></li>
+    <li><a href="#data"><span>4</span>Our data</a></li>
+    <li><a href="#people"><span>5</span>Who did what</a></li>
+    <li><a href="#live"><span>6</span>Live test</a></li>
+    <li><a href="#say"><span>7</span>How to say it</a></li>
+    <li><a href="#all"><span>8</span>Every number</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<header class="hero">
+  <div class="eyebrow">Beat the Baseline · Week 4</div>
+  <h1>Our numbers, in plain English</h1>
+  <p>Everything we found, in one place, so all our slides and the write-up use the <em style="color:var(--fg);font-style:normal;font-weight:600">same, correct numbers</em>. Every number here comes straight from the files in our repo.</p>
+  <div class="tip">Tap any <button class="c" data-copy="3.44">underlined number</button> to copy it.</div>
+</header>
+
+<!-- 1 -->
+<section id="answer" class="panel">
+  <h2><span class="num">1 · The answer</span>Our model beat the simple guess, but not by our 3% goal</h2>
+  <p>For every earnings report, both the <span class="simple">simple guess</span> (the median of the company's last 8 moves) and <span class="model">our model</span> guessed how big the stock's 2-day move would be. Then we checked who missed by less.</p>
+  <div class="switch" role="group" aria-label="Which test">
+    <button data-test="final" aria-pressed="true">Final exam (the real result)</button>
+    <button data-test="dev" aria-pressed="false">Practice years</button>
+  </div>
+  <p class="small" id="testdesc"></p>
+  <div class="tiles">
+    <div class="tile"><div class="bar" style="background:var(--simple)"></div><div class="lab">Simple guess missed by</div><div class="big" id="t-b"></div><div class="small">points on average</div></div>
+    <div class="tile"><div class="bar" style="background:var(--model)"></div><div class="lab">Our model missed by</div><div class="big" id="t-m"></div><div class="small">points on average</div></div>
+    <div class="tile dark"><div class="lab">Model improvement</div><div class="big" id="t-i"></div><div class="small" style="color:#c9ccd4" id="t-r"></div></div>
+  </div>
+
+  <div class="chart" id="rangechart">
+    <h3>How sure are we? The 95% range vs. our 3% goal</h3>
+    <svg viewBox="0 0 640 130" role="img" aria-labelledby="rangedesc"><desc id="rangedesc"></desc><g id="rangeg"></g></svg>
+    <p class="small">The dot is our result. The bar is the range where 95% of 2,000 re-draws landed. It sits fully above zero (so the win is real), but it never reaches the 3% goal line (so it's not an official pass).</p>
+  </div>
+
+  <details>
+    <summary>What does "missed by 3.44 points" mean?</summary>
+    <div>
+      <p>A move of 4 means the stock moved about 4% more (or less) than the whole market over those 2 days. If the real move was 7 and we guessed 4, we missed by 3 points. Average that miss over every report and you get the number above. Lower is better.</p>
+      <p>The improvement is how much smaller our average miss was: 1 minus (3.443 ÷ 3.501) = <button class="c" data-copy="1.7%">1.7%</button>.</p>
+    </div>
+  </details>
+  <details>
+    <summary>What do "range" and "won 52% of the time" mean?</summary>
+    <div>
+      <p><strong>Range:</strong> Joyce's code re-drew whole report weeks at random <button class="c" data-copy="2,000">2,000</button> times and recomputed the improvement each time. 95% of those landed between <button class="c" data-copy="0.6%">0.6%</button> and <button class="c" data-copy="2.9%">2.9%</button>, and <button class="c" data-copy="99.9%">99.9%</button> were above zero. We re-draw weeks (not single reports) because reports in the same week share one market mood.</p>
+      <p><strong>Win rate:</strong> on any single report the model was closer only about <button class="c" data-copy="52%">52%</button> of the time. The win is small per report but holds up across thousands of them.</p>
+    </div>
+  </details>
+</section>
+
+<!-- 2 -->
+<section id="why">
+  <h2><span class="num">2 · Why it worked</span>The model wins by not overreacting</h2>
+  <p class="sub">The simple guess trusts a stock's last 8 moves completely. The model learned to pull extreme guesses back toward normal. Pick a group of stocks to see it.</p>
+  <div class="buckets" role="group" aria-label="Group of stocks">
+    <button data-b="0" aria-pressed="true">Quietest stocks</button>
+    <button data-b="1" aria-pressed="false">Quiet</button>
+    <button data-b="2" aria-pressed="false">Middle</button>
+    <button data-b="3" aria-pressed="false">Jumpy</button>
+    <button data-b="4" aria-pressed="false">Jumpiest stocks</button>
+  </div>
+  <div class="chart">
+    <h3 id="bucketTitle"></h3>
+    <svg viewBox="0 0 640 170" role="img" aria-labelledby="bdesc"><desc id="bdesc"></desc><g id="bucketg"></g></svg>
+    <p id="bucketText" style="font-size:16px"></p>
+    <p class="small">Final exam reports split into 5 equal groups (about 676 each) by their simple guess. Guesses are group averages; the real move is the group's typical (median) move.</p>
+  </div>
+
+  <div class="chart" id="threeway">
+    <h3>Final exam: improvement over the simple guess</h3>
+    <svg viewBox="0 0 640 150" role="img" aria-label="Model 1.7 percent, do-not-overreact rule 2.3 percent, goal 3 percent"><g id="threeg"></g></svg>
+    <p style="font-size:16px">We also tested a much simpler rule that <u>only</u> pulls each guess toward normal, with no machine learning. It did even better: <button class="c" data-copy="2.3%">2.3%</button> (average miss <button class="c" data-copy="3.42">3.42</button>). So the secret isn't a fancier model, it's not overreacting. Philip spotted this himself.</p>
+    <p class="small">In the practice years the two were basically tied (model 1.9%, rule 1.8%). This rule was part of our checks from the start, but it was never the main test, so the official answer is still the model's 1.7%.</p>
+  </div>
+</section>
+
+<!-- 3 -->
+<section id="time" class="panel">
+  <h2><span class="num">3 · Over time</span>Strong in 2025, faded in 2026</h2>
+  <div class="switch" role="group" aria-label="Which period">
+    <button data-q="final" aria-pressed="true">Final exam (2025 to 2026)</button>
+    <button data-q="dev" aria-pressed="false">Practice (2022 to 2024)</button>
+  </div>
+  <div class="chart" id="qchart">
+    <h3>Model improvement by quarter</h3>
+    <svg viewBox="0 0 640 186" role="img" aria-label="Improvement by quarter"><g id="qg"></g></svg>
+    <div class="tt" id="qtt"></div>
+    <p class="small qhint" id="qhint">Hover or tap a bar for details.</p>
+  </div>
+  <p id="qtext"></p>
+  <p class="small">2025 to 2026 was also a jumpier stretch: both methods missed by more than in the practice years (3.50 vs 3.03 for the simple guess), and the model still came out ahead overall.</p>
+</section>
+
+<!-- 4 -->
+<section id="data">
+  <h2><span class="num">4 · Our data</span>14,491 earnings reports we trust</h2>
+  <div class="tiles">
+    <div class="tile" style="background:var(--soft)"><div class="lab">Reports kept</div><div class="big"><button class="c" data-copy="14,491">14,491</button></div><div class="small">Jan 2019 to Oct 2026</div></div>
+    <div class="tile" style="background:var(--soft)"><div class="lab">Filings dropped</div><div class="big"><button class="c" data-copy="1,564">1,564</button></div><div class="small">for clear reasons (below)</div></div>
+    <div class="tile" style="background:var(--soft)"><div class="lab">Companies</div><div class="big"><button class="c" data-copy="500">500</button></div><div class="small">S&amp;P 500, frozen list</div></div>
+  </div>
+  <div class="chart">
+    <h3>How the 14,491 reports were used</h3>
+    <svg viewBox="0 0 640 96" role="img" aria-label="5,372 training only, 5,671 practice, 3,382 final exam, 66 after the final exam"><g id="splitg"></g></svg>
+    <div class="keyrow"><span><i style="background:#9aa0ad"></i>Training only, 2019 to 2021: 5,372</span><span><i style="background:var(--muted)"></i>Practice, 2022 to 2024: 5,671</span><span><i style="background:var(--fg)"></i>Final exam, Jan 2025 to Sep 2026: 3,382</span><span><i style="background:#dcdfe7"></i>Oct 2026, not tested: 66</span></div>
+  </div>
+  <div class="chart">
+    <h3>Why 1,564 filings were dropped</h3>
+    <svg viewBox="0 0 640 150" role="img" aria-label="Duplicate filing 1,116; not enough history 374; missing price 41; price gap 33"><g id="dropg"></g></svg>
+  </div>
+  <details>
+    <summary>How do we know the data is right?</summary>
+    <div>
+      <p><strong>Hand check (everyone):</strong> we compared our report dates against company press releases. With the 2-day window, <button class="c" data-copy="59 of 60">59 of 60</button> dates we found were right, and we found <button class="c" data-copy="27 of 29">27 of 29</button> reports we were supposed to find. That's why the team picked the 2-day window on Oct 26.</p>
+      <p><strong>Timing check:</strong> our earnings move was bigger than the next normal day's move about <button class="c" data-copy="74% to 82%">74% to 82%</button> of the time (depending on the year), and typically <button class="c" data-copy="2.3 to 3.4 times">2.3 to 3.4 times</button> bigger. So we're catching the real reaction.</p>
+      <p><strong>Price spot check (Daniel):</strong> <button class="c" data-copy="19 of 20">19 of 20</button> moves matched Nasdaq. The one gap (Carrier) was a $0.15 dividend, which our prices adjust for on purpose.</p>
+      <p><strong>Rebuilds:</strong> Charvee, Isani and Philip each rebuilt the table on their own computers and got exactly 14,491 kept and 1,564 dropped.</p>
+    </div>
+  </details>
+  <details>
+    <summary>What's the "2-day earnings-window move"?</summary>
+    <div>
+      <p>We take the stock's closing price the trading day before the report and the day after, and subtract what the whole market (SPY) did over the same days. Up or down doesn't matter, only the size. Two days catches the reaction whether the news came out before the open, during the day, or after the close.</p>
+      <p>The typical (median) real move in the final exam was <button class="c" data-copy="4.11">4.11</button>.</p>
+    </div>
+  </details>
+</section>
+
+<!-- 5 -->
+<section id="people" class="panel">
+  <h2><span class="num">5 · Who did what</span>Your part, and the numbers to use</h2>
+  <p>Tap your name. Each card has what you did in plain words and the exact numbers for your slide.</p>
+  <div class="who" role="group" aria-label="Team members">
+    <button data-p="daniel" data-person="daniel" aria-pressed="false"><i>D</i>Daniel</button>
+    <button data-p="isani" data-person="isani" aria-pressed="false"><i>I</i>Isani</button>
+    <button data-p="charvee" data-person="charvee" aria-pressed="false"><i>C</i>Charvee</button>
+    <button data-p="philip" data-person="philip" aria-pressed="false"><i>P</i>Philip</button>
+    <button data-p="joyce" data-person="joyce" aria-pressed="false"><i>J</i>Joyce</button>
+    <button data-p="brian" data-person="brian" aria-pressed="false"><i>B</i>Brian</button>
+  </div>
+  <div id="personSlot"><div class="empty">Pick a name above</div></div>
+  <p class="small">The order follows the pipeline: report dates and prices come in, Charvee turns them into the table, Philip's model guesses, Joyce scores it, and the live test and app show it off.</p>
+</section>
+
+<!-- 6 -->
+<section id="live">
+  <h2><span class="num">6 · Live test</span>Locked in before the reports came out</h2>
+  <div class="tiles">
+    <div class="tile" style="background:var(--soft)"><div class="lab">Companies forecast</div><div class="big"><button class="c" data-copy="480">480</button></div><div class="small">20 skipped: fewer than 8 past reports</div></div>
+    <div class="tile" style="background:var(--soft)"><div class="lab">Locked in</div><div class="big mid">Sun&nbsp;Nov&nbsp;1, 5:49&nbsp;pm</div><div class="small">before the Nov 2 to 6 reports</div></div>
+    <div class="tile" style="background:var(--soft)"><div class="lab">Graded</div><div class="big mid">After Nov&nbsp;9 close</div><div class="small">results not in yet</div></div>
+  </div>
+  <p>We guessed every company, then locked the file and published its fingerprint (a code that changes if a single digit changes), so nobody can say we edited it after the fact. Only companies that actually report from Nov 2 to 6 get graded, with no picking. About <button class="c" data-copy="146">146</button> were expected to report, from Daniel's list.</p>
+  <div class="note"><strong>One week can be luck.</strong> The final exam (3,382 reports) is our real result. The live week is a fair demo that the whole pipeline works on reports nobody had seen yet.</div>
+  <details>
+    <summary>The options market comparison (Daniel, after Nov 9)</summary>
+    <div>
+      <p>Before the live week, Daniel recorded the options market's "implied move" for <button class="c" data-copy="30">30</button> randomly picked companies. That's the move traders are paying for, and it uses information we don't have, which is a big part of how pro firms get an advantage.</p>
+      <p>After the Nov 9 close we'll see how it compares to our guesses on those same companies. It's a small first look, not part of our official result. No numbers yet, so slides should say "coming after Nov 9".</p>
+    </div>
+  </details>
+</section>
+
+<!-- 7 -->
+<section id="say" class="panel">
+  <h2><span class="num">7 · How to say it</span>Accurate and positive</h2>
+  <div class="say" id="sayg"></div>
+  <details>
+    <summary>Quick word list</summary>
+    <div>
+      <p><strong>Simple guess (baseline):</strong> the median of a company's last 8 earnings moves.</p>
+      <p><strong>Average miss (MAE):</strong> how far off a guess was, averaged over every report. Lower is better.</p>
+      <p><strong>Practice years:</strong> 2022 to 2024. We trained on the past and tested one quarter at a time, moving forward.</p>
+      <p><strong>Final exam (lockbox):</strong> Jan 2025 to Sep 2026, locked away and opened exactly once on Oct 31.</p>
+      <p><strong>3% goal:</strong> set and locked on Oct 27, before any results existed.</p>
+      <p><strong>LightGBM:</strong> the kind of model we used. It builds many small decision trees, each fixing the last one's mistakes.</p>
+    </div>
+  </details>
+</section>
+
+<!-- 8 -->
+<section id="all">
+  <h2><span class="num">8 · Every number</span>The full list</h2>
+  <input class="search" id="q" type="search" placeholder="Search, like &quot;dropped&quot; or &quot;practice&quot;" aria-label="Search numbers">
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>What</th><th>Number</th><th>Where it's from</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <p class="small">File paths are in our team repo. Final exam: <code>results/runs/20261031-185750_lockbox/metrics.json</code>. Practice: <code>results/runs/20261029-215438_lgbm_v1/metrics.json</code>.</p>
+</section>
+
+</main>
+<footer><p>Last updated Fri Nov 6, 2026. Questions about a number? Ask Brian in the group chat.</p></footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+const NS = "http://www.w3.org/2000/svg";
+const reduceMotion = () => { try { return window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch (e) { return false; } };
+function el(tag, attrs, text) { const e = document.createElementNS(NS, tag); for (const k in attrs) { if (k === "font-size") e.style.fontSize = attrs[k] + "px"; else e.setAttribute(k, attrs[k]); } if (text != null) e.textContent = text; return e; }
+function btn(v) { return `<button class="c" data-copy="${v}">${v}</button>`; }
+/* width of the drawing area for a chart's svg, in CSS pixels (so text is never scaled down) */
+function svgW(svg) { return Math.max(240, Math.round(svg.parentNode.clientWidth - parseFloat(getComputedStyle(svg.parentNode).paddingLeft) - parseFloat(getComputedStyle(svg.parentNode).paddingRight))); }
+function setBox(svg, w, h) { svg.setAttribute("viewBox", `0 0 ${w} ${h}`); svg.setAttribute("width", w); svg.setAttribute("height", h); }
+
+/* copy */
+const toast = $("#toast"); let tT;
+async function copyText(t, from) {
+  let ok = false;
+  let canApi = !!(navigator.clipboard && navigator.clipboard.writeText);
+  try { const pp = document.permissionsPolicy || document.featurePolicy; if (pp && pp.allowsFeature && !pp.allowsFeature("clipboard-write")) canApi = false; } catch (e) {}
+  try { if (!canApi) throw 0; await navigator.clipboard.writeText(t); ok = true; }
+  catch (e) {
+    try {
+      const a = document.createElement("textarea"); a.value = t; a.setAttribute("readonly", "");
+      a.style.cssText = "position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;";
+      document.body.appendChild(a); a.select(); ok = document.execCommand("copy"); a.remove();
+      if (from) { try { from.focus({ preventScroll: true }); } catch (e3) {} }
+    } catch (e2) {}
+  }
+  toast.textContent = ok ? "Copied " + t : "Couldn't copy " + t; toast.classList.add("show"); clearTimeout(tT); tT = setTimeout(() => toast.classList.remove("show"), 1600);
+  return ok;
+}
+document.addEventListener("click", e => {
+  const b = e.target.closest(".c, .chip"); if (!b) return;
+  copyText(b.dataset.copy, b).then(ok => { if (!ok) return; b.classList.add("done"); clearTimeout(b._t); b._t = setTimeout(() => b.classList.remove("done"), 900); });
+});
+
+/* keep a box from changing height when its text changes (no page jumps) */
+function holdHeight(node, variants) {
+  const cur = node.innerHTML; node.style.minHeight = "";
+  let h = 0; variants.forEach(v => { node.innerHTML = v; h = Math.max(h, node.offsetHeight); });
+  node.innerHTML = cur; node.style.minHeight = h + "px";
+}
+
+/* 1: answer */
+const TESTS = {
+  final: { b: "3.50", m: "3.44", i: "1.7%", lo: 0.6, hi: 2.9, pt: 1.7, r: "range 0.6% to 2.9%", desc: "Jan 2025 to Sep 2026 · 3,382 reports · 491 companies · 88 weeks · opened once on Oct 31" },
+  dev:   { b: "3.03", m: "2.97", i: "1.9%", lo: 0.9, hi: 2.9, pt: 1.9, r: "range 0.9% to 2.9%", desc: "2022 to 2024, tested one quarter at a time · 5,671 reports · 480 companies · 151 weeks" }
+};
+let curTest = "final";
+function drawRange(t) {
+  const svg = $("#rangechart svg"), g = $("#rangeg"); g.innerHTML = "";
+  const W = svgW(svg), H = 130, L = 22, R = 22; setBox(svg, W, H);
+  const x = v => L + (v + 1) / 5 * (W - L - R), ay = 70;
+  g.appendChild(el("line", { x1: x(-1), x2: x(4), y1: ay, y2: ay, stroke: "#dcdfe7", "stroke-width": 2 }));
+  [-1, 0, 1, 2, 3, 4].forEach(v => { g.appendChild(el("line", { x1: x(v), x2: x(v), y1: ay - 4, y2: ay + 4, stroke: "#9aa0ad", "stroke-width": 1 })); g.appendChild(el("text", { x: x(v), y: 122, "text-anchor": "middle" }, v + "%")); });
+  g.appendChild(el("line", { x1: x(0), x2: x(0), y1: 30, y2: 80, stroke: "#4c5160", "stroke-width": 1.5, "stroke-dasharray": "3 3" }));
+  g.appendChild(el("text", { x: x(0), y: 22, "text-anchor": "middle" }, "zero"));
+  g.appendChild(el("line", { x1: x(3), x2: x(3), y1: 30, y2: 80, stroke: "#1b1d24", "stroke-width": 2 }));
+  g.appendChild(el("text", { x: x(3), y: 22, "text-anchor": "middle", class: "ink" }, "3% goal"));
+  g.appendChild(el("rect", { x: x(t.lo), y: ay - 8, width: x(t.hi) - x(t.lo), height: 16, rx: 8, fill: "#e8eefb", stroke: "#2a62c9", "stroke-width": 1.5 }));
+  g.appendChild(el("circle", { cx: x(t.pt), cy: ay, r: 8, fill: "#2a62c9", stroke: "#fff", "stroke-width": 2 }));
+  g.appendChild(el("text", { x: x(t.pt), y: 48, "text-anchor": "middle", class: "ink" }, t.pt + "%"));
+  /* range ends sit right under the ends of the bar, in blue, above the gray axis labels */
+  g.appendChild(el("text", { x: x(t.lo) - 2, y: 98, "text-anchor": "start", class: "blue" }, t.lo + "%"));
+  g.appendChild(el("text", { x: x(t.hi) + 2, y: 98, "text-anchor": "end", class: "blue" }, t.hi + "%"));
+  $("#rangedesc").textContent = `Result ${t.pt}%, 95% range ${t.lo}% to ${t.hi}%, goal 3%`;
+}
+function setTest(k) {
+  const t = TESTS[k]; curTest = k;
+  $$("[data-test]").forEach(b => b.setAttribute("aria-pressed", b.dataset.test === k));
+  $("#t-b").innerHTML = btn(t.b); $("#t-m").innerHTML = btn(t.m); $("#t-i").innerHTML = btn(t.i);
+  $("#t-r").textContent = t.r; $("#testdesc").textContent = t.desc; drawRange(t);
+}
+$$("[data-test]").forEach(b => b.onclick = () => setTest(b.dataset.test)); setTest("final");
+
+/* horizontal bars: labels on the left when there's room, above the bar when narrow */
+function hbars(svg, g, rows, max, fmt) {
+  g.innerHTML = "";
+  const W = svgW(svg), stacked = W < 500, valW = 52;
+  if (stacked) {
+    const rh = 54, H = rows.length * rh - 6; setBox(svg, W, H);
+    const x = v => v / max * (W - valW);
+    rows.forEach((r, j) => {
+      const y = j * rh;
+      g.appendChild(el("text", { x: 0, y: y + 14, class: r.strong ? "ink" : "" }, r.label));
+      if (r.dashed) g.appendChild(el("rect", { x: 0.75, y: y + 21, width: x(r.v) - 1.5, height: 24, rx: 4, fill: "none", stroke: "#1b1d24", "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
+      else g.appendChild(el("rect", { x: 0, y: y + 20, width: Math.max(x(r.v), 3), height: 26, rx: 4, fill: r.color }));
+      g.appendChild(el("text", { x: Math.max(x(r.v), 3) + 8, y: y + 38, class: "ink" }, fmt(r.v)));
+    });
+  } else {
+    const lw = Math.min(210, Math.round(W * 0.3)), rh = rows.length > 3 ? 36 : 46, bh = rows.length > 3 ? 24 : 26, H = rows.length * rh - (rh - bh) + 4; setBox(svg, W, H);
+    const x = v => lw + 10 + v / max * (W - lw - 10 - valW);
+    rows.forEach((r, j) => {
+      const y = 2 + j * rh, ty = y + bh / 2 + 5;
+      g.appendChild(el("text", { x: lw, y: ty, "text-anchor": "end", class: r.strong ? "ink" : "" }, r.label));
+      if (r.dashed) g.appendChild(el("rect", { x: lw + 10.75, y: y + 0.75, width: x(r.v) - lw - 11.5, height: bh - 1.5, rx: 4, fill: "none", stroke: "#1b1d24", "stroke-width": 1.5, "stroke-dasharray": "5 4" }));
+      else g.appendChild(el("rect", { x: lw + 10, y, width: Math.max(x(r.v) - lw - 10, 3), height: bh, rx: 4, fill: r.color }));
+      g.appendChild(el("text", { x: Math.max(x(r.v), lw + 13) + 8, y: ty, class: "ink" }, fmt(r.v)));
+    });
+  }
+}
+
+/* 2: buckets */
+const B = [
+  { name: "the quietest fifth of stocks", s: 1.85, m: 2.72, a: 2.65, txt: "These stocks barely moved lately, so the simple guess went very low. The model guessed higher, and the real moves landed right next to the model." },
+  { name: "quiet stocks", s: 2.95, m: 3.35, a: 3.39, txt: "Still on the quiet side. The model nudged the guess up and again landed almost exactly on the real typical move." },
+  { name: "middle stocks", s: 4.00, m: 3.92, a: 4.23, txt: "For normal stocks there's nothing to correct, so both guesses are about the same." },
+  { name: "jumpy stocks", s: 5.28, m: 4.50, a: 4.72, txt: "These had big moves lately. The simple guess expected that to continue. The model pulled it down, closer to what happened." },
+  { name: "the jumpiest fifth of stocks", s: 8.62, m: 6.60, a: 6.51, txt: "The biggest overreaction. The simple guess expected huge moves again. The model pulled way back, and the real moves landed right on the model." }
+];
+let curB = 0;
+function drawBucket(i) {
+  const d = B[i]; curB = i;
+  $$("[data-b]").forEach(b => b.setAttribute("aria-pressed", +b.dataset.b === i));
+  $("#bucketTitle").textContent = "For " + d.name;
+  hbars($("#bucketg").ownerSVGElement, $("#bucketg"), [
+    { label: "Simple guess", v: d.s, color: "#a8440f" },
+    { label: "Our model", v: d.m, color: "#2a62c9" },
+    { label: "What really happened", v: d.a, color: "#1b1d24", strong: true }], 9, v => v.toFixed(2));
+  $("#bdesc").textContent = `Simple guess ${d.s}, model ${d.m}, real typical move ${d.a}`;
+  $("#bucketText").textContent = d.txt;
+}
+$$("[data-b]").forEach(b => b.onclick = () => drawBucket(+b.dataset.b)); drawBucket(0);
+
+/* three-way */
+function drawThree() {
+  hbars($("#threeg").ownerSVGElement, $("#threeg"), [
+    { label: "Our model", v: 1.7, color: "#2a62c9" },
+    { label: "Don't-overreact rule", v: 2.3, color: "#4c5160" },
+    { label: "Our goal", v: 3.0, dashed: true }], 3.5, v => v.toFixed(1) + "%");
+}
+drawThree();
+
+/* 3: quarters */
+const Q = {
+  final: [["2025 Q1",481,3.218,3.151,2.1],["2025 Q2",477,3.227,3.084,4.4],["2025 Q3",482,3.717,3.620,2.6],["2025 Q4",484,3.446,3.386,1.8],["2026 Q1",486,3.488,3.446,1.2],["2026 Q2",485,3.950,3.950,0.0],["2026 Q3",487,3.456,3.461,-0.1]],
+  dev: [["2022 Q1",460,2.909,2.939,-1.0],["2022 Q2",467,3.115,3.043,2.3],["2022 Q3",464,2.745,2.670,2.7],["2022 Q4",464,3.158,3.141,0.5],["2023 Q1",471,2.836,2.690,5.1],["2023 Q2",475,2.817,2.825,-0.3],["2023 Q3",476,3.034,2.910,4.1],["2023 Q4",480,2.934,2.855,2.7],["2024 Q1",479,3.123,3.091,1.0],["2024 Q2",478,3.019,2.950,2.3],["2024 Q3",477,3.464,3.410,1.5],["2024 Q4",480,3.183,3.126,1.8]]
+};
+const QTXT = {
+  final: `In 2025 the model improved on the simple guess by ${btn("2.7%")}. In 2026 (through September) that shrank to ${btn("0.35%")}. The model clearly beat the simple guess in the first 5 quarters and was basically tied in the last 2.`,
+  dev: `In the practice years the model won in 10 of 12 quarters. By year: 2022 ${btn("1.1%")}, 2023 ${btn("2.9%")}, 2024 ${btn("1.7%")}.`
+};
+let curQ = "final", qSel = -1, qPlotH = 160;
+const tt = $("#qtt"), qbox = $("#qchart");
+const QHINT = "Hover or tap a bar for details.";
+const qNarrow = () => qbox.clientWidth < 520;
+function qRead(i) { const r = Q[curQ][i]; return `<strong>${r[0]}</strong> · ${r[1]} reports<br>Simple guess missed ${r[2].toFixed(2)} · Model missed ${r[3].toFixed(2)} · Improvement ${r[4].toFixed(1)}%`; }
+function hideTT() { tt.classList.remove("show"); const qh = $("#qhint"); qh.textContent = QHINT; qh.classList.remove("on"); qSel = -1; $$("#qg rect.bar").forEach(r => r.setAttribute("fill", "#2a62c9")); }
+function showTT(i) {
+  const r = Q[curQ][i], v = r[4];
+  $$("#qg rect.bar").forEach((b, j) => b.setAttribute("fill", j === i ? "#1b4a9e" : "#2a62c9"));
+  tt.innerHTML = `<strong>${r[0]}</strong> · ${r[1]} reports<br>Simple guess missed ${r[2].toFixed(2)}<br>Model missed ${r[3].toFixed(2)}<br>Improvement ${v.toFixed(1)}%`;
+  if (qNarrow()) { const qh = $("#qhint"); qh.innerHTML = qRead(i); qh.classList.add("on"); tt.classList.remove("show"); qSel = i; return; }
+  tt.classList.add("show"); qSel = i;
+  const sb = qbox.getBoundingClientRect(), bb = $$("#qg rect.bar")[i].getBoundingClientRect();
+  const tw = tt.offsetWidth, th = tt.offsetHeight, gap = 10, m = 6;
+  const bl = bb.left - sb.left, br = bb.right - sb.left, bt = bb.top - sb.top, bm = bt + bb.height / 2;
+  const svgTop = $("#qchart svg").getBoundingClientRect().top - sb.top;
+  const sideY = Math.max(svgTop - 8, Math.min(bm - th / 2, svgTop + qPlotH - th));
+  let lx, ly;
+  if (br + gap + tw <= sb.width - m) { lx = br + gap; ly = sideY; }                 /* right of the bar */
+  else if (bl - gap - tw >= m) { lx = bl - gap - tw; ly = sideY; }                  /* left of the bar */
+  else { lx = (bl + br) / 2 - tw / 2; ly = bt - th - 24; } /* above the bar and its label */
+  lx = Math.max(m, Math.min(lx, sb.width - tw - m));
+  tt.style.transform = `translate(${Math.round(lx)}px, ${Math.round(ly)}px)`;
+}
+function drawQ(k) {
+  curQ = k; hideTT();
+  $$("[data-q]").forEach(b => b.setAttribute("aria-pressed", b.dataset.q === k));
+  const d = Q[k], svg = $("#qchart svg"), g = $("#qg"); g.innerHTML = "";
+  const W = svgW(svg), narrow = W < 420, U = W >= 560 ? 28 : 21, z = 24 + 5 * U, H = z + U + 56; setBox(svg, W, H); qPlotH = z + U;
+  const y = v => z - v * U, left = 34, right = W - 2, w = (right - left) / d.length;
+  [-1, 0, 1, 2, 3, 4, 5].forEach(v => { g.appendChild(el("line", { x1: left, x2: right, y1: y(v), y2: y(v), stroke: v === 0 ? "#9aa0ad" : "#eceef3", "stroke-width": 1 })); g.appendChild(el("text", { x: left - 6, y: y(v) + 4, "text-anchor": "end", "font-size": 12 }, v + "%")); });
+  g.appendChild(el("line", { x1: left, x2: right, y1: y(3), y2: y(3), stroke: "#4c5160", "stroke-width": 1.2, "stroke-dasharray": "5 4" }));
+  const gt = el("text", { x: right, y: 12, "text-anchor": "end", class: "ink" }, "3% goal"); g.appendChild(gt);
+  const gw = gt.getComputedTextLength(); g.appendChild(el("line", { x1: right - gw - 32, x2: right - gw - 8, y1: 8, y2: 8, stroke: "#4c5160", "stroke-width": 1.2, "stroke-dasharray": "5 4" }));
+  const fs = narrow && d.length > 8 ? 11 : 12;
+  d.forEach((r, i) => {
+    const bx = left + i * w + w * 0.18, bw = w * 0.64, v = r[4];
+    const top = v >= 0 ? y(v) : y(0), h = Math.max(Math.abs(y(v) - y(0)), 2);
+    g.appendChild(el("rect", { x: bx, y: top, width: bw, height: h, rx: 3, fill: "#2a62c9", class: "bar" }));
+    g.appendChild(el("text", { x: bx + bw / 2, y: v >= 0 ? top - 6 : top + h + 13, "text-anchor": "middle", class: "ink", "font-size": fs }, v.toFixed(1)));
+    const [yr, qq] = r[0].split(" ");
+    g.appendChild(el("text", { x: bx + bw / 2, y: z + U + 30, "text-anchor": "middle", "font-size": fs }, qq));
+    if (qq === "Q1" || i === 0) {
+      const n = d.filter(z => z[0].startsWith(yr)).length, cx = left + (i + n / 2) * w;
+      g.appendChild(el("text", { x: cx, y: z + U + 49, "text-anchor": "middle", "font-size": 12, "font-weight": 700 }, yr));
+      if (i > 0) g.appendChild(el("line", { x1: left + i * w, x2: left + i * w, y1: z + U + 16, y2: z + U + 54, stroke: "#dcdfe7", "stroke-width": 1 }));
+    }
+  });
+  d.forEach((r, i) => {
+    const hit = el("rect", { x: left + i * w, y: 0, width: w, height: z + U + 36, fill: "transparent", class: "hit", tabindex: i === 0 ? 0 : -1, role: "img", "aria-label": `${r[0]}: ${r[1]} reports, simple guess missed ${r[2].toFixed(2)}, model missed ${r[3].toFixed(2)}, improvement ${r[4].toFixed(1)}%` });
+    hit.addEventListener("pointerenter", e => { if (e.pointerType === "mouse") showTT(i); });
+    hit.addEventListener("pointerleave", e => { if (e.pointerType === "mouse" && document.activeElement !== hit) hideTT(); });
+    hit.addEventListener("pointerdown", e => { hit._wasOpen = qSel === i; });
+    hit.addEventListener("click", e => { e.stopPropagation(); if (e.pointerType !== "mouse" && hit._wasOpen) hideTT(); else showTT(i); hit._wasOpen = false; });
+    hit.addEventListener("focus", () => { $$("#qg rect.hit").forEach(h => h.setAttribute("tabindex", h === hit ? 0 : -1)); showTT(i); });
+    hit.addEventListener("blur", () => { setTimeout(() => { if (!qbox.contains(document.activeElement)) hideTT(); }, 0); });
+    hit.addEventListener("keydown", e => {
+      const hits = $$("#qg rect.hit"); let j = null;
+      if (e.key === "ArrowRight") j = Math.min(i + 1, hits.length - 1); else if (e.key === "ArrowLeft") j = Math.max(i - 1, 0);
+      else if (e.key === "Home") j = 0; else if (e.key === "End") j = hits.length - 1;
+      else if (e.key === "Escape") { hideTT(); return; }
+      if (j != null) { e.preventDefault(); hits[j].focus(); }
+    });
+    g.appendChild(hit);
+  });
+  $("#qtext").innerHTML = QTXT[k];
+}
+$$("[data-q]").forEach(b => b.onclick = () => drawQ(b.dataset.q)); drawQ("final");
+document.addEventListener("pointerdown", e => { if (qSel >= 0 && !e.target.closest("#qchart svg")) hideTT(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape" && qSel >= 0) hideTT(); });
+
+/* 4: data charts */
+function drawData() {
+  const svg = $("#splitg").ownerSVGElement, g = $("#splitg"); g.innerHTML = "";
+  const W = svgW(svg), tot = 14491; setBox(svg, W, 84);
+  let x0 = 0;
+  [[5372, "#9aa0ad", "5,372"], [5671, "#4c5160", "5,671"], [3382, "#1b1d24", "3,382"], [66, "#dcdfe7", ""]].forEach(r => {
+    const w = r[0] / tot * W;
+    g.appendChild(el("rect", { x: x0, y: 4, width: Math.max(w - 2, 2), height: 44, rx: 4, fill: r[1] }));
+    if (r[2]) { const t = el("text", { x: x0 + w / 2, y: 31, "text-anchor": "middle", "font-weight": 700 }, r[2]); t.style.fill = "#fff"; g.appendChild(t); }
+    x0 += w;
+  });
+  g.appendChild(el("text", { x: 0, y: 72 }, "2019"));
+  g.appendChild(el("text", { x: W, y: 72, "text-anchor": "end" }, "Oct 2026"));
+  hbars($("#dropg").ownerSVGElement, $("#dropg"), [
+    { label: "Duplicate filing", v: 1116, color: "#4c5160" },
+    { label: "Not enough history", v: 374, color: "#4c5160" },
+    { label: "Missing price", v: 41, color: "#4c5160" },
+    { label: "Price gap", v: 33, color: "#4c5160" }], 1200, v => v.toLocaleString("en-US"));
+}
+drawData();
+
+/* 5: people */
+const P = {
+  daniel: { name: "Daniel", role: "Earnings dates and history inputs",
+    did: ["You found every earnings report from SEC filings (Form 8-K, Item 2.02), going back to 2017.",
+      "Your part handles the tricky timing: the SEC's times came in different time zones for different companies, so we switched to the time stamped on each filing itself.",
+      "Your part also applies the duplicate rule, so a company that files the same report twice only counts once.",
+      "You built the history inputs: the median, average, biggest and most recent of a company's last 8 moves. The median is the simple guess itself.",
+      "You spot-checked 20 moves against Nasdaq, and recorded the options market's implied moves for 30 companies before the live week."],
+    nums: [["1,116", "duplicate filings dropped"], ["8", "past moves per input"], ["19 of 20", "matched Nasdaq"], ["30", "implied moves recorded"]],
+    slide: "SEC filings tell us when a company reported, down to the minute. The tricky parts were time zones and duplicates. The one spot-check gap (Carrier) was a $0.15 dividend, which is on purpose." },
+  isani: { name: "Isani", role: "Prices, price inputs and the live test",
+    did: ["You downloaded daily prices from yfinance for all 500 companies plus SPY (the market) and VIX (market fear), from 2016 on.",
+      "You built the price inputs: how jumpy the stock was over the last 1 and 3 months, its 1-month return (and its size), and the VIX level. All use only data from before the report.",
+      "You downloaded fresh prices on Sat Oct 31 for the live forecast: 502 files, every one with the Oct 30 close.",
+      "You wrote the code that makes the live forecast and the code that grades it after Nov 9."],
+    nums: [["502", "price files on Oct 31"], ["5", "price inputs"], ["480", "companies in the live forecast"], ["Nov 9", "live test graded"]],
+    slide: "Prices are what turn a report date into a move. Every input uses only what was known the Friday before, so the model never sees the future." },
+  charvee: { name: "Charvee", role: "The dataset",
+    did: ["You turned each filing plus prices into one row: the trading calendar, the 2-day window around the report, and the table build.",
+      "You kept 14,491 reports and dropped 1,564 for clear reasons (duplicates, too little history, missing prices or price gaps).",
+      "You rebuilt the whole table on your own computer and matched exactly, more than once.",
+      "You reran Philip's practice results and got the same numbers (3.029 vs 2.971), and checked the live forecast on your Mac."],
+    nums: [["14,491", "reports kept"], ["1,564", "dropped"], ["2-day", "earnings window"], ["3.029 / 2.971", "rerun matched"]],
+    slide: "One row per report, with the move measured over 2 trading days minus the market. The 2-day window won the hand check: 59 of 60 dates right, 27 of 29 reports found." },
+  philip: { name: "Philip", role: "The model",
+    did: ["You built the LightGBM model: 9 inputs, settings fixed in advance and never tuned.",
+      "You tested it the honest way: train only on the past, test on the next quarter, repeat for 12 quarters (2022 to 2024).",
+      "Your practice result: average miss 2.97 vs 3.03 for the simple guess, a 1.9% improvement.",
+      "You wrote the data report (kept vs dropped, hand check, timing check) and double-checked the final exam opening.",
+      "You noticed the gain comes from pulling extreme guesses back toward normal."],
+    nums: [["9", "inputs"], ["12", "practice quarters"], ["1.9%", "practice improvement"], ["10 of 12", "quarters won"]],
+    slide: "The model only ever learns from the past. Its main trick is not overreacting to a stock's recent history, and a simple rule that only does that did about as well." },
+  joyce: { name: "Joyce", role: "Evaluation and charts",
+    did: ["You wrote the scoring: average miss for each method, and the improvement percent.",
+      "You built the range: re-draw whole weeks 2,000 times and see where 95% of results land. Weeks, not single reports, because reports in one week share a market mood.",
+      "You made the final exam charts and filled in the README results table."],
+    nums: [["1.7%", "final exam improvement"], ["0.6% to 2.9%", "95% range"], ["2,000", "re-draws"], ["52%", "win rate"]],
+    slide: "We score by average miss, lower is better. The whole range sits above zero, so the win is real, but it stays under the 3% goal we set beforehand." },
+  brian: { name: "Brian", role: "The question, the rules and the app",
+    did: ["You set the question and the 3% goal, locked before any results (Oct 27).",
+      "You opened the final exam exactly once on Oct 31, with Philip checking.",
+      "You locked the live forecast on Sun Nov 1 at 5:49 pm.",
+      "You're building the app: this week's guesses, and try a past report yourself."],
+    nums: [["3%", "goal, set first"], ["3,382", "final exam reports"], ["Oct 31", "final exam opened once"], ["480", "live forecasts locked"]],
+    slide: "Can a model guess the size of an earnings move better than a stock's own last 8 moves? We set the bar first and tested once." }
+};
+function showPerson(k, opts) {
+  opts = opts || {};
+  $$("[data-person]").forEach(b => b.setAttribute("aria-pressed", b.dataset.person === k));
+  const p = P[k];
+  $("#personSlot").innerHTML = `<article class="person" data-p="${k}" aria-live="polite">
+    <div class="top"><div class="role">${p.role}</div><h3>${p.name}</h3></div>
+    <div class="body">
+      <div><div class="lbl">What you did</div><ul>${p.did.map(d => `<li>${d}</li>`).join("")}</ul></div>
+      <div><div class="lbl">Numbers for your slide (tap to copy)</div><div class="chips">${p.nums.map(n => `<button class="chip" data-copy="${n[0]}"><b>${n[0]}</b>${n[1]}</button>`).join("")}</div></div>
+      <div><div class="lbl">One way to say it</div><p>${p.slide}</p></div>
+    </div></article>`;
+  if (opts.setHash) { try { history.replaceState(null, "", "#" + k); } catch (e) {} }
+}
+$$("[data-person]").forEach(b => b.onclick = () => showPerson(b.dataset.person, { setHash: true }));
+function personFromHash(scroll) {
+  const h = location.hash.slice(1).toLowerCase(); if (!P[h]) return;
+  showPerson(h);
+  if (scroll) requestAnimationFrame(() => { const t = $("#people").getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 16; window.scrollTo({ top: Math.max(0, t), behavior: "instant" }); });
+}
+personFromHash(false);
+window.addEventListener("hashchange", () => personFromHash(true));
+
+/* 7: say it */
+const SAY = [
+  ["The model beat the simple guess by 1.7%, and the whole 95% range is above zero.", "\"The model can't beat the baseline.\""],
+  ["We set a 3% goal before looking and didn't reach it, so it's not an official pass.", "\"We passed\" or \"we basically hit our goal.\""],
+  ["A simpler rule that just doesn't overreact did better, 2.3%.", "\"Our model is the best method we tried.\""],
+  ["Our process was solid. Free data probably limited us; pro firms pay for things like options data. We haven't tested that yet.", "\"We proved data is the problem.\""],
+  ["The live week is a fair demo. One week can be luck.", "Treating the live week as the main result."],
+  ["The model was closer on about 52% of reports.", "\"The model was right 52% of the time.\" (It's never exactly right; it's about who's closer.)"]
+];
+$("#sayg").innerHTML = SAY.map(s => `<div class="yes">${s[0]}</div><div class="no"><span class="h">Avoid</span><br>${s[1]}</div>`).join("");
+
+/* 8: table */
+const L = "lockbox metrics.json", D = "lgbm_v1 metrics.json", BR = "build_report.json", DR = "data_report.md", F = "live/drops/drop2b";
+const ROWS = [
+  ["The result (final exam)"],
+  ["Final exam period", "Jan 2025 to Sep 2026", L], ["Final exam reports", "3,382", L], ["Companies in final exam", "491", L], ["Weeks in final exam", "88", L],
+  ["Simple guess average miss", "3.50 (3.501)", L], ["Model average miss", "3.44 (3.443)", L], ["Model improvement", "1.7%", L],
+  ["95% range (weeks)", "0.6% to 2.9%", L], ["Re-draws above zero", "99.9%", L], ["Model closer on", "52% of reports", L],
+  ["Don't-overreact rule average miss", "3.42", L], ["Don't-overreact rule improvement", "2.3%", L], ["Model vs that rule", "0.6% worse (range crosses zero)", L],
+  ["Improvement in 2025", "2.7%", L], ["Improvement in 2026 (Jan to Sep)", "0.35%", L], ["Typical real move (median)", "4.11", L],
+  ["Goal (set Oct 27)", "3%, range above zero", "PREREGISTRATION.md"], ["Official pass", "No", L],
+  ["Practice years"],
+  ["Practice period", "2022 to 2024, 12 quarters", D], ["Practice reports", "5,671", D], ["Simple guess average miss", "3.03 (3.029)", D], ["Model average miss", "2.97 (2.971)", D],
+  ["Model improvement", "1.9%", D], ["95% range", "0.9% to 2.9%", D], ["Quarters the model won", "10 of 12", D], ["Don't-overreact rule improvement", "1.8%", D],
+  ["Data"],
+  ["Reports kept", "14,491", BR], ["Filings dropped", "1,564", BR], ["Dropped: duplicate filing", "1,116", BR], ["Dropped: not enough history", "374", BR],
+  ["Dropped: missing price", "41", BR], ["Dropped: price gap", "33", BR], ["Training only (2019 to 2021)", "5,372", BR], ["Companies", "500 (S&P 500 list, frozen)", "DECISIONS.md"],
+  ["Hand check: dates right", "59 of 60", DR], ["Hand check: reports found", "27 of 29", DR], ["Earnings move bigger than next day", "74% to 82% of reports", DR],
+  ["Price spot check", "19 of 20 matched Nasdaq", "Daniel, Oct 26"],
+  ["Model"],
+  ["Model type", "LightGBM, L1 loss", "configs/project.yaml"], ["Inputs", "9", "configs/project.yaml"], ["Settings tuned", "Never", "configs/project.yaml"],
+  ["Live test"],
+  ["Companies forecast", "480", F], ["Skipped (fewer than 8 past reports)", "20", F], ["Locked in", "Sun Nov 1, 5:49 pm PT", F], ["Report window", "Nov 2 to 6", F],
+  ["Graded", "After the Mon Nov 9 close", "configs/project.yaml"], ["Options comparison companies", "30", "Daniel, Oct 31"]
+];
+function renderTable(f) {
+  f = (f || "").trim().toLowerCase(); let html = "", grp = null, pend = "";
+  ROWS.forEach(r => {
+    if (r.length === 1) { grp = r[0]; pend = `<tr class="grp"><td colspan="3">${grp}</td></tr>`; return; }
+    if (f && !(r.join(" ") + " " + grp).toLowerCase().includes(f)) return;
+    html += pend; pend = "";
+    html += `<tr><td>${r[0]}<span class="srcm">${r[2]}</span></td><td class="n">${btn(r[1])}</td><td class="src">${r[2]}</td></tr>`;
+  });
+  $("#tbody").innerHTML = html || `<tr><td colspan="3" class="small">No match</td></tr>`;
+}
+$("#q").addEventListener("input", e => renderTable(e.target.value)); renderTable();
+
+/* nav: height for sticky offsets, and highlight by scroll position */
+const nav = $(".legend"), navOl = $(".legend ol"), links = $$(".legend a"), secs = links.map(a => $(a.getAttribute("href")));
+function setNavH() { document.documentElement.style.setProperty("--navh", nav.offsetHeight + "px"); }
+let curNav = null;
+function updateNav() {
+  const line = nav.offsetHeight + window.innerHeight * 0.3;
+  let idx = 0;
+  secs.forEach((s, i) => { if (s.getBoundingClientRect().top <= line) idx = i; });
+  if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) idx = secs.length - 1;
+  if (idx === curNav) return; curNav = idx;
+  links.forEach((a, i) => { a.classList.toggle("on", i === idx); if (i === idx) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+  const a = links[idx], ol = navOl;
+  if (ol.scrollWidth > ol.clientWidth) {
+    const want = a.offsetLeft - ol.offsetLeft - (ol.clientWidth - a.offsetWidth) / 2;
+    ol.scrollTo({ left: Math.max(0, want), behavior: reduceMotion() ? "auto" : "smooth" });
+  }
+}
+/* scroll in-page ourselves: in a sandboxed iframe a plain #link can resolve against the parent page and navigate away */
+links.forEach((a, i) => a.addEventListener("click", e => {
+  e.preventDefault();
+  const t = secs[i].getBoundingClientRect().top + window.scrollY - nav.offsetHeight - 16;
+  window.scrollTo({ top: Math.max(0, t), behavior: reduceMotion() ? "auto" : "smooth" });
+  try { history.replaceState(null, "", a.getAttribute("href")); } catch (err) {}
+  const h = secs[i].querySelector("h2"); if (h) { h.setAttribute("tabindex", "-1"); h.focus({ preventScroll: true }); }
+}));
+let navRAF = 0;
+window.addEventListener("scroll", () => { if (!navRAF) navRAF = requestAnimationFrame(() => { navRAF = 0; updateNav(); }); }, { passive: true });
+
+/* redraw charts at their real width so labels stay readable, and hold text boxes steady */
+function layout() {
+  setNavH();
+  drawRange(TESTS[curTest]); drawBucket(curB); drawThree(); drawData();
+  const keep = qSel; drawQ(curQ); if (keep >= 0) showTT(keep);
+  holdHeight($("#testdesc"), Object.values(TESTS).map(t => t.desc));
+  holdHeight($("#bucketText"), B.map(b => b.txt));
+  holdHeight($("#bucketTitle"), B.map(b => "For " + b.name));
+  holdHeight($("#qtext"), Object.values(QTXT));
+  { const qh = $("#qhint"), cur = qh.innerHTML; holdHeight(qh, [QHINT].concat(Object.keys(Q).flatMap(k => Q[k].map((r, i) => { const c = curQ; curQ = k; const t = qRead(i); curQ = c; return t; })))); qh.innerHTML = cur; }
+  curNav = null; updateNav();
+}
+let lastW = 0, rT;
+window.addEventListener("resize", () => { if (window.innerWidth === lastW) return; clearTimeout(rT); rT = setTimeout(() => { lastW = window.innerWidth; layout(); }, 80); });
+lastW = window.innerWidth; layout();
+if (P[location.hash.slice(1).toLowerCase()]) requestAnimationFrame(() => personFromHash(true));
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(layout).catch(() => {});
+</script>
+</body>
+</html>
